@@ -1,0 +1,39 @@
+load = true
+name = "poc"#app名称
+module = 'spc' 
+
+[owner]
+name = "xuyao"
+organization = "smartspc"
+bio = "设备建模"# 说明简介
+dob = "2018-10-10" # 创建日期
+
+
+#路由
+[[route]]
+name = "poc"
+path = "/spc/poc"
+component = "poc/index.vue"
+	# 需要登录
+	[route.meta]
+	requiresAuth = true
+
+
+[[route]]
+name = "pocReview"
+path = "/spc/poc/review"
+component = "poc/components/review.vue"
+	# 需要登录
+	[route.meta]
+	requiresAuth = true
+
+[[route]]
+name = "pocBaseReview"
+path = "/spc/poc/baseReview"
+component = "poc/components/baseReview.vue"
+	# 需要登录
+	[route.meta]
+	requiresAuth = true
+
+
+

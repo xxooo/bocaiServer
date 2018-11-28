@@ -1,0 +1,20 @@
+load = true
+name = "baseData"#app名称
+module = 'spc' 
+
+
+[owner]
+name = "xuyao"
+organization = "smartspc"
+bio = "设备建模"# 说明简介
+dob = "2018-5-21" # 创建日期
+
+
+#路由
+[[route]]
+name = ""
+path = ""
+component = ""
+	# 需要登录
+	[route.meta]
+	requiresAuth = true

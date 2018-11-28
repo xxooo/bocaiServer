@@ -1,0 +1,19 @@
+load = true
+name = "report"#app名称
+module = 'spc' 
+
+[owner]
+name = "sulihua"
+organization = "smartspc"
+bio = "设备建模"# 说明简介
+dob = "2018-8-6" # 创建日期
+
+
+#路由
+[[route]]
+name = "reportDom"
+path = "/spc/report"
+component = "report/index.vue"
+	# 需要登录
+	[route.meta]
+	requiresAuth = true

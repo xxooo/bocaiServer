@@ -1,0 +1,38 @@
+@width: 42px;
+.page-sidebar-closed {
+  #left-panel,
+  .menu-toggler {
+    width: @width !important;
+  }
+  #header .menu-toggler {
+    left: @width;
+  }
+  #left-panel nav ul ul,
+  #left-panel nav ul li p .title,
+  #left-panel nav ul li a .title {
+    display: none !important;
+  }
+  #left-panel .menu-toggler {
+    text-align: left;
+  }
+}
+
+// 登录页
+.page-no-authrization {
+  #left-panel,
+  #header {
+    display: none;
+  }
+  #main {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+  }
+  #footer .copyright {
+    margin: 0 !important;
+  }
+}
+
+.el-notification__content{
+      text-align: inherit !important;
+}
