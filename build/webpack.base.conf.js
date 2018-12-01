@@ -3,23 +3,23 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-const webpack = require('webpack')
+var webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const createLintingRule = () => ({
-  // test: /\.(js|vue)$/,
-  // loader: 'eslint-loader',
-  // enforce: 'pre',
-  // include: [resolve('src'), resolve('test')],
-  // options: {
-  //   formatter: require('eslint-friendly-formatter'),
-  //   emitWarning: !config.dev.showEslintErrorsInOverlay
-  // }
-})
+// const createLintingRule = () => ({
+//   test: /\.(js|vue)$/,
+//   loader: 'eslint-loader',
+//   enforce: 'pre',
+//   include: [resolve('src'), resolve('test')],
+//   options: {
+//     formatter: require('eslint-friendly-formatter'),
+//     emitWarning: !config.dev.showEslintErrorsInOverlay
+//   }
+// })
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
@@ -39,9 +39,13 @@ module.exports = {
       $: 'jquery',
       jquery: 'jquery'
     }),
-    // copy favicon
+    new webpack.DefinePlugin({
+      ENV: process.env.NODE_ENV === 'production' ? "'pro'" : "'dev'",
+      assetsPublicPath: "\"" + (process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath) + "\"",
+      // currentVersion: process.env.NODE_ENV === 'production' ? new Date().getTime() : "''",//每次打包加入版本号
+    }),
     new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../favicon.ico'),
+      from: path.resolve(__dirname, '../bocai.ico'),
     }])
   ],
   resolve: {
@@ -49,19 +53,11 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'static': resolve('static'),
-      'src': resolve('src'),
-      'store': resolve('src/vuex/store'),
-      'router': resolve('src/router'),
-      'assets': resolve('src/assets'),
-      'components': resolve('src/components'),
-      'apps': resolve('src/components/apps'),
-      'common': resolve('src/components/common')
     }
   },
   module: {
     rules: [
-      ...(config.dev.useEslint ? [createLintingRule()] : []),
+      // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -95,10 +91,6 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      },
-      {
-        test: /\.toml/,
-        loader: 'toml-loader'
       }
     ]
   },

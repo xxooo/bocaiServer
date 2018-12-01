@@ -42,8 +42,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    },
-    disableHostCheck: true
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -53,18 +52,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor1-manifest.json')
-    }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor2-manifest.json')
-    }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor3-manifest.json')
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

@@ -2,9 +2,6 @@ const commonFn = {
   j2s(obj) {
     return JSON.stringify(obj)
   },
-  shallowRefresh(name) {
-    router.replace({ path: '/refresh', query: { name: name } })
-  },
   closeGlobalLoading() {
     setTimeout(() => {
       store.dispatch('showLoading', false)

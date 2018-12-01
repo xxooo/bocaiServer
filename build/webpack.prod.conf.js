@@ -60,18 +60,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor1-manifest.json')
-    }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor2-manifest.json')
-    }),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./vendor3-manifest.json')
-    }),
     new HtmlWebpackPlugin({
       filename: config.build.index,
       template: 'index.html',
