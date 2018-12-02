@@ -86,7 +86,7 @@ export default {
     if (window.ENV == 'dev') {
       //console.log('研发自动登录');
 
-      //this.logindev();
+      this.logindev();
 
     } else {
       //普通用户登录
@@ -105,6 +105,7 @@ export default {
               let ret = await this.$post(`${window.url}/admin/login`, obj);
               if(ret.code === 200) {
                 cookieParser.setCookie("accesstoken", ret.token);
+                
                 this.$router.push({name: 'userAgreement'});
               }
 

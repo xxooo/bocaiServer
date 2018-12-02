@@ -1,105 +1,46 @@
 <template>
   <div id="main">
-    <div id="header">
-      <el-header height="216">
-        <div class="headerFather">
-          <div class="fenghuangimg"></div>
-          <div class="head-div">
-            <div class="centerDiv">
-              <!-- <div class="headImg">
-                <img :src="icons[imgUrl]">
-                <div class="preBocaiPeriods"><p class="qicip">-第 <span>{{preBocaiPeriods}}</span> 期-</p></div>
-              </div> -->
-              <div class="headLabel" :class="'headLabel'+preResult.length">
-                <div class="activeIndex"><h3>{{activeIndex}}</h3></div>
-                <div class="preResult">
-                  <!-- <ul v-if="hasResult" class="result-list">
-                    <li v-for="(item,index) in preResult" :class="'loadanimot'+index" class="bjpk-ran bjpk-ranNo-5 orangeShishiC bounce animated"></li>
-                  </ul> -->
-                  <ul class="result-list">
-                    <li v-for="(item,index) in preResult" :class="['loadanimot'+index,'sizeNum'+preResult.length]" class="bjpk-ran bjpk-ranNo-5 orangeShishiC"></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="history_num">
-                <div class="btn-group">
-                  <a id="show_history" class="active"><span>近期开奖</span></a>
-                </div>
-                <div class="history_run_num">
-                  <ul>
-                    <li v-for="item in resultList" :title="item.result">{{item.periods}}<span>{{item.result ? item.result : '暂未开奖'}}</span></li>
-                  </ul>
-                </div>                                 
-              </div>
-            </div>
-          </div>
-          <div class="rightMenu">
-            <ul>
-              <li @click="$router.push({name: 'instantorder'})">即时注单</li>
-              <li @click="$router.push({name: 'bettingHistory'})">下注历史</li>
-              <li @click="$router.push({name: 'personalinfo'})">个人资讯</li>
-              <li @click="$router.push({name: 'caiwumanager'})">财务管理</li>
-              <li @click="$router.push({name: 'lotteryResults'})">开奖结果</li>
-              <li @click="$router.push({name: 'gameRule'})">游戏规则</li>
-            </ul>
-          </div>
-        </div>
-      </el-header>
-      <el-menu
-          :default-active="activeIndex"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          background-color="#1e140d"
-          text-color="#ebcb80"
-          active-text-color="#f6e9c7">
+    <header id="header">
+      <div class="float-left logo">
+          <!-- <img src="./../../assets/img/logo.svg"> -->
+          <h3>后台管理系统</h3>
+      </div>
+      <div class="float-right user">
 
-          <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 < 8">{{item.bocaiName}}</el-menu-item>
-          <el-submenu v-if="bocaiTypeList.length*1 > 8" key="submenu" index="submenu">
-            <template slot="title">{{submenu}}</template>
-            <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 > 7">{{item.bocaiName}}</el-menu-item>
-          </el-submenu>
+        <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#1e140d"
+            text-color="#ebcb80"
+            active-text-color="#f6e9c7">
 
-      </el-menu>
-    </div>
+            <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 < 8">{{item.bocaiName}}</el-menu-item>
+            <el-submenu v-if="bocaiTypeList.length*1 > 8" key="submenu" index="submenu">
+              <template slot="title">{{submenu}}</template>
+              <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 > 7">{{item.bocaiName}}</el-menu-item>
+            </el-submenu>
+
+        </el-menu>
+
+      </div>
+    </header>
     
     <el-main>
       <div id="content">
-      <left-panel></left-panel>
-      <div id="routerMain">
         <router-view></router-view>
-      </div>
       </div>
     </el-main>
 
-    <el-footer height="97">
-      <div>
-        <p>
-          <a href="javascript:;">游戏规则</a>
-          <a href="javascript:;">关于我们</a>
-          <a href="javascript:;">联络我们</a>
-          <a href="javascript:;">合作伙伴</a>
-          <a href="javascript:;">存款帮助</a>
-          <a href="javascript:;">取款帮助</a>
-          <a href="javascript:;">常见问题</a>
-          <a href="javascript:;">责任博彩</a>
-        </p> 
-        <p class="golden">比特娱乐城所提供的产品和服务，是由澳门政府 Macau,China Special Economic Zone. 授权和监管</p>
-        <p class="golden">Copyright © 比特娱乐城 Reserved</p>
-      </div>
-    </el-footer>
   </div>
 </template>
 
 <script>
 
-import LeftPanel from '@/components/common/leftpanel';
-import PageFooter from '@/components/common/pagefooter';
 
 export default {
   components: {
-    LeftPanel,
-    PageFooter
   },
   data() {
     return {
@@ -444,264 +385,164 @@ export default {
 
 
 </script>
-<style scoped>
-  #content {
-    width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    background-color: #6c3092;
-  }
-  #routerMain {
-    height: 100%;
-  }
+<style lang="less">
+#header {
 
-  .centerDiv >div {
-    float: left;
-    height: 136px;
-  }
-  .headLabel {
-    color: #fff;
-    width: 380px;
-  }
-  .headLabel.headLabel10 {
-    width: 300px;
-    margin: 0px 20px;
-  }
-  .headLabel h3 {
-    color: #805933;
-  }
-  .headLabel .activeIndex,.headLabel .preBocaiPeriods {
-    margin: 10px 0px 10px -20px;
-  }
-  .headLabel .preResult {
-    margin: 20px 0;
-  }
-
-  .headLabel.headLabel10 .preResult {
-    margin: 0;
-  }
-
-  .head-div {
-    height: 140px;
-    width: 800px;
-    padding-top: 1.1%;
-    margin: 0 auto;
-    background: url(../../static/img/caibaobg.png) center no-repeat;
-    background-size: 100% 100%;
-    display:inline-block;
-  }
-  .centerDiv {
-    height: 140px;
-    width: 700px;
-    margin: 0 auto;
-    position: relative;
-    background: url(../../static/img/kaijiangbg.png) center no-repeat;
-    background-size: 100% 100%;
-  }
-  .history_num {
-    width: 160px;
-    text-align: left;
-  }
-  .history_num li {
-    color: #ff9800;
-  }
-  .history_num li span {
-    color: #805933;
-    padding: 0 10px;
-  }
-  .history_num .btn-group {
-    text-align: left;
-    color: #805933;
-    margin: 10px 5px 2px;
-  }
-  .fenghuangimg {
-    height: 155px;
-    width: 210px;
-    position: absolute;
-    margin-left: 2%;
-    background: url(../../static/img/logo.png) center no-repeat;
-    background-size: 100% 100%;
-  }
-  .rightMenu {
-    background: #3d270d;
-    border: 1px solid #8f541b;
-    border-radius: 6px;
-    margin-top: 5px;
-    margin-left: 50px;
-    float: right;
-    height: 144px;
-    width: 80px;
-    display: inline-block;
-    position: absolute;
-  }
-  .rightMenu li {
-    margin: 2.7px;
-  }
-  .rightMenu li:hover {
-    color: #f6e9c7;
-  }
-  .headImg >img {
-    height: 70px;
-    margin-top: 25px;
-  }
-  .headImg {
-    margin-left: 10px;
-    width: 146px;
-  }
-  .game-result ul {
-    margin: 10px 10px 0;
-  }
-  /*.bjpk-ran {
-    width: 60px;
+  .logo{
     height: 60px;
-    line-height: 60px;
-    margin: 0px 3px;
-  }*/
-  .bjpk-ran.sizeNum5 {
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    margin: 0px 3px;
+    overflow: hidden;
+    padding-left: 15px;
   }
-  .bjpk-ran.sizeNum10 {
-    width: 45px;
-    height: 45px;
-    line-height: 45px;
-    margin: 0px 3px;
-  }
-  .bjpk-ran.sizeNum3 {
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
-    margin: 0px 3px;
-  }
-  .bjpk-ran.sizeNum20 {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0px 3px;
-    font-size: 18px !important;
-  }
-  .bjpk-ran, .bjpk-ran-s {
-    display: inline-block;
-    color: #fff;
-    border-radius: 50px;
-    font-family: Microsoft YaHei,Verdana,SimSun,Arial,Helvetica,sans-serif;
-    font-size: 28px;
-  }
-  .bjpk-ranNo-1 {
-    background-color: #ffd64c;
-  }
-  .orangeShishiC {
-    background: url(../../static/img/num_bg.png) center no-repeat;
-  }
-  .game-result li {
-    width: 24px;
-    height: 26px;
-    color: #fff;
-    font-weight: 700;
-    text-align: center;
-    margin-left: 8px;
-    display: inline-block;
+
+  .logo img {
+    height: 35px;
     vertical-align: middle;
   }
-  .preBocaiPeriods .qicip {
-    color: #80664b;
+
+  .logo h3{
+    display: inline-block;
+    margin: 0 0 0 5px;
+    vertical-align: middle;
+    font-size: 24px;
+    line-height: 60px;
   }
-  .preBocaiPeriods .qicip span {
-    color: #ff9800;
+
+  .logo.fullTitle h3{
+      line-height: 45px;
+    }
+
+  .el-main{
+    position: relative;
+    display:block;
   }
-  .headerFather {
-    width: 1200px;
-    margin: 0 auto;
+
+  .el-menu{
+    width: 100%;
   }
-</style>
-<style lang="less">
-#main {
+
+  .user{
+    position: relative;
+  }
+
+  .icon {
+    position: relative;
+    display: inline-block;
+    margin: 16px 0 0 7px;
+    vertical-align: top;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 21px;
+  }
+  .settingBox {
+    border-radius: 2px;
+    box-shadow: 0 0 8px #383732;
+    width: 320px;
+    top: 66px;
+    right: -20px;
+    z-index: 10;
+    position: absolute;
+    background: #fff;
+  }
+  .userInfoBox {
+    overflow: hidden;
+    padding: 20px 15px;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  .userInfoBox img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    float: left;
+  }
+  .settingIcon img{
     width: 100%;
     height: 100%;
-    position: relative;
-
-  #header {
-    border-bottom: solid 2px #ffd04b;
-
-    .el-menu--horizontal {
-      background-color: rgb(60, 37, 109);
-      font-size: 14px;
-      width: 1100px;
-      margin: 0 auto;
-      border-bottom: solid 0px #ffd04b;
-    }
-
-    .el-menu--horizontal>.el-submenu.is-active .el-submenu__title {
-      border-bottom: 0px solid #6C3092;
-      font-size: 18px;
-    }
-
-    .el-menu-item.is-active {
-      background-size: 100% 100%;
-      color: #ffea00;
-      cursor: point;
-      border-bottom: 0px solid #6c3092;
-    }
-
-    .el-menu-item:hover {
-      color: #f6e9c7 !important;
-    }
-
-    .el-menu-item {
-      padding: 0 18px;
-      font-family: SourceHanSansSC-Medium;
-      font-size: 18px;
-      letter-spacing: 0;
-    }
-
   }
-
-  .el-menu--horizontal>.el-menu-item {
-    border-bottom: 0px solid transparent;
-  }
-      
-    header {
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 156px;
-        background: url(../../static/img/header.png) center no-repeat;
-        background-size: 100% 100%;
-    }
-
-    .el-header {
-      padding: 0px;
-    }
-
-
-  footer {
-    color: #fff;
+  .userInfo {
+    float: right;
+    width: 175px;
     font-size: 12px;
-    padding-bottom: 10px;
+    color: #999;
+    text-align: left;
+    line-height: 12px;
   }
-  footer div {
-      width: 1100px;
-      text-align: center;
-      margin: 0 auto;
-      padding-top: 20px;
+  .userInfo div:first-child{
+    font-size: 20px;
+    color: #162134;
+    line-height: 34px;
+    margin-bottom: 10px;
   }
-  footer p {
-      height: 24px;
-      line-height: 24px;
-      padding-bottom: 5px;
+  .userInfo div{
+    font-size: 14px;
+    line-height: 24px;
   }
-  footer p a {
-      color: #fff;
-      padding: 0 10px;
-      font-size: 13px;
+  .navList{
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 0 25px;
+    transition: all .5s;
+    text-align: left;
+  }
+  .navList:last-child{
+    border: 0;
+    padding-left: 22px;
+  }
+  .navList:hover{
+    cursor: pointer;
+    background: #e2e2e2;
+  }
+  .navList img{
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin: -5px 20px 0 0;
+  }
+  .navList:last-child img{
+    width: 22px;
+    height: 22px;
+  }
+  @keyframes flipInY{
+    0%{
+      transform:perspective(400px) rotateY(90deg);
+      animation-timing-function:ease-in;
+      opacity:0
+    }
+    40%{
+      transform:perspective(400px) rotateY(-20deg);
+      animation-timing-function:ease-in
+    }
+    60%{
+      transform:perspective(400px) rotateY(10deg);
+      opacity:1
+    }
+    80%{
+      transform:perspective(400px) rotateY(-5deg)
+    }
+    to{
+      transform:perspective(400px)
+    }
+  }
+  .flipInY{
+    backface-visibility:visible!important;
+    animation-name:flipInY;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    transform:scale(1) rotate(0deg);
   }
 
-  .el-main {
-    padding: 0px;
-  }
-
+ .lang{
+     margin-right: 30px;
+ }
+ .lang.el-dropdown {
+    cursor: pointer;
+ }
+ .float-right {
+  float: right;
+  line-height: 60px;
+  padding-right:15px;
+ }
 }
 
 </style>

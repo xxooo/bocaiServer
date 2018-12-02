@@ -18,7 +18,7 @@ const router = new Router({
       path: '/togambling', 
       name: 'userAgreement',
       meta: {
-            requireAuth: true,   
+            requireAuth: true
         },
       component: r => require.ensure([], () => r(require('@/components/userAgreement')), 'userAgreement')
     },
@@ -27,7 +27,7 @@ const router = new Router({
       children: [
         { path: '/gambling/chongqindubo', name: 'chongqindubo',
           meta: {                                
-              requireAuth: true,
+              requireAuth: true
           },
           component: r => require.ensure([], () => r(require('@/components/apps/bocai/chongqindubo')), 'chongqindubo'), meta: { requiresAuth: true }
         },
