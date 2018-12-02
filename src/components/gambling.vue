@@ -5,24 +5,106 @@
           <!-- <img src="./../../assets/img/logo.svg"> -->
           <h3>后台管理系统</h3>
       </div>
+
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item index="1">我的首页</el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">盘势管理</template>
+          <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotokaipan(item)" :key="index">{{item.name}}</el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">账号管理</template>
+          <el-menu-item index="3-1">子帐号</el-menu-item>
+          <el-menu-item index="3-2">股东</el-menu-item>
+          <el-menu-item index="3-3">总代理</el-menu-item>
+          <el-menu-item index="3-4">代理</el-menu-item>
+          <el-menu-item index="3-5">会员</el-menu-item>
+          <el-menu-item index="3-6">隐单账号</el-menu-item>
+        </el-submenu>
+        <el-submenu index="4">
+          <template slot="title">注单管理</template>
+          <el-menu-item index="4-1">流水注单</el-menu-item>
+          <el-menu-item index="4-2">补货注单</el-menu-item>
+          <el-menu-item index="4-3">注单查询</el-menu-item>
+        </el-submenu>
+        <el-submenu index="5">
+          <template slot="title">财务管理</template>
+          <el-menu-item index="5-1">充值方式</el-menu-item>
+          <el-menu-item index="5-2">充值审核</el-menu-item>
+          <el-menu-item index="5-3">提现审核</el-menu-item>
+          <el-menu-item index="5-4">推广</el-menu-item>
+        </el-submenu>
+        <el-submenu index="6">
+          <template slot="title">游戏管理</template>
+          <el-menu-item index="6-1">游戏设置</el-menu-item>
+          <el-menu-item index="6-2">退水设置</el-menu-item>
+          <el-menu-item index="6-3">开盘设置</el-menu-item>
+          <el-menu-item index="6-4">开奖结果</el-menu-item>
+          <el-menu-item index="6-5">菜单设置</el-menu-item>
+        </el-submenu>
+        <el-submenu index="7">
+          <template slot="title">系统管理</template>
+          <el-menu-item index="7-1">网站设置</el-menu-item>
+          <el-menu-item index="7-2">会员公告</el-menu-item>
+          <el-menu-item index="7-3">会员在线</el-menu-item>
+          <el-menu-item index="7-4">代理在线</el-menu-item>
+        </el-submenu>
+        <el-menu-item index="8">IP设置</el-menu-item>
+        <el-menu-item index="9">报表</el-menu-item>
+      </el-menu>
+      <!-- <el-dropdown class="lang" @command="menuAction">
+          <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="'修改密码'" key="1">{{'修改密码'}}</el-dropdown-item>
+            <el-dropdown-item :command="'退出'" key="2">{{'退出'}}</el-dropdown-item>
+          </el-dropdown-menu>
+
+
+
+          <el-menu-item index="1">处理中心</el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+            <el-submenu index="2-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="2-4-1">选项1</el-menu-item>
+              <el-menu-item index="2-4-2">选项2</el-menu-item>
+              <el-menu-item index="2-4-3">选项3</el-menu-item>
+            </el-submenu>
+          </el-submenu>
+          <el-menu-item index="3" disabled>消息中心</el-menu-item>
+          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+
+      </el-dropdown> -->
       <div class="float-right user">
 
-        <el-menu
+        <!-- <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#1e140d"
+            background-color="#fff"
             text-color="#ebcb80"
             active-text-color="#f6e9c7">
 
-            <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 < 8">{{item.bocaiName}}</el-menu-item>
-            <el-submenu v-if="bocaiTypeList.length*1 > 8" key="submenu" index="submenu">
+            <el-menu-item v-for="(item,index) in menuList" :key="index" :index="item"  @click="getOdds(item,index)" v-if="index*1 < 8">{{item}}</el-menu-item>
+            <el-submenu v-if="menuList.length*1 > 8" key="submenu" index="submenu">
               <template slot="title">{{submenu}}</template>
-              <el-menu-item v-for="(item,index) in bocaiTypeList" :key="index" :index="item.bocaiName"  @click="getOdds(item,index)" v-if="index*1 > 7">{{item.bocaiName}}</el-menu-item>
+              <el-menu-item v-for="(item,index) in menuList" :key="index" :index="item"  @click="getOdds(item,index)" v-if="index*1 > 7">{{item}}</el-menu-item>
             </el-submenu>
 
-        </el-menu>
+        </el-menu> -->
+
+
+        <el-dropdown class="lang" @command="menuAction">
+          <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item :command="'修改密码'" key="1">{{'修改密码'}}</el-dropdown-item>
+            <el-dropdown-item :command="'退出'" key="2">{{'退出'}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
 
       </div>
     </header>
@@ -37,7 +119,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -57,326 +139,71 @@ export default {
       bocaiTypeList: [],
       submenu: '更多',
       preResult: '',
-      icons:[
-            require('@/assets/img/chongqindubo.png'),
-            require('@/assets/img/luckyairship.png'),
-            require('@/assets/img/beijingpk10.png'),
-            require('@/assets/img/shandong11xuan5.png'),
-            require('@/assets/img/guangdong11xuan5.png'),
-            require('@/assets/img/jiangxi11xuan5.png'),
-            require('@/assets/img/pcdandan.png'),
-            require('@/assets/img/jiangsukuaisan.png'),
-            require('@/assets/img/beijingkuaile8.png'),
-            require('@/assets/img/jisudubo.png'),
-            require('@/assets/img/jisudubo.png')
-          ]
+
+      menuList: [],
+      gsMenu: ['我的首页','盘势管理','账号管理','绑定IP','注单管理','财务管理','游戏管理','系统管理','报表'],
+      glMenu: [],
+      bocaiMenu: [{
+            "id": "8223",
+            "name": "PC蛋蛋",
+            "pid": null,
+            "dewaterId": null,
+            "createDate": null,
+            "updateDate": null
+        }]
     }
   },
   async created() {
-    this.getBocai();
-    this.openPrizeTime = this.$timestampToTimeRi(new Date());
+    console.log('ruleId',this.ruleId);
 
-    //this.getPrizeResult();
+    if(this.ruleId == 3) {
+      this.menuList = this.gsMenu;
+    } else if(this.ruleId == '') {
+      this.$router.push({name:"login"});
+    }
 
-    this.myTimer();
-
-    //console.log('bocaiName',this.bocaiName);
-
-    this.getbocaoName();
-
+    this.getUserInfo();
   },
   computed: {
-    bocaiName: function() {
-      return this.$route.name
-    }
-  },
-  beforeDestroy: function() {
-      if (this.t) {
-        clearTimeout(this.t)
-      }
+    ...mapGetters({
+      ruleId:'getruleId',
+      userInfo: 'getuserInfo'
+    })
   },
   methods: {
-    myTimer() {
-
-      if(!this.hasResult) {
-        for(let n in this.preResult) {
-          let kk = parseInt(Math.random() * (this.max - this.min + 1) +this. min);
-          $('.loadanimot'+n).html(kk);
-          $('.loadanimot'+n).removeClass('bounce animated');
-        }
-      } else {
-        //这里无限循环，不合适
-
-        for(let n in this.preResult) {
-          let kk = this.preResult[n];
-          $('.loadanimot'+n).html(kk);
-          $('.loadanimot'+n).addClass('bounce animated');
-        }
-      }
-      this.t = setTimeout(this.myTimer, 100);
-    },
-    async getRefreshTime() {
-      let res = await this.$get(`${window.url}/api/bocaiInfo?bocaiTypeId=`+this.bocaiTypeId);
+    async getOdds(id) {
+      let res = await this.$post(`${window.url}/admin/bocai/getOdds?userId=`+id);
 
       if(res.code===200){
-
-              //if("companyIsOpenSet": "",//该会员上级公司对该期博彩的封盘状态。状态：0删除，1封盘，2开盘。只有开盘才能投注。)
-               //if("isOpenSet": "",//管理员对于当期博彩的开关设置) 
-
-              bus.$emit('getbocaiInfoData', res.data);
-
-              if(res.data.preResult == '') {
-                if([8555,8806,9057].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中';
-                } else if([8223,8498].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待中';
-                } else if([8266].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中等待开奖中等待开奖中';
-                } else {
-                  this.preResult = '等待开奖中';
-                }
-                
-                this.hasResult = false;
-
-                console.log('等待开奖中this.preResult',this.preResult);
-              } else {
-                this.preResult = res.data.preResult.split(',');
-                this.hasResult = true;
-              }
-
-              this.preBocaiPeriods = res.data.preBocaiPeriods;  //"preBocaiPeriods": "30763817",//上期博彩期数    
-
-            }
-
-            console.log('getRefreshTime',window.refreshTime);
+        this.bocaiMenu = res.list;
+      }
     },
-    async refreshTime() {
-      let res = await this.$get(`${window.url}/api/bocaiInfo?bocaiTypeId=`+this.bocaiTypeId);
+    async getUserInfo() {
+      let res = await this.$post(`${window.url}/admin/getSessionAUser`);
 
-            if(res.code===200){
+      if(res.code===200){
+        store.commit('updateuserInfo', res.sessionAUser);
 
-              //if("companyIsOpenSet": "",//该会员上级公司对该期博彩的封盘状态。状态：0删除，1封盘，2开盘。只有开盘才能投注。)
-               //if("isOpenSet": "",//管理员对于当期博彩的开关设置) 
-
-              bus.$emit('getbocaiInfoData', res.data);
-
-              if(res.data.preResult == '') {
-                if([8555,8806,9057].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中';
-                } else if([8223,8498].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待中';
-                } else if([8266].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中等待开奖中等待开奖中';
-                } else {
-                  this.preResult = '等待开奖中';
-                }
-                this.hasResult = false;
-
-              } else {
-
-                this.preResult = res.data.preResult.split(',');
-                this.hasResult = true;
-
-              }
-
-              //this.preResult = res.data.preResult == '' ? '等待开奖中' : res.data.preResult.split(',');   //"preResult": 
-              this.preBocaiPeriods = res.data.preBocaiPeriods;  //"preBocaiPeriods": "30763817",//上期博彩期数    
-
-            }
-
-          console.log('refreshbocaiInfo',window.refreshTime);
-          this.t = setTimeout(this.refreshTime, window.refreshTime);
+        this.getOdds(res.sessionAUser.id);
+      }
     },
-    async bocaiInfo() {
+    async menuAction(menu) {
 
-        let res = await this.$get(`${window.url}/api/bocaiInfo?bocaiTypeId=`+this.bocaiTypeId);
+      if(menu == '退出') {
+        let res = await this.$get(`${window.url}/admin/exitLogin`);
 
-            if(res.code===200){
-
-              //if("companyIsOpenSet": "",//该会员上级公司对该期博彩的封盘状态。状态：0删除，1封盘，2开盘。只有开盘才能投注。)
-               //if("isOpenSet": "",//管理员对于当期博彩的开关设置) 
-
-              bus.$emit('getbocaiInfoData', res.data);
-
-              if(res.data.preResult == '') {
-
-                if([8555,8806,9057].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中';
-                } else if([8223,8498].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待中';
-                } else if([8266].findIndex((n) => n==this.bocaiTypeId)>-1) {
-                  this.preResult = '等待开奖中等待开奖中等待开奖中等待开奖中';
-                } else {
-                  this.preResult = '等待开奖中';
-                }
-                this.hasResult = false;
-
-              } else {
-
-                this.preResult = res.data.preResult.split(',');
-                this.hasResult = true;
-              }
-
-              this.preBocaiPeriods = res.data.preBocaiPeriods;  //"preBocaiPeriods": "30763817",//上期博彩期数    
-
-            }
-
-    },
-    handleSelect(key, keyPath) {
-      this.activeIndex = key;
-    },
-    async getBocai() {
-      let res = await this.$get(`${window.url}/api/getBocai`);
-
-          if(res.code===200){
-            this.bocaiTypeList = res.bocaiTypeList;
-          }
-    },
-    async getPrizeResult() { 
-
-      console.log('openPrizeTime',this.openPrizeTime);
-
-      let res = await this.$get(`${window.url}/api/openPrizeResult?bocaiTypeId=`+this.bocaiTypeId+`&currentPage=1&pageSize=100&dayStr=`+this.openPrizeTime);
-          if(res.code===200){
-            this.resultList = res.list.slice(0,5);
-            for(let n in this.resultList) {
-              if(this.resultList[n].result) {
-                this.resultList[n].result = this.resultList[n].result.replace(/,/g,'');   
-              }
-            }
-          }
-
-        this.t = setTimeout(this.getPrizeResult, window.refreshTime);
-    },
-    getbocaoName() {
-
-      let path = '';
-        switch (this.bocaiName) {
-          case 'chongqindubo':
-            this.bocaiTypeId = '1';
-            this.imgUrl = 0;
-            break;
-          case 'luckyairship':
-            this.bocaiTypeId = '8555';
-            this.imgUrl = 1;
-            break;
-          case 'beijingpk10':
-            this.bocaiTypeId = '8806';
-            this.imgUrl = 2;
-            break;
-          case 'shandong11xuan5':
-            this.bocaiTypeId = '8811';
-            this.imgUrl = 3;
-            break;
-          case 'guangdong11xuan5':
-            this.bocaiTypeId = '8374';
-            this.imgUrl = 4;
-            break;
-          case 'jiangxi11xuan5':
-            this.bocaiTypeId = '8813';
-            this.imgUrl = 5;
-            break;
-          case 'pcdandan':
-            this.bocaiTypeId = '8223';
-            this.imgUrl = 6;
-            break;
-          case 'jiangsukuaisan':
-            this.bocaiTypeId = '8498';
-            this.imgUrl = 7;
-            break;
-          case 'beijingkuaile8':
-            this.bocaiTypeId = '8266';
-            this.imgUrl = 8;
-            break;
-          case 'jisusaiche':
-            this.bocaiTypeId = '9057';
-            this.imgUrl = 9;
-            break;
-          case 'jisudubo':
-            this.bocaiTypeId = '8815';
-            this.imgUrl = 9;
-            break;
+        if(res.code===200){
+          this.$router.push({name:"login"});
         }
-
-
-        this.getPrizeResult();
-        this.refreshTime();
-
-    },
-    async getOdds(item,index) {
-
-      console.log('item',item);
-
-      if(index*1 > 7) {
-        console.log(item); 
-        this.submenu = item.bocaiName;
-      } else {
-        this.submenu = '更多';
       }
 
-      let path = '';
-        switch (item.bocaiName) {
-          case '重庆时时彩':
-            path = 'chongqindubo';
-            this.imgUrl = 0;
-            break;
-          case '幸运飞艇':
-            path = 'luckyairship';
-            this.imgUrl = 1;
-            break;
-          case '北京PK拾':
-            path = 'beijingpk10';
-            this.imgUrl = 2;
-            break;
-          case '山东11选5':
-            path = 'shandong11xuan5';
-            this.imgUrl = 3;
-            break;
-          case '广东11选5':
-            path = 'guangdong11xuan5';
-            this.imgUrl = 4;
-            break;
-          case '江西11选5':
-            path = 'jiangxi11xuan5';
-            this.imgUrl = 5;
-            break;
-          case 'PC蛋蛋':
-            path = 'pcdandan';
-            this.imgUrl = 6;
-            break;
-          case '江苏快3':
-            path = 'jiangsukuaisan';
-            this.imgUrl = 7;
-            break;
-          case '北京快乐8':
-            path = 'beijingkuaile8';
-            this.imgUrl = 8;
-            break;
-          case '极速赛车':
-            path = 'jisusaiche';
-            this.imgUrl = 9;
-            break;
-          case '极速时时彩':
-            path = 'jisudubo';
-            this.imgUrl = 10;
-            break;
-        }
-      this.bocaiTypeId = item.bocaiId;
-      this.bocaiInfo();
-      this.$router.push({name: path});
+    },
+    handleSelect() {
 
-      this.getPrizeResult();
-
-      bus.$emit('getcUserInfo', '');
     }
+
   },
   mounted() {
-    bus.$on('getRefreshTime', (data) => {
-        this.getRefreshTime();
-    });
-    bus.$on('curactiveIndex', (data) => {
-        this.activeIndex = data;
-    });
 
   },
   updated() {
@@ -417,7 +244,8 @@ export default {
   }
 
   .el-menu{
-    width: 100%;
+    width: 1000px;
+    display: inline-block;
   }
 
   .user{
@@ -543,6 +371,14 @@ export default {
   line-height: 60px;
   padding-right:15px;
  }
+
+ .el-menu.el-menu--horizontal {
+    border-bottom: solid 0px #e6e6e6;
+  }
+
+  .el-menu {
+    position: initial;
+  }
 }
 
 </style>

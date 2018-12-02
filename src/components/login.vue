@@ -98,14 +98,16 @@ export default {
       let that = this;
 
                let obj = {
-                username: 'admin',
-                password: '123456'
+                username: 'ydwgongsi1',
+                password: 'a111111'
               };
 
               let ret = await this.$post(`${window.url}/admin/login`, obj);
               if(ret.code === 200) {
                 cookieParser.setCookie("accesstoken", ret.token);
-                
+
+                store.commit('updateruleId', ret.ruleId);
+
                 this.$router.push({name: 'userAgreement'});
               }
 
@@ -135,6 +137,7 @@ export default {
               let ret = await this.$post(`${window.url}/admin/login`, obj);
               if(ret.code === 200) {
                 cookieParser.setCookie("accesstoken", ret.token);
+                store.commit('updateruleId', ret.ruleId);
                 this.$router.push({name: 'userAgreement'});
               }
 
