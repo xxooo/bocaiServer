@@ -163,6 +163,7 @@ export default {
     }
 
     this.getUserInfo();
+
   },
   computed: {
     ...mapGetters({
@@ -171,8 +172,49 @@ export default {
     })
   },
   methods: {
+    gotokaipan(item) {
+      console.log('item',item);
+      let path = '';
+      switch (item.name) {
+          case '重庆时时彩':
+            path = 'chongqindubo';
+            break;
+          case '幸运飞艇':
+            path = 'luckyairship';
+            break;
+          case '北京PK拾':
+            path = 'beijingpk10';
+            break;
+          case '山东11选5':
+            path = 'shandong11xuan5';
+            break;
+          case '广东11选5':
+            path = 'guangdong11xuan5';
+            break;
+          case '江西11选5':
+            path = 'jiangxi11xuan5';
+            break;
+          case 'PC蛋蛋':
+            path = 'pcdandan';
+            break;
+          case '江苏快3':
+            path = 'jiangsukuaisan';
+            break;
+          case '北京快乐8':
+            path = 'beijingkuaile8';
+            break;
+          case '极速赛车':
+            path = 'jisusaiche';
+            break;
+          case '极速时时彩':
+            path = 'jisudubo';
+            break;
+      }
+
+      this.$router.push({name: path});
+    },
     async getOdds(id) {
-      let res = await this.$post(`${window.url}/admin/bocai/getOdds?userId=`+id);
+      let res = await this.$get(`${window.url}/admin/bocai/getOdds?userId=`+id);
 
       if(res.code===200){
         this.bocaiMenu = res.list;
