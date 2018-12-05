@@ -12,10 +12,6 @@
               @select="handleSelect"
               >
               <el-menu-item v-for="(item,index) in bocaiCategoryList" :key="index" :index="item.name" @click="getOddsCategory(item,index)">{{item.name}}</el-menu-item>
-              <!-- <el-submenu v-if="bocaiCategoryList.length*1 > 11" key="submenu" index="submenu">
-                <template slot="title">{{submenu}}</template>
-                <el-menu-item v-for="(item,index) in bocaiCategoryList" :key="index" :index="item.name" @click="getOddsCategory(item,index)" v-if="index*1 > 10">{{item.name}}</el-menu-item>
-              </el-submenu> -->
             </el-menu>
           </div>
           
@@ -72,24 +68,25 @@
                         </tr>
                           <tr>
                             <template v-for="(item,index) in huiheData.list" v-if="index*1 < 4">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'huiheData'+item.oddsId" @click="orderTd(huiheData,item,'huiheData')" @mouseenter="overShow(item,'huiheData')" @mouseleave="outHide(item,'huiheData')">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'huiheData'+item.oddsId" @click="orderTd(huiheData,item,'huiheData')" @mouseenter="overShow(item,'huiheData')" @mouseleave="outHide(item,'huiheData')">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'huiheData'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'huiheData'+item.oddsId">
+
                                 <ul>
-                                  <li ><span class="odds-font">{{item.odds}}</span></li>
-                                  <li v-if="normalPay"><input type="text" v-model="item.normalMoney" v-on:input ="inputFunc(huiheData,item,'huiheData',item.normalMoney)" onkeypress="return event.keyCode>=48&&event.keyCode<=57" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"></li>
+                                  <li><i class="jianhao"></i><span class="odds-font">{{'item.odds'}}</span><i class="jiahao"></i></li>
+                                  <li ><span class="odds-font">{{'item.odds'}}</span></li>
+                                  <li ><span class="odds-font">{{'item.odds'}}</span></li>
                                 </ul>
                               </td>
                             </template>
                           </tr>
                           <tr>
                             <template v-for="(item,index) in huiheData.list" v-if="index*1 > 3">
-                              <td class="tdLeft" width="8%" :class="'huiheData'+item.oddsId" @click="orderTd(huiheData,item,'huiheData')" @mouseenter="overShow(item,'huiheData')" @mouseleave="outHide(item,'huiheData')">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'huiheData'+item.oddsId" @click="orderTd(huiheData,item,'huiheData')" @mouseenter="overShow(item,'huiheData')" @mouseleave="outHide(item,'huiheData')"> 
+                              <td class="tdLeft" width="8%" :class="'huiheData'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'huiheData'+item.oddsId"> 
                                 <ul>
                                   <li>
                                     <span class="odds-font">{{item.odds}}</span>
                                   </li>
-                                  <li v-if="normalPay"><input type="text" v-model="item.normalMoney" v-on:input ="inputFunc(huiheData,item,'huiheData',item.normalMoney)" onkeypress="return event.keyCode>=48&&event.keyCode<=57" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"></li>
                                 </ul>
                               </td>
                             </template>
@@ -102,11 +99,10 @@
                         </tr>
                           <tr>
                             <template v-for="(item,index) in boseData.list">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'boseData'+item.oddsId" @click="orderTd(boseData,item,'boseData')" @mouseenter="overShow(item,'boseData')" @mouseleave="outHide(item,'boseData')">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'boseData'+item.oddsId" @click="orderTd(boseData,item,'boseData')" @mouseenter="overShow(item,'boseData')" @mouseleave="outHide(item,'boseData')">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'boseData'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'boseData'+item.oddsId" >
                                 <ul>
-                                  <li ><span class="odds-font">{{item.odds}}</span></li>
-                                  <li v-if="normalPay"><input type="text" v-model="item.normalMoney" v-on:input ="inputFunc(boseData,item,'boseData',item.normalMoney)" onkeypress="return event.keyCode>=48&&event.keyCode<=57" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"></li>
+                                  <li><span class="odds-font">{{item.odds}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -212,15 +208,9 @@
 </template>
 
 <script>
-import BetQuick from '@/components/apps/bocai/components/betQuick';
-import ClockTime from '@/components/apps/bocai/components/clockTime';
-import FooterBocai from '@/components/apps/bocai/components/footerBocai';
-
+import { mapGetters } from 'vuex';
 export default {
   components: {
-    ClockTime,
-    BetQuick,
-    FooterBocai
   },
   data () {
     return {
@@ -253,9 +243,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      ruleId:'getruleId',
+      userInfo: 'getuserInfo'
+    })
   },
   created() {
-    this.getOdds(this.curBocaiTypeId);
+    //this.getOdds(this.curBocaiTypeId);
+
+    this.getoddsCategory();
+
   },
   mounted(){
       bus.$on('isOpenOdds', (data) => {
@@ -263,6 +260,28 @@ export default {
       });
   },
   methods: {
+    async getoddsCategory() {
+      let isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
+      
+      let res = await this.$get(`${window.url}/admin/bocai/oddsCategory?bocaiTypeId=`+this.curBocaiTypeId+`&isBase=`+isBase);
+
+      if(res.code===200){
+        this.bocaiCategoryList = res.typeList;
+        this.oddsList = res.oddsList;
+
+        this.shuaiXuanDatas(res.oddsList);
+
+
+        //bus.$emit('curactiveIndex', this.curactiveIndex);
+        this.showOdds = this.bocaiCategoryList[0].name;
+        this.bocaiCategory = this.bocaiCategoryList[0];
+        this.activeIndex = this.bocaiCategoryList[0].name;
+        this.shuaiXuanDatas(res.oddsList);
+
+        //bus.$emit('getbocaiTypeId', that.curBocaiTypeId); 
+        //bus.$emit('getbocaiTypeName', that.curactiveIndex); 
+      }
+    },
     qingkong() {
       $('.bet_box .orders td').removeClass('selected');
       this.orderDataList = [];

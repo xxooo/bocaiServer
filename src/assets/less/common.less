@@ -321,7 +321,6 @@ a {
 
 li {
     list-style: none;
-    cursor: pointer;
 }
 
 #routerMain .content-main {
@@ -589,10 +588,6 @@ td, th {
         padding: 6px 0;
     }
 
-    .bet_box .orders td {
-        cursor: pointer;
-    }
-
     .bet_box .orders td.overTd {
       background-color: #ffe59b;
     }
@@ -657,10 +652,6 @@ td, th {
     }
 
     td.tdLeft {
-      cursor: pointer;
-    }
-
-    td.tdLeft {
       color: #805933;
       font-weight: 700;
     }
@@ -677,10 +668,6 @@ td, th {
         width: 40px;
     }
 
-    td.tdRight {
-        cursor: pointer;
-        position: relative;
-    }
 
     .bet_box .orders ul {
         height: 100%;
@@ -688,15 +675,28 @@ td, th {
     }
 
     .bet_box .orders ul li {
-        padding: 7px 0;
         display: inline-block;
         width: 40%;
+        float: left;
         margin: 0;
+        height: 29px;
+        line-height: 29px;
     }
 
     .bet_box .orders ul li+li {
-        width: 48%;
+        width: 30%;
     }
+
+    .jianhao {
+        background: url(../../../static/img/minus.png) no-repeat 0 0;
+        background-position-y: 0px;
+    
+    }
+
+    .jiahao {
+        background: url(../../../static/img/add.png) no-repeat 0 0;
+    }
+
 
     .bet_box .orders ul li:only-child {
         width: 100%;
