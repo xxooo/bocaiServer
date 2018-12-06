@@ -70,12 +70,28 @@
                             <template v-for="(item,index) in huiheData.list" v-if="index*1 < 4">
                               <td class="tdLeft ordersTdOver" width="8%" :class="'huiheData'+item.oddsId">{{item.oddsName}}</td>
                               <td class="tdRight" :class="'huiheData'+item.oddsId">
-
                                 <ul>
-                                  <li><i class="jianhao"></i><span class="odds-font">{{'item.odds'}}</span><i class="jiahao"></i></li>
+                                  <li>
+                                    <i class="iconfont icon-jian"></i>
+                                    <span class="odds-font">{{'item.odds'}}</span>
+                                    <i class="iconfont icon-jia1"></i>
+                                  </li>
                                   <li ><span class="odds-font">{{'item.odds'}}</span></li>
                                   <li ><span class="odds-font">{{'item.odds'}}</span></li>
                                 </ul>
+
+
+                                "oddsName": "总和大",//赔率名称
+                    "shWinnerMoneySum": 2,//实货可赢合计
+                    "winnerMoneySum": 10,//虚货可赢合计
+                    "shBetMoneySum": 1,//实货下注合计
+                    "oddsId": 1,//赔率ID
+                    "normalMoney": "",
+                    "odds": 2,//赔率
+                    "dewaterId": 5,
+                    "betMoneySum": 5//虚货可赢合计
+
+                    
                               </td>
                             </template>
                           </tr>
