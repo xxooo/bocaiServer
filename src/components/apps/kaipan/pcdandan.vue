@@ -21,9 +21,9 @@
           <div>
             <span class="leftmenuHou">
               <span>
-                <select>
+                <select v-model="xushihuo">
                   <option value="1">实货</option> 
-                  <option value="-1">虚货</option>
+                  <option value="2">虚货</option>
                 </select>
               </span> 
               <b class="now">
@@ -72,16 +72,16 @@
                               <td class="tdRight" :class="'huiheData'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian"></i>
-                                    <span class="odds-font">{{'item.odds'}}</span>
-                                    <i class="iconfont icon-jia1"></i>
+                                    <i class="iconfont icon-jian" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','jian')" ></i>
+                                    <span class="odds-font">{{item.odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{'item.odds'}}</span></li>
-                                  <li ><span class="odds-font">{{'item.odds'}}</span></li>
+                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
 
 
-                                "oddsName": "总和大",//赔率名称
+                                <!-- "oddsName": "总和大",//赔率名称
                     "shWinnerMoneySum": 2,//实货可赢合计
                     "winnerMoneySum": 10,//虚货可赢合计
                     "shBetMoneySum": 1,//实货下注合计
@@ -89,7 +89,7 @@
                     "normalMoney": "",
                     "odds": 2,//赔率
                     "dewaterId": 5,
-                    "betMoneySum": 5//虚货可赢合计
+                    "betMoneySum": 5//虚货可赢合计 -->
 
                     
                               </td>
@@ -116,7 +116,7 @@
                           <tr>
                             <template v-for="(item,index) in boseData.list">
                               <td class="tdLeft ordersTdOver" width="8%" :class="'boseData'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'boseData'+item.oddsId" >
+                              <td class="tdRight" :class="'boseData'+item.oddsId">
                                 <ul>
                                   <li><span class="odds-font">{{item.odds}}</span></li>
                                 </ul>
@@ -215,6 +215,15 @@
 
           </div>
 
+          <div class="tool">
+            <table>
+              <tr>
+                <td><button class="btn btn-blue" @click="">还原赔率</button></td> 
+                <td>设置调动幅度 :<input v-model="betfudu" width="80px" placeholder="请输入数字"></td>
+              </tr>
+            </table>
+          </div>
+
 
         </div>
       </div>
@@ -230,6 +239,7 @@ export default {
   },
   data () {
     return {
+      betfudu: 0.001,
       curBocaiTypeId: '8223',
       curactiveIndex: 'PC蛋蛋',
       bocaiCategoryList: [],
@@ -255,7 +265,8 @@ export default {
 
       huiheData: {},
       boseData: {},
-      temaData: {}
+      temaData: {},
+      xushihuo: '1'
     }
   },
   computed: {
@@ -276,6 +287,12 @@ export default {
       });
   },
   methods: {
+    addbet(item) {
+      console.log('addbet',item);
+    },
+    jianbet(item) {
+      console.log('jianbet',item);
+    },
     async getoddsCategory() {
       let isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
       
@@ -388,37 +405,45 @@ export default {
 
       
     },
-    orderTd(oddsObj,item,ids) {
+    orderTd(item,ids,opbet) {
 
-      if(this.isOpenOdds) {
+      console.log('opbet',opbet);
 
-        if(!this.normalPay) {
-          if($('.'+ids+item.oddsId).hasClass('selected')){
+      $('.'+ids+item.oddsId).addClass('selected');
 
-              $('.'+ids+item.oddsId).removeClass('selected');
-              _.remove(this.orderDataList, function(n) {
-                return n.bocaiOddName == item.oddsName;
-              });
+      let num = 0;
 
-          } else {
-            $('.'+ids+item.oddsId).addClass('selected');
+      if(opbet == 'add') {
 
-            let obj = {
-              bocaiCategory2Id: oddsObj.id,//8225,//投注博彩分类2ID
-              bocaiCategory2Name: oddsObj.name,//"混合",//投注博彩分类2名称
-              bocaiOddId: item.oddsId,//5543,//投注博彩赔率ID
-              bocaiOddName: item.oddsName,//"大",//投注博彩赔率名称
-              bocaiValue:"",//投注内容,六合彩连肖/连尾
-              normalMoney: item.normalMoney,//10000,//一般模式下，选择的金额
-              orderNormal: this.normalPay,   //是快捷，还是一般投注
-              bocaiOdds: item.odds,//1.90//赔率
-              dewaterId: item.dewaterId
-            };
+        item.odds = item.odds*1 + this.betfudu*1;
 
-            this.orderDataList.push(obj);
-          }
-        }
-        
+        item.odds = Math.floor(item.odds*1000)/1000;
+
+        // console.log('item.odds',item.odds);
+        // console.log('this.betfudu',this.betfudu);
+
+
+        // item.odds = Math.floor((item.odds + this.betfudu)*1000)/1000;
+
+        // console.log('num',num);
+
+        // item.odds = Math.floor(num*1000)/1000;
+
+        //console.log('item.odds22',item.odds);
+      } else {
+
+        item.odds = item.odds*1 - this.betfudu*1;
+
+        item.odds = Math.floor(item.odds*1000)/1000;
+
+        // console.log('item.odds',item.odds);
+        // console.log('this.betfudu',this.betfudu);
+
+        // num = item.odds*1 - this.betfudu*1;
+
+        // item.odds = Math.floor(num*1000)/1000;
+        // console.log('num',num);
+        //  console.log('item.odds22',item.odds);
       }
       
     },
@@ -485,6 +510,8 @@ export default {
 
     },
     shuaiXuanDatas(dataList) {
+
+      console.log('dataList',dataList);
 
       if(this.showOdds == 'PC蛋蛋') {
 
