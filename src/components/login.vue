@@ -19,11 +19,11 @@
                             <el-input v-model="ruleForm.password" type="password" size="mini" placeholder="请输入密码"></el-input>
                           </el-form-item>
                           <el-form-item label="验证码：" prop="yanzhengma">
-                            <el-input v-model="ruleForm.yanzhengma" maxlength="5" size="mini" placeholder="验证码"></el-input>
+                            <el-input v-model="ruleForm.yanzhengma" maxlength="5" size="mini" placeholder="验证码" @keyup.enter="login22()"></el-input>
                             <img class="yanzhengimg"  @click="getyanzheng" :src="'data:image/png;base64,'+tupian">
                           </el-form-item>
                           <el-form-item>
-                            <el-button size="mini" @click="login('ruleForm')">登录</el-button>
+                            <el-button size="mini" @click="login('ruleForm')" @keyup.enter="login('ruleForm')">登录</el-button>
                           </el-form-item>
                         </el-form>
                       </div>
@@ -94,11 +94,14 @@ export default {
     }
   },
   methods: {
+    login22() {
+      console.log('login222');
+    },
     async logindev() {
       let that = this;
 
                let obj = {
-                username: 'ydwgongsi1',
+                username: 'gsceshi1',
                 password: 'a111111'
               };
 
@@ -124,6 +127,8 @@ export default {
     },
     async login(formName) {
       let that = this;
+
+      console.log('login');
 
           this.$refs[formName].validate(async (valid) => {
 

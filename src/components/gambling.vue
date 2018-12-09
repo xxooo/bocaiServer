@@ -99,7 +99,7 @@
 
 
         <el-dropdown class="lang" @command="menuAction">
-          <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
+          <span class="el-dropdown-link">{{roleName}},{{userInfo.nickname}}<i class="el-icon-arrow-down el-icon--right"></i></span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="'修改密码'" key="1">{{'修改密码'}}</el-dropdown-item>
             <el-dropdown-item :command="'退出'" key="2">{{'退出'}}</el-dropdown-item>
@@ -150,7 +150,8 @@ export default {
             "dewaterId": null,
             "createDate": null,
             "updateDate": null
-        }]
+        }],
+      roleName: ''
     }
   },
   async created() {
@@ -227,6 +228,49 @@ export default {
         store.commit('updateuserInfo', res.sessionAUser);
 
         this.getOdds(res.sessionAUser.id);
+
+        switch (res.sessionAUser.ruleId) {
+          case 1:
+            this.roleName = '超级管理员';
+            break;
+          case 2:
+            this.roleName = '运营管理员';
+            break;
+          case 3:
+            this.roleName = '公司';
+            break;
+          case 4:
+            this.roleName = '股东';
+            break;
+          case 5:
+            this.roleName = '总代理';
+            break;
+          case 6:
+            this.roleName = '代理';
+            break;
+          case 7:
+            this.roleName = '超级管理员子账号';
+            break;
+          case 8:
+            this.roleName = '运营管理员子账号';
+            break;
+          case 9:
+            this.roleName = '公司子账号';
+            break;
+          case 10:
+            this.roleName = '股东子账号';
+            break;
+          case 11:
+            this.roleName = '总代理子账号';
+            break;
+          case 12:
+            this.roleName = '代理子账号';
+            break;
+          case 13:
+            this.roleName = '会员';
+            break;
+        }
+
       }
     },
     async menuAction(menu) {
