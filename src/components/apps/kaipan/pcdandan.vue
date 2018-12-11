@@ -80,8 +80,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','add')"></i>
                                   </li>
-                                  <li ><span @click="getoddInfo(item)" class="odds-font oddInfo">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -96,8 +96,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -118,8 +118,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'boseData'+item.oddsId" @click="orderTd(item,'boseData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -140,8 +140,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -156,8 +156,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -172,8 +172,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -188,8 +188,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -204,8 +204,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -220,8 +220,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -236,8 +236,8 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.shBetMoneySum : item.shWinnerMoneySum}}</span></li>
-                                  <li ><span class="odds-font">{{xushihuo == '1' ? item.betMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li ><span class="odds-font black">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                             </template>
@@ -399,6 +399,10 @@ export default {
       });
   },
   methods: {
+    qingkong() {
+      $('.bet_box .orders td').removeClass('selected');
+      this.updateList = [];
+    },
     async getoddInfo(item) {
 
       let res = await this.$get(`${window.url}/admin/bocai/oddsOrder?bocaiOddsId=`+item.oddsId);
@@ -445,6 +449,7 @@ export default {
               if(result.code===200){
 
                 this.bocaiCategoryId(this.bocaiCategory);
+
               }
             })
       });
@@ -570,7 +575,8 @@ export default {
 
                 this.shuaiXuanDatas(res.oddsList);
                 
-                that.updateList = [];
+
+                that.qingkong();
 
               }
             })

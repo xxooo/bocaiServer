@@ -7,7 +7,7 @@
       </div>
 
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1">我的首页</el-menu-item>
+        <el-menu-item index="1" @click="$router.push({name:'home'})">我的首页</el-menu-item>
         <el-submenu index="2">
           <template slot="title">盘势管理</template>
           <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotokaipan(item)" :key="index">{{item.name}}</el-menu-item>
