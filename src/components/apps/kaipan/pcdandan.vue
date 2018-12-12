@@ -47,17 +47,13 @@
                 </ul>
               </div>
             </span> 
-            <!-- <div class="r">
-                刷新频率 :
-                <select class="mgr10">
-                <option value="30">30秒</option> 
-                <option value="60">60秒</option> 
-                <option value="90">90秒</option>
-                </select> 
-              <button class="btn btn-blue">立即刷新</button>
-            </div> -->
+
+            <auto-refresh v-on:childByReset="childByReset"></auto-refresh>
+
           </div>
         </div>
+
+        
 
         <div class="bet_box">
           <div class="orders oodsBodyDiv">
@@ -329,14 +325,13 @@
 
 
 
-
-
-
-
 <script>
 import { mapGetters } from 'vuex';
+import AutoRefresh from '@/components/apps/kaipan/components/autoRefresh';
+
 export default {
   components: {
+    AutoRefresh,
   },
   data () {
     return {
@@ -497,6 +492,16 @@ export default {
 
         //bus.$emit('getbocaiTypeId', that.curBocaiTypeId); 
         //bus.$emit('getbocaiTypeName', that.curactiveIndex); 
+
+
+      let parms = {
+        bocaiCategoryId: this.bocaiCategory.id,
+        isBase: isBase,
+        curBocaiTypeId: this.curBocaiTypeId
+      }
+
+      bus.$emit('getRefreshTime', parms);
+
       }
     },
     orderTd(item,ids,opbet) {
@@ -556,6 +561,14 @@ export default {
     handleSelect(key, keyPath) {
         //console.log(key, keyPath);
     },
+    childByReset(data) {
+      console.log('fromchild');
+      this.oddsList = data;
+
+      this.shuaiXuanDatas(data);
+
+      this.qingkong();
+    },
     async bocaiCategoryId(item) {
       console.log('item',item);
 
@@ -581,6 +594,14 @@ export default {
               }
             })
           });
+
+      let parms = {
+        bocaiCategoryId: item.id,
+        isBase: isBase,
+        curBocaiTypeId: this.curBocaiTypeId
+      }
+
+      bus.$emit('getRefreshTime', parms);
 
     },
     shuaiXuanDatas(dataList) {
