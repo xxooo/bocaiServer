@@ -123,8 +123,7 @@
                       <table>
                         <tr><th colspan="2">{{item_yiwu.name}}</th></tr>
                         <tr v-for="(item,index) in item_yiwu.list">
-                            <td v-if="isNaN(item.oddsName*1)" class="oddsNtd tdLeft" :class="'item_yiwu'+item.oddsId" @click="orderTd(item_yiwu,item,'item_yiwu')" @mouseenter="overShow(item,'item_yiwu')" @mouseleave="outHide(item,'item_yiwu')">{{item.oddsName}}</td>
-                            <td v-else class="oddsNtd tdLeft" :class="'item_yiwu'+item.oddsId" @click="orderTd(item_yiwu,item,'item_yiwu')" @mouseenter="overShow(item,'item_yiwu')" @mouseleave="outHide(item,'item_yiwu')"><div class="ball-icon" >{{item.oddsName}}</div></td> 
+                            <td class="oddsNtd tdLeft" :class="['item_yiwu'+item.oddsId,isNaN(item.oddsName*1) ? '' : 'ball-icon']" >{{item.oddsName}}</td>
                             <td class="oddsUltd" :class="'item_yiwu'+item.oddsId" @click="orderTd(item_yiwu,item,'item_yiwu')" @mouseenter="overShow(item,'item_yiwu')" @mouseleave="outHide(item,'item_yiwu')">
                               <ul>
                                 <li><span class="odds-font" >{{item.odds}}</span></li>

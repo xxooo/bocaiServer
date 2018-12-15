@@ -1,11 +1,22 @@
 <template>
   <div class="r">
     刷新频率 :
-    <select v-model="resultTime" class="mgr10">
+    <!-- <select v-model="resultTime" class="mgr10">
       <option value="30000">30秒</option> 
       <option value="60000">60秒</option> 
       <option value="90000">90秒</option>
-    </select> 
+    </select>  -->
+    <el-select v-model="resultTime" @change="changeResult" placeholder="请选择" size="mini">
+      <!-- <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option> -->
+      <el-option value="30000" key="30000" label="30秒"></el-option> 
+      <el-option value="60000" key="60000" label="60秒"></el-option> 
+      <el-option value="90000" key="90000" label="90秒"></el-option>
+    </el-select>
     <button class="btn btn-blue" @click="getPrizeResult()">立即刷新</button>
   </div>
 </template>
@@ -24,34 +35,54 @@ export default {
   },
   async created() {
 
-    this.getPrizeResult();
+    let time = this.resultTime*1;
+
+    this.beginResult(time);
 
   },
   computed: {
   },
   beforeDestroy: function() {
       if (this.t) {
-        clearTimeout(this.t)
+        //clearTimeout(this.t)
+
+        clearInterval(this.t);
       }
   },
   methods: {
+    beginResult(resultTime) {
+      let that = this;
+
+      that.t = setInterval(function(){
+          that.getPrizeResult();
+      },resultTime);
+
+    },
+    changeResult(data) {
+      clearInterval(this.t);
+
+      let time = data*1;
+
+      this.beginResult(time);
+
+    },
     async getPrizeResult() { 
       let that = this;
 
       this.openPrizeTime = this.$timestampToTime(new Date());
 
-      //console.log('openPrizeTime',this.openPrizeTime);
+      console.log('openPrizeTime',this.openPrizeTime);
 
       let res = await this.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+this.parms.bocaiCategoryId+`&isBase=`+this.parms.isBase+`&bocaiTypeId=`+this.parms.curBocaiTypeId);
           if(res.code===200){
             that.$emit('childByReset', res.oddsList);
           }   
 
-      if (this.t) {
-        clearTimeout(this.t)
-      }
+      // if (this.t) {
+      //   clearTimeout(this.t)
+      // }
 
-      this.t = setTimeout(this.getPrizeResult, this.resultTime*1);
+      //this.t = setTimeout(this.getPrizeResult, this.resultTime*1);
     },
   },
   mounted() {
