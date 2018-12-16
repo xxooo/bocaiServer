@@ -87,7 +87,7 @@ export default {
   },
   mounted() {
     bus.$on('getRefreshTime', (parms) => {
-        console.log('parms',parms);
+        //console.log('parms',parms);
 
         this.parms = parms;
     });

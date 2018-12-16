@@ -42,8 +42,31 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/kaipan/chongqindubo')), 'chongqindubo'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/jisudubo', name: 'jisudubo',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/jisudubo')), 'jisudubo'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/shandong11xuan5', name: 'shandong11xuan5',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/shandong11xuan5')), 'shandong11xuan5'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/jiangxi11xuan5', name: 'jiangxi11xuan5',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/jiangxi11xuan5')), 'jiangxi11xuan5'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/guangdong11xuan5', name: 'guangdong11xuan5',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/guangdong11xuan5')), 'guangdong11xuan5'), meta: { requiresAuth: true }
         }
-        
       ]
     }
   ]

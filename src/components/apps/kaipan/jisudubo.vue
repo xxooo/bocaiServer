@@ -4,7 +4,6 @@
     <div class="right">
       <div>
         <div>
-        
           <div id="submenu">
             <el-menu
               :default-active="activeIndex"
@@ -355,8 +354,8 @@ export default {
   },
   data () {
     return {
-      curBocaiTypeId: '1',
-      curactiveIndex: '重庆时时彩',
+      curBocaiTypeId: '8815',
+      curactiveIndex: '极速时时彩',
       bocaiCategoryList: [],
       oddsList: [],
       activeIndex: '',

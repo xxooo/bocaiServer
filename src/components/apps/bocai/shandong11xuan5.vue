@@ -280,26 +280,26 @@ import ClockTime from '@/components/apps/bocai/components/clockTime';
 import FooterBocai from '@/components/apps/bocai/components/footerBocai';
 
 
-function combination(arr) {
-  var sarr = [[]];
-  var result = [];
-  for (var i = 0; i < arr.length; i++) {
-    var tarr = [];
-    for (var j = 0; j < sarr.length; j++){
-      for (var k = 0; k < arr[i].length; k++){
-        tarr.push(sarr[j].concat(arr[i][k]));
-      }
-    }
-    sarr = tarr;
-  }
-  for(var m =0; m < sarr.length;m++) {
-    result.push(sarr[m].join('.'));
-  }
-  return result;
-}
-var garr = [["a","b"],["1","2"]];
-var result = combination(garr);
-console.log(result);
+// function combination(arr) {
+//   var sarr = [[]];
+//   var result = [];
+//   for (var i = 0; i < arr.length; i++) {
+//     var tarr = [];
+//     for (var j = 0; j < sarr.length; j++){
+//       for (var k = 0; k < arr[i].length; k++){
+//         tarr.push(sarr[j].concat(arr[i][k]));
+//       }
+//     }
+//     sarr = tarr;
+//   }
+//   for(var m =0; m < sarr.length;m++) {
+//     result.push(sarr[m].join('.'));
+//   }
+//   return result;
+// }
+// var garr = [["a","b"],["1","2"]];
+// var result = combination(garr);
+// console.log(result);
 
 
 export default {

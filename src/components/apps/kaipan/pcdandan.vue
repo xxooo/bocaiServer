@@ -76,7 +76,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','add')"></i>
                                   </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -92,7 +92,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'huiheData'+item.oddsId" @click="orderTd(item,'huiheData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -114,7 +114,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'boseData'+item.oddsId" @click="orderTd(item,'boseData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -136,7 +136,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -152,7 +152,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -168,7 +168,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -184,7 +184,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -200,7 +200,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -216,7 +216,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -232,7 +232,7 @@
                                     <span class="odds-font betspan">{{item.odds}}</span>
                                     <i class="iconfont icon-jia1" :class="'temaData'+item.oddsId" @click="orderTd(item,'temaData','add')"></i>
                                   </li>
-                                  <li ><span class="odds-font black" @click="getoddInfo(item)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li ><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li ><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
@@ -269,7 +269,7 @@
       :visible.sync="orderOddsVisible"
       center>
 
-      <div class="popup-body" style="max-height: 300px;">
+      <div class="popup-body">
         <div class="default-list">
           <!-- <p class="tar"><button class="refresh">刷新</button>
             页数：
@@ -291,7 +291,7 @@
             </thead> 
             <tbody>
               <tr v-for="(item,index) in orderInfo.list">
-                <td>1</td> 
+                <td>{{index*1+1}}</td> 
                 <td><p>{{item.orderNum}}</p> <p>{{$timestampToTime(item.createDate)}}</p> <p>({{item.handicap}} 盘)</p></td> 
                 <td><p>{{item.bocaiTypeName}}</p></td> 
                 <td><p><b class="">「会员」{{item.username}}</b></p></td> 
@@ -380,7 +380,9 @@ export default {
       betsMoneyTotal: '',
       isBase: '',
       curPageBetTotal: 0,
-      curPageJangliTotal: 0
+      curPageJangliTotal: 0,
+      currentPage: 1,
+      curOddsId: ''
     }
   },
   computed: {
@@ -403,17 +405,19 @@ export default {
   },
   methods: {
     handleCurrentChange(cpage) {
-      this.getoddInfo(cpage);
-      
+      this.currentPage = cpage;
+      this.getoddInfo(this.curOddsId);
     },
 
     qingkong() {
       $('.bet_box .orders td').removeClass('selected');
       this.updateList = [];
     },
-    async getoddInfo(item) {
+    async getoddInfo(oddsId) {
 
-      let res = await this.$get(`${window.url}/admin/bocai/oddsOrder?bocaiOddsId=`+item.oddsId);
+      this.curOddsId = oddsId;
+
+      let res = await this.$get(`${window.url}/admin/bocai/oddsOrder?bocaiOddsId=`+oddsId+`&currentPage=`+this.currentPage+`&pageSize=10`);
 
       if(res.code===200){
         this.jiangliMoneyTotal = res.jiangliMoneyTotal;
@@ -490,6 +494,8 @@ export default {
       }
     },
     async getoddsCategory() {
+
+      this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
       
       let res = await this.$get(`${window.url}/admin/bocai/oddsCategory?bocaiTypeId=`+this.curBocaiTypeId+`&isBase=`+this.isBase);
 
