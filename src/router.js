@@ -66,6 +66,24 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/kaipan/guangdong11xuan5')), 'guangdong11xuan5'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/beijingpk10', name: 'beijingpk10',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/beijingpk10')), 'beijingpk10'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/jisusaiche', name: 'jisusaiche',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/jisusaiche')), 'jisusaiche'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/kaipan/luckyairship', name: 'luckyairship',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/luckyairship')), 'luckyairship'), meta: { requiresAuth: true }
         }
       ]
     }
