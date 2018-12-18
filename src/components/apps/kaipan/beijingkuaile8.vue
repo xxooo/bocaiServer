@@ -4,9 +4,7 @@
     <div class="right">
       <div>
         <div>
-        
-          <div id="submenu">
-            <el-menu
+          <el-menu
               :default-active="activeIndex"
               class="el-menu-subnav"
               mode="horizontal"
@@ -14,10 +12,8 @@
               >
               <el-menu-item v-for="(item,index) in bocaiCategoryList" :key="index" :index="item.name" @click="bocaiCategoryId(item)">{{item.name}}</el-menu-item>
             </el-menu>
-          </div>
           
         </div>
-
 
         <div class="period">
           <div>
@@ -56,27 +52,29 @@
         </div>
 
 
-
         <div class="bet_box">
           <div class="orders oodsBodyDiv">
+            <div class="order-info">
+              <bet-quick :orderDataList="orderDataList" :canOrder="canOrder" :bocaiCategory="bocaiCategory" v-on:childByReset="childByReset" v-on:childByChangePay="childByChangePay"></bet-quick>
+            </div>
 
-            <template v-if="showOdds == '两面盘'">
+            <template v-if="showOdds == '总行、比数、五行'">
 
                 <div>
                   <div class="order-table">
                       <table>
                         <tr>
-                          <th colspan="8">{{guanyajunhe.name}}</th>
+                          <th colspan="8">{{zongheguoguan.name}}</th>
                         </tr>
                           <tr>
-                            <template v-for="(item,index) in guanyajunhe.list" v-if="index*1 < 4">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyajunhe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyajunhe'+item.oddsId">
+                            <template v-for="(item,index) in zongheguoguan.list.slice(0,4)">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'zongheguoguan'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'zongheguoguan'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'guanyajunhe'+item.oddsId" @click="orderTd(item,'guanyajunhe','jian')" ></i>
+                                    <i class="iconfont icon-jian" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','jian')" ></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyajunhe'+item.oddsId" @click="orderTd(item,'guanyajunhe','add')"></i>
+                                    <i class="iconfont icon-jia1" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -85,14 +83,97 @@
                             </template>
                           </tr>
                           <tr>
-                            <template v-for="(item,index) in guanyajunhe.list" v-if="index*1 > 3">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyajunhe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyajunhe'+item.oddsId">
+                            <template v-for="(item,index) in zongheguoguan.list.slice(4,5)">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'zongheguoguan'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'zongheguoguan'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'guanyajunhe'+item.oddsId" @click="orderTd(item,'guanyajunhe','jian')" ></i>
+                                    <i class="iconfont icon-jian" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','jian')" ></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyajunhe'+item.oddsId" @click="orderTd(item,'guanyajunhe','add')"></i>
+                                    <i class="iconfont icon-jia1" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','add')"></i>
+                                  </li>
+                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                </ul>
+                              </td>
+                            </template>
+                            <td colspan="6">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <template v-for="(item,index) in zongheguoguan.list.slice(5,9)">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'zongheguoguan'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'zongheguoguan'+item.oddsId">
+                                <ul>
+                                  <li>
+                                    <i class="iconfont icon-jian" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','jian')" ></i>
+                                    <span class="odds-font betspan">{{item.odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'zongheguoguan'+item.oddsId" @click="orderTd(item,'zongheguoguan','add')"></i>
+                                  </li>
+                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                </ul>
+                              </td>
+                            </template>
+                          </tr>
+                      </table>
+
+                      <table>
+                        <tr>
+                          <th colspan="8">{{qianhouhe.name}}</th>
+                        </tr>
+                          <tr>
+                            <template v-for="(item,index) in qianhouhe.list">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'qianhouhe'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'qianhouhe'+item.oddsId">
+                                <ul>
+                                  <li>
+                                    <i class="iconfont icon-jian" :class="'qianhouhe'+item.oddsId" @click="orderTd(item,'qianhouhe','jian')" ></i>
+                                    <span class="odds-font betspan">{{item.odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'qianhouhe'+item.oddsId" @click="orderTd(item,'qianhouhe','add')"></i>
+                                  </li>
+                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                </ul>
+                              </td>
+                            </template>
+                          </tr>
+                      </table>
+
+                      <table>
+                        <tr>
+                          <th colspan="8">{{danshuanghe.name}}</th>
+                        </tr>
+                          <tr>
+                            <template v-for="(item,index) in danshuanghe.list">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'danshuanghe'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'danshuanghe'+item.oddsId">
+                                <ul>
+                                  <li>
+                                    <i class="iconfont icon-jian" :class="'danshuanghe'+item.oddsId" @click="orderTd(item,'danshuanghe','jian')" ></i>
+                                    <span class="odds-font betspan">{{item.odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'danshuanghe'+item.oddsId" @click="orderTd(item,'danshuanghe','add')"></i>
+                                  </li>
+                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                </ul>
+                              </td>
+                            </template>
+                          </tr>
+                      </table>
+
+                      <table>
+                        <tr>
+                          <th colspan="10">{{wuxing.name}}</th>
+                        </tr>
+                          <tr>
+                            <template v-for="(item,index) in wuxing.list">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'wuxing'+item.oddsId">{{item.oddsName}}</td>
+                              <td class="tdRight" :class="'wuxing'+item.oddsId">
+                                <ul>
+                                  <li>
+                                    <i class="iconfont icon-jian" :class="'wuxing'+item.oddsId" @click="orderTd(item,'wuxing','jian')" ></i>
+                                    <span class="odds-font betspan">{{item.odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'wuxing'+item.oddsId" @click="orderTd(item,'wuxing','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -104,175 +185,40 @@
                   </div>
                 </div>
 
-                <div class="qiu15_body">
-
-                <div class="eball" v-for="(itemPa,index) in yidaoshi">
-                    <div class="order-table">
-                      <table>
-                        <tr>
-                          <th colspan="2">{{itemPa.name}}</th>
-                        </tr>
-                        <tr v-for="(item,index) in itemPa.list">
-                          <td class="tdLeft" :class="'yidaoshi'+item.oddsId">{{item.oddsName}}</td>
-                          <td class="tdRight" :class="'yidaoshi'+item.oddsId">
-                            <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'yidaoshi'+item.oddsId" @click="orderTd(item,'yidaoshi','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'yidaoshi'+item.oddsId" @click="orderTd(item,'yidaoshi','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                </div>
-
-              </div>
-
             </template>
 
-            <template v-if="showOdds == '1~10名'">
-              <div>
-                <div class="qiu15_body yidaoshiming">
-                  <div class="nball" v-for="(item_yishi,index_yishi) in oddsList">
-                    <div class="order-table">
+            <template v-if="showOdds == '正码'">
+
+                <div>
+                  <div class="order-table">
                       <table>
-                        <tr><th colspan="2">{{item_yishi.name}}</th></tr>
-                        <tr v-for="(item,index) in item_yishi.list">
-                            <td class="oddsNtd tdLeft" :class="'item_yishi'+item.oddsId"><div class="ball-fang" :class="'ball-fang'+item.oddsName">{{item.oddsName}}</div></td> 
-                            <td class="oddsUltd" :class="'item_yishi'+item.oddsId">
-                              <ul>
+                        <tr>
+                          <th colspan="8">{{zhengma.name}}</th>
+                        </tr>
+                        <tr v-for="(itemPa,indexPa) in zhengma.list">
+                            <template v-for="(item,index) in itemPa">
+                              <td class="tdLeft ordersTdOver" width="8%" :class="'zhengma'+item.oddsId"><div :class="item.oddsName*1 > 40 ? 'ballda' : 'ballxiao'">{{item.oddsName}}</div></td>
+                              <td class="tdRight" :class="'zhengma'+item.oddsId">
+                                <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'item_yishi'+item.oddsId" @click="orderTd(item,'item_yishi','jian')" ></i>
+                                    <i class="iconfont icon-jian" :class="'zhengma'+item.oddsId" @click="orderTd(item,'zhengma','jian')" ></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'item_yishi'+item.oddsId" @click="orderTd(item,'item_yishi','add')"></i>
+                                    <i class="iconfont icon-jia1" :class="'zhengma'+item.oddsId" @click="orderTd(item,'zhengma','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
-                            </td>
+                              </td>
+                            </template>
                         </tr>
                       </table>
-                    </div>
+
                   </div>
                 </div>
-              </div> 
-            </template>
-
-
-            <template v-if="showOdds == '冠亚组合'">
-              <div class="order-table">
-                      <table>
-                        <tr>
-                          <th colspan="8">{{guanyaZonghe.name}}</th>
-                        </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(0,4)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                          </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(4,8)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                          </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(8,12)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                          </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(12,16)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                          </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(16,17)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                            <td class="tdLeft ordersTdOver" colspan="6"></td>
-                          </tr>
-                          <tr>
-                            <template v-for="(item,index) in guanyaZonghe.list.slice(17)">
-                              <td class="tdLeft ordersTdOver" width="8%" :class="'guanyaZonghe'+item.oddsId">{{item.oddsName}}</td>
-                              <td class="tdRight" :class="'guanyaZonghe'+item.oddsId">
-                                <ul>
-                                  <li>
-                                    <i class="iconfont icon-jian" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','jian')" ></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'guanyaZonghe'+item.oddsId" @click="orderTd(item,'guanyaZonghe','add')"></i>
-                                  </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
-                                </ul>
-                              </td>
-                            </template>
-                          </tr>
-                      </table>
-              </div>
 
             </template>
 
           </div>
-
 
           <div class="tool">
             <table>
@@ -284,14 +230,10 @@
             </table>
           </div>
 
-
-
-
         </div>
       </div>
     </div>
     <p style="clear: both;"></p>
-
 
     <el-dialog
       title="注单详情"
@@ -361,7 +303,6 @@
       </span>
     </el-dialog>
 
-
   </div>
 </template>
 
@@ -375,8 +316,8 @@ export default {
   },
   data () {
     return {
-      curBocaiTypeId: '8806',
-      curactiveIndex: '北京PK拾',
+      curBocaiTypeId: '8266',
+      curactiveIndex: '北京快乐8',
       bocaiCategoryList: [],
       oddsList: [],
       activeIndex: '',
@@ -397,9 +338,12 @@ export default {
       selectedZiTd:[],
       canOrder: true,
 
-      guanyajunhe: {},
-      yidaoshi: {},
-      guanyaZonghe: {},
+      zongheguoguan: {},
+      qianhouhe: {},
+      danshuanghe: {},
+      wuxing: {},
+      zhengma: {},
+
       betfudu: 0.001,
       huiheData: {},
       boseData: {},
@@ -417,6 +361,7 @@ export default {
       curPageJangliTotal: 0,
       currentPage: 1,
       curOddsId: ''
+
     }
   },
   computed: {
@@ -657,21 +602,56 @@ export default {
     },
 
 
-
     shuaiXuanDatas(dataList) {
-      if(this.showOdds == '两面盘') {
-        let qianhousanTemp = [];
+
+      if(this.showOdds == '总行、比数、五行') {
         for(let m in dataList) {
-          if(dataList[m].name == '冠、亚军和') {
-            this.guanyajunhe = dataList[m];
+          if(dataList[m].name == '总和、总和过关') {
+            this.zongheguoguan = dataList[m];
           }
-          if(['冠军','亚军','第三名','第四名','第五名','第六名','第七名','第八名','第九名','第十名'].findIndex((n) => n == dataList[m].name)>-1) {
-            qianhousanTemp.push(dataList[m]);
+          if(dataList[m].name == '前后和') {
+            this.qianhouhe = dataList[m];
+          }
+          if(dataList[m].name == '单双和') {
+            this.danshuanghe = dataList[m];
+          }
+          if(dataList[m].name == '五行') {
+            this.wuxing = dataList[m];
           }
         }
-        this.yidaoshi = qianhousanTemp;
-      } else if(this.showOdds == '冠亚组合') {
-        this.guanyaZonghe = this.oddsList[0];
+      } else if(this.showOdds == '正码') {
+
+        let arr = this.oddsList[0];
+
+        this.zhengma.id = arr.id;
+        this.zhengma.name = arr.name;
+        this.zhengma.list = [];
+
+        //console.log('arr.list',arr.list);
+
+        this.zhengma.list.push([arr.list[0],arr.list[20],arr.list[40],arr.list[60]]);
+        this.zhengma.list.push([arr.list[1],arr.list[21],arr.list[41],arr.list[61]]);
+        this.zhengma.list.push([arr.list[2],arr.list[22],arr.list[42],arr.list[62]]);
+        this.zhengma.list.push([arr.list[3],arr.list[23],arr.list[43],arr.list[63]]);
+        this.zhengma.list.push([arr.list[4],arr.list[24],arr.list[44],arr.list[64]]);
+        this.zhengma.list.push([arr.list[5],arr.list[25],arr.list[45],arr.list[65]]);
+        this.zhengma.list.push([arr.list[6],arr.list[26],arr.list[46],arr.list[66]]);
+        this.zhengma.list.push([arr.list[7],arr.list[27],arr.list[47],arr.list[67]]);
+        this.zhengma.list.push([arr.list[8],arr.list[28],arr.list[48],arr.list[68]]);
+        this.zhengma.list.push([arr.list[9],arr.list[29],arr.list[49],arr.list[69]]);
+        this.zhengma.list.push([arr.list[10],arr.list[30],arr.list[50],arr.list[70]]);
+        this.zhengma.list.push([arr.list[11],arr.list[31],arr.list[51],arr.list[71]]);
+        this.zhengma.list.push([arr.list[12],arr.list[32],arr.list[52],arr.list[72]]);
+        this.zhengma.list.push([arr.list[13],arr.list[33],arr.list[53],arr.list[73]]);
+        this.zhengma.list.push([arr.list[14],arr.list[34],arr.list[54],arr.list[74]]);
+        this.zhengma.list.push([arr.list[15],arr.list[35],arr.list[55],arr.list[75]]);
+        this.zhengma.list.push([arr.list[16],arr.list[36],arr.list[56],arr.list[76]]);
+        this.zhengma.list.push([arr.list[17],arr.list[37],arr.list[57],arr.list[77]]);
+        this.zhengma.list.push([arr.list[18],arr.list[38],arr.list[58],arr.list[78]]);
+        this.zhengma.list.push([arr.list[19],arr.list[39],arr.list[59],arr.list[79]]);
+
+        //console.log('this.zhengma',this.zhengma);
+        //this.zhengma = this.oddsList[0];
       }
     }
 
