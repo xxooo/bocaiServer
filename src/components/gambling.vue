@@ -36,7 +36,7 @@
         </el-submenu>
         <el-submenu index="6">
           <template slot="title">游戏管理</template>
-          <el-menu-item index="6-1">游戏设置</el-menu-item>
+          <el-menu-item index="6-1" @click="gotoyouxiguanli()">游戏设置</el-menu-item>
           <el-menu-item index="6-2">退水设置</el-menu-item>
           <el-menu-item index="6-3">开盘设置</el-menu-item>
           <el-menu-item index="6-4">开奖结果</el-menu-item>
@@ -173,6 +173,9 @@ export default {
     })
   },
   methods: {
+    gotoyouxiguanli() {
+      this.$router.push({name:"youxishezhi"});
+    },
     gotokaipan(item) {
       console.log('item',item);
       let path = '';
