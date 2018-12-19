@@ -515,7 +515,7 @@ export default {
         this.bocaiCategoryList = res.typeList;
         this.oddsList = res.oddsList;
 
-        this.shuaiXuanDatas(res.oddsList);
+        //this.shuaiXuanDatas(res.oddsList);
 
         //bus.$emit('curactiveIndex', this.curactiveIndex);
         this.showOdds = this.bocaiCategoryList[0].name;

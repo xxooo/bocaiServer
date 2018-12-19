@@ -84,12 +84,12 @@
                               <td class="tdRight" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
+                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','jian')"></i>
+                                    <span class="odds-font betspan">{{sanjundaxiao.list[6].odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','add')"></i>
                                   </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li><span class="odds-font black" @click="getoddInfo(sanjundaxiao.list[6].oddsId)">{{xushihuo == '1' ? sanjundaxiao.list[6].shBetMoneySum : sanjundaxiao.list[6].betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? sanjundaxiao.list[6].shWinnerMoneySum : sanjundaxiao.list[6].winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                   </tr>
@@ -115,12 +115,12 @@
                               <td class="tdRight" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
+                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','jian')"></i>
+                                    <span class="odds-font betspan">{{sanjundaxiao.list[7].odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','add')"></i>
                                   </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li><span class="odds-font black" @click="getoddInfo(sanjundaxiao.list[7].oddsId)">{{xushihuo == '1' ? sanjundaxiao.list[7].shBetMoneySum : sanjundaxiao.list[7].betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? sanjundaxiao.list[7].shWinnerMoneySum : sanjundaxiao.list[7].winnerMoneySum}}</span></li>
                                 </ul>
                               </td>
                   </tr>
@@ -177,12 +177,12 @@
                               <td class="tdRight" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','jian')"></i>
-                                    <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','add')"></i>
+                                    <i class="iconfont icon-jian" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','jian')"></i>
+                                    <span class="odds-font betspan">{{weishaiquanshai.list[6].odds}}</span>
+                                    <i class="iconfont icon-jia1" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','add')"></i>
                                   </li>
-                                  <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
-                                  <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
+                                  <li><span class="odds-font black" @click="getoddInfo(weishaiquanshai.list[6].oddsId)">{{xushihuo == '1' ? weishaiquanshai.list[6].shBetMoneySum : weishaiquanshai.list[6].betMoneySum}}</span></li>
+                                  <li><span class="odds-font red">{{xushihuo == '1' ? weishaiquanshai.list[6].shWinnerMoneySum : weishaiquanshai.list[6].winnerMoneySum}}</span></li>
                                 </ul>
                       </td>
                       <td colspan="4">&nbsp;</td>
@@ -675,7 +675,7 @@ export default {
         this.bocaiCategoryList = res.typeList;
         this.oddsList = res.oddsList;
 
-        this.shuaiXuanDatas(res.oddsList);
+        //this.shuaiXuanDatas(res.oddsList);
 
         //bus.$emit('curactiveIndex', this.curactiveIndex);
         this.showOdds = this.bocaiCategoryList[0].name;

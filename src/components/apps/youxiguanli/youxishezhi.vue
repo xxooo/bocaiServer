@@ -38,13 +38,13 @@
           </thead> 
           <tr>
             <td width="20%" class="tar td-bg">最低下注金额:</td> 
-            <td width="40%"><input type="text"></td> 
+            <td width="40%" class="textleft"><input type="text"></td> 
             <td width="40%">
               <div><i class="icon-exclamation-sign"></i>金额仅可输入整数，并且不可小于0</div>
             </td>
           </tr> 
           <tr>
-            <td class="tar td-bg">最高派彩:</td> <td><input type="text"></td> 
+            <td class="tar td-bg">最高派彩:</td> <td class="textleft"><input type="text"></td> 
             <td><div><i class="icon-exclamation-sign"></i>
                    仅可输入整数，并且不可小于0
                  </div>
@@ -52,7 +52,7 @@
           </tr> 
           <tr>
             <td class="tar td-bg">开奖时间:</td> 
-            <td><input type="text"></td>
+            <td class="textleft"><input type="text"></td>
             <td>
               <div>
               <i class="icon-exclamation-sign"></i>
@@ -62,7 +62,7 @@
           </tr>
           <tr>
             <td class="tar td-bg">封盘时间:</td> 
-            <td><input type="text"> 秒 </td> 
+            <td class="textleft"><input type="text"> 秒 </td> 
             <td>
               <div><i class="icon-exclamation-sign"></i>
                    提前多少秒封盘
@@ -71,7 +71,7 @@
           </tr> 
           <tr>
             <td width="0%" class="tar">开关游戏:</td> 
-            <td>
+            <td class="textleft">
               <label><input type="radio" value="true"> 开启 </label> 
               <label><input type="radio" value="false"> 关闭</label>
             </td> 
@@ -99,7 +99,7 @@ export default {
   },
   data () {
     return {
-      bocaiId: '',
+      bocaiId: 1,
       baseBocaiInfo: {},
       routerName: this.$route.name
     }
@@ -112,9 +112,11 @@ export default {
     })
   },
   created() {
-    this.getoddsCategory();
+    //this.getoddsCategory();
 
-    this.getadminBocaiInfo();
+    //this.getadminBocaiInfo();
+
+    this.baseSet();
 
     this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
 

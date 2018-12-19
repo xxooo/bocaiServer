@@ -54,9 +54,6 @@
 
         <div class="bet_box">
           <div class="orders oodsBodyDiv">
-            <div class="order-info">
-              <bet-quick :orderDataList="orderDataList" :canOrder="canOrder" :bocaiCategory="bocaiCategory" v-on:childByReset="childByReset" v-on:childByChangePay="childByChangePay"></bet-quick>
-            </div>
 
             <template v-if="showOdds == '总行、比数、五行'">
 
