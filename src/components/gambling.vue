@@ -222,6 +222,8 @@ export default {
 
       if(res.code===200){
         this.bocaiMenu = res.list;
+
+        store.commit('updatebocaiMenu', res.list);
       }
     },
     async getUserInfo() {

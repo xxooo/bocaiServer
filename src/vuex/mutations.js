@@ -22,6 +22,9 @@ const mutations = {
   },
   updateuserInfo(state,v) {
     state.userInfo = v;
+  },
+  updatebocaiMenu(state,v) {
+    state.bocaiMenu = v;
   }
 }
 

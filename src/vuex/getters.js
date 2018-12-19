@@ -6,7 +6,8 @@ const getters = {
   getavatarVuex: state => state.avatarVuex,
 
   getruleId: state => state.ruleId,
-  getuserInfo: state => state.userInfo
+  getuserInfo: state => state.userInfo,
+  getbocaiMenu: state => state.bocaiMenu
 }
 
 export default getters
