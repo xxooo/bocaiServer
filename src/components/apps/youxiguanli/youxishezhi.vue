@@ -340,6 +340,8 @@ export default {
 </script>
 
 <style scoped>
-
+.nav {
+    padding: 10px 15px;
+}
 
 </style>
