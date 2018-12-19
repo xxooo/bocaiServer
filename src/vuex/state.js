@@ -7,7 +7,8 @@ const state = {
   avatarVuex: '',
 
   ruleId: '',
-  userInfo: {}
+  userInfo: {},
+  bocaiMenu: []
 }
 
 export default state

@@ -2,16 +2,25 @@
   <div id="youxishezhi" class="content-main">
     <div class="nav">
       <span>游戏类型:
-        <select class="mgr10">
+        <el-select v-model="bocaiId" placeholder="请选择" size="mini">
+          <el-option
+            v-for="item in bocaiMenu"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+
+        <!-- <select class="mgr10">
           <option value="0">——请选择游戏——</option> 
           <option value="幸运飞艇">幸运飞艇</option>
           <option value="六合彩">六合彩</option>
           <option value="重庆时时彩">重庆时时彩</option>
           <option value="PC蛋蛋">PC蛋蛋</option>
           <option value="北京PK拾">北京PK拾</option>
-        </select> 
+        </select> --> 
         <div class="btn-ground">
-          <button class="tabBtn btn btn-blue mgr10 router-link-active">基本设置</button> 
+          <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="baseSet()">基本设置</button> 
           <button class="tabBtn btn btn-blue mgr10">赔率设置</button> 
           <button class="tabBtn btn btn-blue mgr10">赔率差设置</button> 
           <button class="tabBtn btn btn-blue mgr10">赔率浮动设置</button>
@@ -19,45 +28,63 @@
       </span>
     </div>
 
-  <div class="portlet portlet-add">
-  <div class="tab">
-  <table>
-  <thead>
-  <tr>
-  <th colspan="3">游戏设置</th>
-  </tr>
-  </thead> 
-  <tr>
-  <td width="20%" class="tar td-bg">最低下注金额:</td> 
-  <td width="40%"><input type="text"></td> 
-  <td width="40%"><div><i class="icon-exclamation-sign"></i>
-              金额仅可输入整数，并且不可小于0
-            </div>
-            </td>
-            </tr> 
+    <div class="portlet portlet-add">
+      <div class="tab">
+        <table>
+          <thead>
             <tr>
+              <th colspan="3">游戏设置</th>
+            </tr>
+          </thead> 
+          <tr>
+            <td width="20%" class="tar td-bg">最低下注金额:</td> 
+            <td width="40%"><input type="text"></td> 
+            <td width="40%">
+              <div><i class="icon-exclamation-sign"></i>金额仅可输入整数，并且不可小于0</div>
+            </td>
+          </tr> 
+          <tr>
             <td class="tar td-bg">最高派彩:</td> <td><input type="text"></td> 
             <td><div><i class="icon-exclamation-sign"></i>
-               仅可输入整数，并且不可小于0
-             </div></td></tr> <tr><td class="tar td-bg">开奖时间:</td> 
-             <td><input type="text"></td>
-             <td><div><i class="icon-exclamation-sign"></i>
-               用于调整开盘时间，实际开奖时间以官方为准
-             </div>
-             </td>
-             </tr>
-             <tr>
-             <td class="tar td-bg">封盘时间:</td> 
-             <td><input type="text"> 秒 </td> 
-             <td><div><i class="icon-exclamation-sign"></i>
-               提前多少秒封盘
-             </div>
-             </td>
-             </tr> 
-             <tr><td width="0%" class="tar">开关游戏:</td> <td><label><input type="radio" value="true"> 开启
-            </label> <label><input type="radio" value="false"> 关闭
-            </label></td> <td width="20%"><i class="icon-exclamation-sign"></i> 请选择开启或关闭
-          </td></tr></table> <div class="inner"><button class="btn-submit">保存</button> <button class="btn-cancel">取消</button></div></div></div>
+                   仅可输入整数，并且不可小于0
+                 </div>
+            </td>
+          </tr> 
+          <tr>
+            <td class="tar td-bg">开奖时间:</td> 
+            <td><input type="text"></td>
+            <td>
+              <div>
+              <i class="icon-exclamation-sign"></i>
+                   用于调整开盘时间，实际开奖时间以官方为准
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="tar td-bg">封盘时间:</td> 
+            <td><input type="text"> 秒 </td> 
+            <td>
+              <div><i class="icon-exclamation-sign"></i>
+                   提前多少秒封盘
+              </div>
+            </td>
+          </tr> 
+          <tr>
+            <td width="0%" class="tar">开关游戏:</td> 
+            <td>
+              <label><input type="radio" value="true"> 开启 </label> 
+              <label><input type="radio" value="false"> 关闭</label>
+            </td> 
+            <td width="20%"><i class="icon-exclamation-sign"></i> 请选择开启或关闭
+            </td>
+          </tr>
+        </table> 
+        <div class="inner">
+          <button class="btn-submit">保存</button> 
+          <button class="btn-cancel">取消</button>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -72,12 +99,16 @@ export default {
   },
   data () {
     return {
+      bocaiId: '',
+      baseBocaiInfo: {},
+      routerName: this.$route.name
     }
   },
   computed: {
     ...mapGetters({
       ruleId:'getruleId',
-      userInfo: 'getuserInfo'
+      userInfo: 'getuserInfo',
+      bocaiMenu: 'getbocaiMenu'
     })
   },
   created() {
@@ -91,6 +122,37 @@ export default {
   mounted(){
   },
   methods: {
+    async baseSet() {
+      if(this.routerName != 'youxishezhi') {
+        this.$router.push({name:"youxishezhi"});
+      } 
+
+      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
+
+      if(res.code===200){
+
+        this.baseBocaiInfo = res.data;
+    //     "msg": "success",//返回值
+    // "code": 200,//返回状态吗
+    // "data": {
+    //     "id": "18",//基本设置ID
+    //     "userId": "96",//用户ID
+    //     "bocaiId": "1",//菠菜ID
+    //     "bocaiName": null,//菠菜名称
+    //     "minimumBet": null,//最低下注
+    //     "highestPayout": null,//最高派彩
+    //     "opentime": null,//开奖时间
+    //     "closetime": null,//封盘时间
+    //     "isOpen": null,//游戏开关.0:关闭,1:开启
+    //     "sort": 4,//
+    //     "createDate": 1531380345000,
+    //     "updateDate": 1531380347000
+    // }
+      }
+    },
+
+
+
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
       this.getoddInfo(this.curOddsId);
