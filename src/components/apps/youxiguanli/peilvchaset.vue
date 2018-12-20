@@ -10,7 +10,7 @@
             :value="item.id">
           </el-option>
         </el-select>
-
+        
         <div class="btn-ground">
           <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="baseSet()">基本设置</button> 
           <button class="tabBtn btn btn-blue mgr10">赔率设置</button> 

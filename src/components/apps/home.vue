@@ -124,9 +124,9 @@ export default {
       if(res.code===200){
         this.gonggaoList = res.page;
 
-        console.log(this.gonggaoList.list.length);
+        //console.log(this.gonggaoList.list.length);
 
-        console.log((this.gonggaoList.list.length*1 != 0));
+        //console.log((this.gonggaoList.list.length*1 != 0));
 
       } 
     },

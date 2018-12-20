@@ -116,15 +116,18 @@ router.beforeEach((to, from, next) => {
 
   let token = cookie.getCookie('accesstoken');
 
+  console.log('token',token);
+
     if (to.matched.some(r => r.meta.requireAuth)) {
       NProgress.start();
         if (token) {
             next();
         }
         else {
-            next({
-                path: '/login'
-            })
+            next();
+            // next({
+            //     path: '/login'
+            // })
             NProgress.done();
         }
     }
