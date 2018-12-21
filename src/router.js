@@ -99,6 +99,26 @@ const router = new Router({
         },
         
 
+
+        { path: '/gambling/youxiguanli/youxishezhi', name: 'youxishezhi',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/youxishezhi')), 'youxishezhi'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/peilvchaset', name: 'peilvchaset',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/peilvchaset')), 'peilvchaset'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/peilvfudongset', name: 'peilvfudongset',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/peilvfudongset')), 'peilvfudongset'), meta: { requiresAuth: true }
+        },
+
         { path: '/gambling/youxiguanli/youxishezhi', name: 'youxishezhi',
           meta: {
               requireAuth: true,
