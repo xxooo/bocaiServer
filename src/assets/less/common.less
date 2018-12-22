@@ -19,8 +19,7 @@ body {
     width: 1350px;
     display: block;
     height: 60px;
-    margin: 0;
-    position: fixed;
+    margin: 0 auto;
     top: 0;
     left: 0;
     z-index: 904;
@@ -511,7 +510,8 @@ td, th {
     color: #474a4d;
     font-family: Helvetica Neue,Helvetica,Arial,Verdana,sans-serif;
     font-size: 12px;
-    min-width: 1300px;
+    min-width: 1350px;
+    width: 1350px;
 }
 
 #clock {
@@ -1215,7 +1215,7 @@ td, th {
 }
 .duboBodyClass {
     .tool {
-        width: 100%;
+        width: 1350px;
         padding: 0px 0;
         text-align: center;
         background: #fff;
@@ -1439,6 +1439,25 @@ button {
 }
 .inner button.btn-cancel {
     background: #d63e35;
+}
+
+.odds-font {
+    color: #d63e35;
+    font-weight: 700;
+}
+
+input.odds-font {
+    min-width: 55px;
+    max-width: 60px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: #d63e35;
+    border: 0;
+}
+
+.selectTd {
+    cursor: pointer;
 }
 
 }

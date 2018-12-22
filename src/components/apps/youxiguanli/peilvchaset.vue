@@ -12,75 +12,56 @@
         </el-select>
         
         <div class="btn-ground">
-          <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="baseSet()">基本设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率差设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率浮动设置</button>
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'youxishezhi'})">基本设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'pcdandanBase'})">赔率设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvchaset'})">赔率差设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvfudongset'})">赔率浮动设置</button>
         </div>
       </span>
     </div>
 
     <div class="portlet portlet-add">
-      <div class="tab">
-        <table>
-          <thead>
-            <tr>
-              <th colspan="3">游戏设置</th>
-            </tr>
-          </thead> 
-          <tr>
-            <td width="20%" class="tar td-bg">最低下注金额:</td> 
-            <td width="40%" class="textleft">
-              <input v-model="baseBocaiInfo.minimumBet" type="text">
-            </td>  
-            <td width="40%">
-              <div><i class="icon-exclamation-sign"></i>金额仅可输入整数，并且不可小于0</div>
-            </td>
-          </tr> 
-          <tr>
-            <td class="tar td-bg">最高派彩:</td> 
-            <td class="textleft">
-              <input v-model="baseBocaiInfo.highestPayout" type="text">
-            </td> 
-            <td><div><i class="icon-exclamation-sign"></i>
-                   仅可输入整数，并且不可小于0
-                 </div>
-            </td>
-          </tr> 
-          <tr>
-            <td class="tar td-bg">开奖时间:</td> 
-            <td class="textleft"><input v-model="baseBocaiInfo.opentime" type="text"></td>
-            <td>
-              <div>
-              <i class="icon-exclamation-sign"></i>
-                   用于调整开盘时间，实际开奖时间以官方为准
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="tar td-bg">封盘时间:</td> 
-            <td class="textleft"><input v-model="baseBocaiInfo.closetime" type="text"> 秒 </td> 
-            <td>
-              <div><i class="icon-exclamation-sign"></i>
-                   提前多少秒封盘
-              </div>
-            </td>
-          </tr> 
-          <tr>                      
-            <td width="0%" class="tar">开关游戏:</td> 
-            <td class="textleft">
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="true"> 开启 </label> 
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="false"> 关闭</label>
-            </td> 
-            <td width="20%"><i class="icon-exclamation-sign"></i> 请选择开启或关闭
-            </td>
-          </tr>
-        </table> 
-        <div class="inner">
-          <button class="btn-submit" @click="saveoddInfo()">保存</button> 
-          <button class="btn-cancel" @click="baseSet()">取消</button>
+        <div class="tab">
+          <table>
+            <thead>
+              <tr>
+                <th>PC蛋蛋</th> 
+                <th>B盘</th> 
+                <th>C盘</th> 
+                <th>D盘</th>
+              </tr>
+            </thead> 
+            <tbody>
+              <tr>
+                <td>大小</td> 
+                <td><input type="text" class="odds-font"></td> 
+                <td><input type="text" class="odds-font"></td> 
+                <td><input type="text" class="odds-font"></td>
+              </tr>
+              <tr>
+                <td>单双</td> 
+                <td><input type="text" class="odds-font"></td> 
+                <td><input type="text" class="odds-font"></td> 
+                <td><input type="text" class="odds-font"></td>
+              </tr
+              ><tr><td>色波</td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td>半波</td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td>豹子</td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td>特码</td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
+            </tbody>
+          </table> 
+        <div>
+          <div class="diffInput"><span>批量设置：</span> 
+            <label><input type="radio" value="B"> B盘</label> 
+            <label><input type="radio" value="C"> C盘</label> 
+            <label><input type="radio" value="D"> D盘</label> 
+            <input type="text" placeholder="请输入赔率差值"> 
+            <button class="tabBtn btn-blue mgr10">填入</button>
+          </div> 
+          <div class="inner">
+            <button class="btn-submit">保存</button> 
+            <button class="btn-cancel">取消</button>
+          </div>
         </div>
       </div>
+
     </div>
 
   </div>
@@ -112,16 +93,11 @@ export default {
 
     this.baseSet();
 
-    this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
-
   },
   mounted(){
   },
   methods: {
     async baseSet() {
-      if(this.routerName != 'youxishezhi') {
-        this.$router.push({name:"youxishezhi"});
-      } 
 
       let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
 

@@ -12,10 +12,10 @@
         </el-select>
 
         <div class="btn-ground">
-          <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="baseSet()">基本设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率差设置</button> 
-          <button class="tabBtn btn btn-blue mgr10">赔率浮动设置</button>
+          <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="$router.push({name:'youxishezhi'})">基本设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'pcdandanBase'})">赔率设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvchaset'})">赔率差设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvfudongset'})">赔率浮动设置</button>
         </div>
       </span>
     </div>
@@ -111,8 +111,6 @@ export default {
   created() {
 
     this.baseSet();
-
-    this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
 
   },
   mounted(){

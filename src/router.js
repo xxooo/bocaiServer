@@ -119,11 +119,11 @@ const router = new Router({
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/peilvfudongset')), 'peilvfudongset'), meta: { requiresAuth: true }
         },
 
-        { path: '/gambling/youxiguanli/youxishezhi', name: 'youxishezhi',
+        { path: '/gambling/youxiguanli/pcdandanBase', name: 'pcdandanBase',
           meta: {
               requireAuth: true,
           },
-          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/youxishezhi')), 'youxishezhi'), meta: { requiresAuth: true }
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/pcdandanBase')), 'pcdandanBase'), meta: { requiresAuth: true }
         }
 
       ]
@@ -136,7 +136,7 @@ router.beforeEach((to, from, next) => {
 
   let token = cookie.getCookie('accesstoken');
 
-  console.log('token',token);
+  //console.log('token',token);
 
     if (to.matched.some(r => r.meta.requireAuth)) {
       NProgress.start();
