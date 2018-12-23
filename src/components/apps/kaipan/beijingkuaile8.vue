@@ -36,14 +36,6 @@
                     <li class="ball-icon" v-for="(item,index) in adminBocaiInfo.hisResult">{{item}}</li>
                 </ul>
               </div>
-              <span>总和 : </span>
-              <div class="game-result">
-                <ul class="result-list">
-                    <li class="ball-icon" v-if="curBocaiTypeId == '8223'">
-                      {{hisResultAll}}
-                    </li>
-                </ul>
-              </div>
             </span> 
 
             <auto-refresh v-on:childByReset="childByReset"></auto-refresh>

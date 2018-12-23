@@ -38,14 +38,6 @@
                     <li class="ball-icon" v-for="(item,index) in adminBocaiInfo.hisResult">{{item}}</li>
                 </ul>
               </div>
-              <span>总和 : </span>
-              <div class="game-result">
-                <ul class="result-list">
-                    <li class="ball-icon" v-if="curBocaiTypeId == '8223'">
-                      {{hisResultAll}}
-                    </li>
-                </ul>
-              </div>
             </span> 
 
             <auto-refresh v-on:childByReset="childByReset"></auto-refresh>
@@ -267,7 +259,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in changpai.list.slice(0,3)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'changpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'changpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -286,7 +278,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in changpai.list.slice(3,6)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'changpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'changpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -305,7 +297,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in changpai.list.slice(6,9)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'changpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'changpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -324,7 +316,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in changpai.list.slice(9,12)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'changpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'changpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -343,7 +335,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in changpai.list.slice(12,15)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'changpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'changpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -368,7 +360,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in duanpai.list.slice(0,3)">
-                              <td class="tdLeft ordersTdOver" width="16%" :class="'duanpai'+item.oddsId">
+                              <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'duanpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>
@@ -387,7 +379,7 @@
                         </tr>
                         <tr>
                             <template v-for="(item,index) in duanpai.list.slice(3,6)">
-                             <td class="tdLeft ordersTdOver" width="16%" :class="'duanpai'+item.oddsId">
+                             <td class="tdLeft ordersTdOver kuaisan" width="16%" :class="'duanpai'+item.oddsId">
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(0,1)"></i>
                                 <i :class="'jsk3-icon-'+item.oddsName.slice(2,3)"></i>
                               </td>

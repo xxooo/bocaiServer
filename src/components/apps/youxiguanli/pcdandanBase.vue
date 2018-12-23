@@ -219,17 +219,6 @@
             <button class="btn-cancel" @click="getoddsCategory">重置</button>
           </div>
 
-          <!-- <div class="tool">
-            <table>
-              <tr>
-                <td><button class="btn btn-blue" @click="bocaiCategoryId(bocaiCategory)">还原赔率</button></td> 
-                <td>设置调动幅度 :<input v-model="betfudu" width="80px" placeholder="请输入数字"></td>
-                <td><button class="btn btn-blue" @click="savebet">保存赔率</button></td> 
-              </tr>
-            </table>
-          </div> -->
-
-
         </div>
     </div>
 
@@ -246,9 +235,6 @@ export default {
   },
   data () {
     return {
-      baseBocaiInfo: {},
-      routerName: this.$route.name,
-
       curBocaiTypeId: 8223,
       curactiveIndex: 'PC蛋蛋',
       bocaiCategoryList: [],
@@ -288,8 +274,6 @@ export default {
     })
   },
   created() {
-
-    //this.baseSet();
 
     this.getoddsCategory();
 
@@ -366,20 +350,6 @@ export default {
         this.updateList[n].odds = this.setAllVlue;
       }
     },
-    async baseSet() {
-      if(this.routerName != 'youxishezhi') {
-        this.$router.push({name:"youxishezhi"});
-      } 
-
-      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
-
-      if(res.code===200){
-
-        this.baseBocaiInfo = res.data;
-        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
-      }
-    },
-
 
     qingkong() {
       $('.bet_box .orders td').removeClass('selected');
@@ -434,7 +404,7 @@ export default {
         this.bocaiCategoryList = res.typeList;
         this.oddsList = res.oddsList;
 
-        this.shuaiXuanDatas(res.oddsList);
+        //this.shuaiXuanDatas(res.oddsList);
 
         //bus.$emit('curactiveIndex', this.curactiveIndex);
         this.showOdds = this.bocaiCategoryList[0].name;

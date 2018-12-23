@@ -25,30 +25,45 @@
           <table>
             <thead>
               <tr>
-                <th>PC蛋蛋</th> 
+                <th>{{curactiveIndex}}</th> 
                 <th>浮动类型</th> 
                 <th>触发浮动值</th> 
                 <th>每次浮动值</th>
               </tr>
             </thead> 
+
             <tbody>
-            <tr>
-              <td>大小</td> 
-              <td>
-                <label><input type="radio" value="0"> 注单数</label> 
-                <label><input type="radio" value="1"> 下注总额</label>
-              </td> 
-              <td><input type="text" class="odds-font"></td> 
-              <td><input type="text" class="odds-font"></td>
-            </tr>
-            <tr>
-              <td>单双</td> 
-              <td><label><input type="radio" value="0"> 注单数</label> <label><input type="radio" value="1"> 下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
-              <tr><td>色波</td> <td><label><input type="radio" value="0"> 注单数</label> <label><input type="radio" value="1"> 下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
-              <tr><td>半波</td> <td><label><input type="radio" value="0"> 注单数</label> <label><input type="radio" value="1"> 下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
-              <tr><td>豹子</td> <td><label><input type="radio" value="0"> 注单数</label> <label><input type="radio" value="1"> 下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
-              <tr><td>特码</td> <td><label><input type="radio" value="0"> 注单数</label> <label><input type="radio" value="1"> 下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr>
-              </tbody></table> <div><div class="floatInput"><span>浮动类型：</span> <select name="" id="" class="mgr10"><option value="-1">请选择类型</option> <option value="0">注单数</option> <option value="1">下注总额</option></select> <span>批量设置：</span> <label><input type="radio" value="0"> 触发浮动值</label> <label><input type="radio" value="1"> 每次浮动值</label> <input type="text" placeholder="请输入浮动值"> <button class="tabBtn btn-blue mgr10">填入</button></div> <div class="inner"><button class="btn-submit">保存</button> <button class="btn-cancel">取消</button></div></div></div>
+              <tr v-for="(item,index) in baseBocaiList">
+                <td>{{item.dewaterName}}</td> 
+                <td>
+                  <label><input type="radio" value="1" v-model="item.floatType"> 注单数</label> 
+                  <label><input type="radio" value="2" v-model="item.floatType"> 下注总额</label>
+                </td> 
+                <td><input type="text" class="odds-font" v-model="item.triggerFloat" v-on:input="inputFunc(item)"></td> 
+                <td><input type="text" class="odds-font" v-model="item.floatValue" v-on:input="inputFunc(item)"></td>
+              </tr>
+            </tbody>
+
+          </table> 
+          <div>
+            <div class="floatInput"><span>浮动类型：</span> 
+              <el-select v-model="fudongtype" @change="changefdtype" placeholder="请选择" size="mini">
+                <el-option :key="0" :label="'请选择类型'" :value="0"></el-option>
+                <el-option :key="1" :label="'注单数'" :value="1"></el-option>
+                <el-option :key="2" :label="'下注总额'" :value="2"></el-option>
+              </el-select>
+              <span>批量设置：</span> 
+              <label><input type="radio" value="0" v-model="fudongvalue"> 触发浮动值</label> 
+              <label><input type="radio" value="1" v-model="fudongvalue"> 每次浮动值</label> 
+              <input type="text" placeholder="请输入浮动值" v-model="fudongnum"> 
+              <button class="tabBtn btn-blue mgr10" @click="setfudong()">填入</button>
+            </div> 
+            <div class="inner">
+              <button class="btn-submit" @click="saveoddCha()">保存</button> 
+              <button class="btn-cancel" @click="baseSet()">取消</button>
+            </div>
+          </div>
+        </div>
 
     </div>
 
@@ -66,8 +81,15 @@ export default {
   data () {
     return {
       bocaiId: 1,
-      baseBocaiInfo: {},
-      routerName: this.$route.name
+      curactiveIndex: '',
+      baseBocaiList: [],
+      routerName: this.$route.name,
+      piliang: 'B',
+      piliangValue: '',
+      selectList: [],
+      fudongtype: 0,
+      fudongvalue: 0,
+      fudongnum: ''
     }
   },
   computed: {
@@ -85,42 +107,114 @@ export default {
   mounted(){
   },
   methods: {
-    async baseSet() {
+    changefdtype(data) {
+      for(let n in this.baseBocaiList) {
+        this.baseBocaiList[n].floatType = data;
+        let obj = {
+                      id: this.baseBocaiList[n].id,
+                      dewaterName: this.baseBocaiList[n].dewaterName,
+                      floatType: this.baseBocaiList[n].floatType,
+                      triggerFloat: this.baseBocaiList[n].triggerFloat,
+                      floatValue: this.baseBocaiList[n].floatValue
+                    };
+            this.selectList.push(obj);
+      }
+    },
+    setfudong() {
+      if(+this.fudongvalue === 0) {
+        for(let n in this.baseBocaiList) {
+          this.baseBocaiList[n].triggerFloat = this.fudongnum;
+          let obj = {
+                        id: this.baseBocaiList[n].id,
+                        dewaterName: this.baseBocaiList[n].dewaterName,
+                        floatType: this.baseBocaiList[n].floatType,
+                        triggerFloat: this.baseBocaiList[n].triggerFloat,
+                        floatValue: this.baseBocaiList[n].floatValue
+                      };
+              this.selectList.push(obj);
+        }
+      } else {
+        for(let n in this.baseBocaiList) {
+          this.baseBocaiList[n].floatValue = this.fudongnum;
+          let obj = {
+                        id: this.baseBocaiList[n].id,
+                        dewaterName: this.baseBocaiList[n].dewaterName,
+                        floatType: this.baseBocaiList[n].floatType,
+                        triggerFloat: this.baseBocaiList[n].triggerFloat,
+                        floatValue: this.baseBocaiList[n].floatValue
+                      };
+              this.selectList.push(obj);
+        }
+      }
+    },
+    inputFunc(item) {
+      console.log('item',item);
 
-      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
+      let ifHas = false;
+                for(let n in this.selectList) {
+                  if(this.selectList[n].id == item.id) {
+                    ifHas = true;
+                    let obj = {
+                      id: item.id,
+                      dewaterName: item.dewaterName,
+                      floatType: item.floatType,
+                      triggerFloat: item.triggerFloat,
+                      floatValue: item.floatValue
+                    };
+
+                    this.selectList[n] = obj;
+                  }
+                }
+
+                if(!ifHas) {
+                  let obj = {
+                    id: item.id,
+                      dewaterName: item.dewaterName,
+                      floatType: item.floatType,
+                      triggerFloat: item.triggerFloat,
+                      floatValue: item.floatValue
+                  };
+
+                  this.selectList.push(obj);
+                }
+
+    },
+    async baseSet() {
+      if(this.routerName != 'peilvfudongset') {
+        this.$router.push({name:"peilvfudongset"});
+      } 
+
+      for(let n in this.bocaiMenu) {
+        if(this.bocaiId == this.bocaiMenu[n].id) {
+          this.curactiveIndex = this.bocaiMenu[n].name;
+        }
+      }
+
+      let res = await this.$get(`${window.url}/admin/gameManage/oddsFloat?bocaiTypeId=`+this.bocaiId);
 
       if(res.code===200){
 
-        this.baseBocaiInfo = res.data;
-        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+        this.baseBocaiList = res.list;
       }
     },
 
-    async saveoddInfo() {
+    async saveoddCha() {
 
-      console.log('baseBocaiInfo',this.baseBocaiInfo);
+      console.log('selectList',this.selectList);
 
       let that = this;
 
-      let obj = {
-        userId: this.baseBocaiInfo.userId,
-        bocaiId: this.baseBocaiInfo.bocaiId,
-        bocaiName: this.baseBocaiInfo.bocaiName,
-        minimumBet: this.baseBocaiInfo.minimumBet,
-        highestPayout: this.baseBocaiInfo.highestPayout,
-        opentime: this.baseBocaiInfo.opentime,
-        closetime: this.baseBocaiInfo.closetime,
-        isOpen: this.baseBocaiInfo.isOpen ? 1 : 0,
-        advanceTime: this.baseBocaiInfo.advanceTime
-      }
+      let listdata = {};
+      listdata.list = this.selectList;
 
       NProgress.start();
-          await that.$post(`${window.url}/admin/gameManage/bocaiBaseSet`,obj).then((res) => {
+          await that.$post(`${window.url}/admin/gameManage/oddsFloatSub`,listdata).then((res) => {
             that.$handelResponse(res, (result) => {
               NProgress.done();
               if(result.code===200){
                 that.$success(result.msg);
-
+                that.selectList = [];
+                that.baseSet();
               }
             })
       });

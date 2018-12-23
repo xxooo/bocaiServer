@@ -154,7 +154,7 @@ export default {
               NProgress.done();
               if(result.code===200){
                 that.$success(result.msg);
-
+                that.baseSet();
               }
             })
       });
