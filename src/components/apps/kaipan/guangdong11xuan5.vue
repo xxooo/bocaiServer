@@ -368,9 +368,6 @@ export default {
       orderDataList: [],
       normalPay: false,
       bocaiCategory: {},
-      kuaixuanList: ['0','1','2','3','4','5','6','7','8','9'],
-      renxuanhaoma1: ['1','2','3','4','5','6'],
-      renxuanhaoma2: ['7','8','9','10','11'],
       shishiZiDatas: {},
       yizhongyiList: [],
       shishiZiDatasList: [],
@@ -382,7 +379,6 @@ export default {
       minNum: 0,
       renxuanOddsObj: {},
       renxuanList: [],
-      //ifHege: false,
       kaishi: false,
       curSubMenu: '',
       canOrder: false,
@@ -405,7 +401,7 @@ export default {
       orderInfo: {},
       jiangliMoneyTotal: '',
       betsMoneyTotal: '',
-      isBase: '',
+      isBase: '2',
       curPageBetTotal: 0,
       curPageJangliTotal: 0,
       currentPage: 1,
@@ -423,7 +419,6 @@ export default {
 
     this.getadminBocaiInfo();
 
-    this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
   },
   mounted(){
   },
@@ -522,15 +517,11 @@ export default {
     },
     async getoddsCategory() {
 
-      this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
-      
       let res = await this.$get(`${window.url}/admin/bocai/oddsCategory?bocaiTypeId=`+this.curBocaiTypeId+`&isBase=`+this.isBase);
 
       if(res.code===200){
         this.bocaiCategoryList = res.typeList;
         this.oddsList = res.oddsList;
-
-        this.shuaiXuanDatas(res.oddsList);
 
         //bus.$emit('curactiveIndex', this.curactiveIndex);
         this.showOdds = this.bocaiCategoryList[0].name;
@@ -651,10 +642,6 @@ export default {
       bus.$emit('getRefreshTime', parms);
 
     },
-
-
-
-
 
     shuaiXuanDatas(dataList) {
       if(this.showOdds == '两面盘') {

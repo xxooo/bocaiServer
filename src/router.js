@@ -130,6 +130,60 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/chongqinduboBase')), 'chongqinduboBase'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/jisuduboBase', name: 'jisuduboBase',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jisuduboBase')), 'jisuduboBase'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/beijingpk10Base', name: 'beijingpk10Base',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/beijingpk10Base')), 'beijingpk10Base'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/luckyairshipBase', name: 'luckyairshipBase',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/luckyairshipBase')), 'luckyairshipBase'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/shandong11xuan5Base', name: 'shandong11xuan5Base',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/shandong11xuan5Base')), 'shandong11xuan5Base'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/guangdong11xuan5Base', name: 'guangdong11xuan5Base',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/guangdong11xuan5Base')), 'guangdong11xuan5Base'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/jiangxi11xuan5Base', name: 'jiangxi11xuan5Base',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jiangxi11xuan5Base')), 'jiangxi11xuan5Base'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/jiangsukuaisanBase', name: 'jiangsukuaisanBase',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jiangsukuaisanBase')), 'jiangsukuaisanBase'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/beijingkuaile8Base', name: 'beijingkuaile8Base',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/beijingkuaile8Base')), 'beijingkuaile8Base'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/jisusaicheBase', name: 'jisusaicheBase',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jisusaicheBase')), 'jisusaicheBase'), meta: { requiresAuth: true }
         }
 
       ]

@@ -13,7 +13,7 @@
 
         <div class="btn-ground">
           <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="$router.push({name:'youxishezhi'})">基本设置</button> 
-          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'chongqinduboBase'})">赔率设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'jisuduboBase'})">赔率设置</button> 
           <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvchaset'})">赔率差设置</button> 
           <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvfudongset'})">赔率浮动设置</button>
         </div>
@@ -266,8 +266,8 @@ export default {
   },
   data () {
     return {
-      curBocaiTypeId: 1,
-      curactiveIndex: '重庆时时彩',
+      curBocaiTypeId: 8815,
+      curactiveIndex: '极速时时彩',
       bocaiCategoryList: [],
       oddsList: [],
       activeIndex: '',
@@ -330,6 +330,8 @@ export default {
   methods: {
     async getoddsCategory() {
 
+      this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
+      
       let res = await this.$get(`${window.url}/admin/bocai/oddsCategory?bocaiTypeId=`+this.curBocaiTypeId+`&isBase=`+this.isBase);
 
       if(res.code===200){
