@@ -28,7 +28,7 @@
               mode="horizontal"
               @select="handleSelect"
               >
-              <el-menu-item v-for="(item,index) in bocaiCategoryList" :key="index" :index="item.name" @click="bocaiCategoryId(item)">{{item.name}}</el-menu-item>
+              <el-menu-item v-for="(item,index) in bocaiCategoryList" :key="index" :index="item.name" @click="bocaiCategoryIdMenu(item)">{{item.name}}</el-menu-item>
             </el-menu>
           </div>
           
@@ -245,7 +245,7 @@
 
           <div class="inner">
             <button class="btn-submit" @click="savebet">保存</button> 
-            <button class="btn-cancel" @click="getoddsCategory">重置</button>
+            <button class="btn-cancel" @click="bocaiCategoryIdSub">重置</button>
           </div>
 
         </div>
@@ -415,18 +415,20 @@ export default {
     handleSelect(key, keyPath) {
         //console.log(key, keyPath);
     },
-    async bocaiCategoryId(item) {
-      console.log('item',item);
-
+    bocaiCategoryIdMenu(item) {
+      this.bocaiCategory = item;
+      this.bocaiCategoryIdSub();
+    },
+    async bocaiCategoryIdSub() {
 
       let that = this;
 
           NProgress.start();
-          await that.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+item.id+`&isBase=`+this.isBase+`&bocaiTypeId=`+this.curBocaiTypeId).then((res) => {
+          await that.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+this.bocaiCategory.id+`&isBase=`+this.isBase+`&bocaiTypeId=`+this.curBocaiTypeId).then((res) => {
             that.$handelResponse(res, (result) => {
               NProgress.done();
-              that.showOdds = item.name;
-              that.bocaiCategory = item;
+              that.showOdds = this.bocaiCategory.name;
+              that.bocaiCategory = this.bocaiCategory;
               if(result.code===200){
 
                 this.oddsList = res.oddsList;
@@ -441,7 +443,7 @@ export default {
           });
 
       let parms = {
-        bocaiCategoryId: item.id,
+        bocaiCategoryId: this.bocaiCategory.id,
         isBase: this.isBase,
         curBocaiTypeId: this.curBocaiTypeId
       }
@@ -602,7 +604,7 @@ export default {
               NProgress.done();
               if(result.code===200){
 
-                this.bocaiCategoryId(this.bocaiCategory);
+                this.bocaiCategoryIdSub();
 
               }
             })
