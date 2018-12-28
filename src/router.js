@@ -184,6 +184,14 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jisusaicheBase')), 'jisusaicheBase'), meta: { requiresAuth: true }
+        },
+
+        
+        { path: '/gambling/userManager/subuser', name: 'subuser',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/subuser')), 'subuser'), meta: { requiresAuth: true }
         }
 
       ]
