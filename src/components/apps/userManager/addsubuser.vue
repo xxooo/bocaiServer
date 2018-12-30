@@ -10,7 +10,7 @@
         <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'subuser' }">子帐号</el-breadcrumb-item>
-        <el-breadcrumb-item>新增子帐号</el-breadcrumb-item>
+        <el-breadcrumb-item>{{isNew?'新增子帐号':'修改资料'}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -37,6 +37,13 @@
           <tr>
             <td class="tar"><span class="red">*</span> 密码:</td> 
             <td class="tl"><input type="password" v-model="password" placeholder="请输入密码"></td> 
+            <td class="tl"><i class="icon-exclamation-sign"></i>
+              密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符)同组密码限用30天。
+            </td>
+          </tr>
+          <tr>
+            <td class="tar"><span class="red">*</span> 重新输入密码:</td> 
+            <td class="tl"><input type="password" v-model="repassword" placeholder="请输入密码"></td> 
             <td class="tl"><i class="icon-exclamation-sign"></i>
               密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符)同组密码限用30天。
             </td>
@@ -112,6 +119,7 @@ export default {
         this.username = this.upUserInfo.username;
         this.nickname = this.upUserInfo.nickname;
         this.password = this.upUserInfo.password;
+        this.repassword = this.upUserInfo.password;
         for(let n in this.upUserInfo.functionIdList) {
           this.functionIdList.push(this.upUserInfo.functionIdList[n]+'');
         }
@@ -146,15 +154,17 @@ export default {
         this.$alertMessage('名称不能为空!', '温馨提示');
       } else if(this.password == '') {
         this.$alertMessage('密码不能为空!', '温馨提示');
+      } else if(this.password != this.repassword) {
+        this.$alertMessage('两次密码输入不一致!', '温馨提示');
       } else {
 
         if(this.isNew) {
           let dataobj = {
-            id: this.id,
+            id: '',
             username: this.username,
             nickname: this.nickname,
             password: this.password,
-            repassword: this.password,
+            repassword: this.repassword,
             functionIdList: this.functionIdList
           }
 
@@ -166,11 +176,32 @@ export default {
                 if(result.code===200){
                   that.$success('提交成功!');
                   that.$router.push({name:'subuser'});
+                  that.qingkong();
                 }
               })
             });
         } else {
+          let dataobj = {
+            id: this.id,
+            username: this.username,
+            nickname: this.nickname,
+            password: this.password,
+            repassword: this.repassword,
+            functionIdList: this.functionIdList
+          }
 
+          let that = this;
+            NProgress.start();
+            await that.$post(`${window.url}/admin/auser/editChildUser`,dataobj).then((res) => {
+              that.$handelResponse(res, (result) => {
+                NProgress.done();
+                if(result.code===200){
+                  that.$success('提交成功!');
+                  that.$router.push({name:'subuser'});
+                  that.qingkong();
+                }
+              })
+            });
         }
       }
     }

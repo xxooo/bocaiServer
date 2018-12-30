@@ -52,7 +52,7 @@
               <td>{{$timestampToTime(item.createDate)}}</td> 
               <td>
                 <a @click="updateuser(item)" class="tabBtn btnPurple">修改资料</a>
-                <a class="tabBtn btnRed">删除</a>
+                <a class="tabBtn btnRed" @click="deletesubuser(item)">删除</a>
               </td>
             </tr>
           </tbody>
@@ -103,6 +103,19 @@ export default {
   mounted(){
   },
   methods: {
+    async deletesubuser(item) {
+      let that = this;
+
+
+        this.$c_confirm(async () => {
+          let ret = await that.$get(`${window.url}/admin/auser/deleteChild?userId=`+item.id);
+            if(ret.code===200){
+                that.$success('删除成功!');
+                that.childUser();
+            } else {
+            }
+        });
+    },
     updateuser(item) {
       store.commit('updateupUserInfo', item);
       this.$router.push({name:'updatesubuser'});
