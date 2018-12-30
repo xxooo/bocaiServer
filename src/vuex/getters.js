@@ -7,7 +7,8 @@ const getters = {
 
   getruleId: state => state.ruleId,
   getuserInfo: state => state.userInfo,
-  getbocaiMenu: state => state.bocaiMenu
+  getbocaiMenu: state => state.bocaiMenu,
+  getupUserInfo: state => state.upUserInfo
 }
 
 export default getters

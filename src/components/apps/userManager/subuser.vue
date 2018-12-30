@@ -1,18 +1,21 @@
 <template>
   <div id="youxishezhi" class="content-main">
-    <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-    </el-breadcrumb>
+    
     <div class="nav">
-      <span>游戏类型:
-        
-        <div class="btn-ground">
-          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'youxishezhi'})">新增子帐号</button> 
-        </div>
-      </span>
+      <div class="curweizhi">当前位置：</div>
+      <el-breadcrumb separator="/">
+        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
+        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
+        <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
+        <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
+        <el-breadcrumb-item>子帐号</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div class="nav">
+      <div class="btn-ground">
+        <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'addsubuser'})">新增子帐号</button> 
+      </div>
     </div>
 
     <div class="portlet">
@@ -35,23 +38,36 @@
             </tr>
           </thead> 
           <tbody>
-            <tr>
-              <td>test2333</td> 
-              <td>test66554</td> 
-              <td>a111111</td> 
-              <td class="green red">开启</td> 
-              <td class="red">关闭</td> 
-              <td class="red">关闭</td> 
-              <td class="red">关闭</td> 
-              <td class="red">关闭</td> 
-              <td class="red">关闭</td> 
-              <td class="red">关闭</td> 
-              <td>2018-12-28 21:11:03</td> 
-              <td><a href="#/account/sub/edit/5c2620e753cf78728979c778" class="tabBtn btnPurple"><i class="icon-pencil"></i>修改资料</a> <a class="tabBtn btnRed"><i class=" icon-trash"></i> 删除</a>
+            <tr v-for="(item,index) in childUserInfo.list">
+              <td>{{item.username}}</td> 
+              <td>{{item.nickname}}</td>
+              <td>{{item.password}}</td> 
+              <td class="red" :class="hasitem(item,1) ? 'green': ''">{{hasitem(item,1) ? '开启': '关闭'}}</td>
+              <td class="red" :class="hasitem(item,2) ? 'green': ''">{{hasitem(item,2) ? '开启': '关闭'}}</td> 
+              <td class="red" :class="hasitem(item,3) ? 'green': ''">{{hasitem(item,3) ? '开启': '关闭'}}</td> 
+              <td class="red" :class="hasitem(item,4) ? 'green': ''">{{hasitem(item,4) ? '开启': '关闭'}}</td> 
+              <td class="red" :class="hasitem(item,5) ? 'green': ''">{{hasitem(item,5) ? '开启': '关闭'}}</td> 
+              <td class="red" :class="hasitem(item,6) ? 'green': ''">{{hasitem(item,6) ? '开启': '关闭'}}</td> 
+              <td class="red" :class="hasitem(item,7) ? 'green': ''">{{hasitem(item,7) ? '开启': '关闭'}}</td> 
+              <td>{{$timestampToTime(item.createDate)}}</td> 
+              <td>
+                <a @click="updateuser(item)" class="tabBtn btnPurple">修改资料</a>
+                <a class="tabBtn btnRed">删除</a>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <div class="block" v-if="childUserInfo.totalPage > 1">
+                  <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="currentPage"
+                    :page-size="childUserInfo.pageSize"
+                    layout="total, prev, pager, next"
+                    :total="childUserInfo.totalCount*1">
+                  </el-pagination>
+        </div>
+        
       </div>
     </div>
 
@@ -68,145 +84,55 @@ export default {
   },
   data () {
     return {
-      bocaiId: 1,
-      curactiveIndex: '',
-      baseBocaiList: [],
-      routerName: this.$route.name,
-      piliang: 'B',
-      piliangValue: '',
-      selectList: [],
-      fudongtype: 0,
-      fudongvalue: 0,
-      fudongnum: ''
+      childUserList: [],
+      childUserInfo: {},
+      currentPage: 1,
     }
   },
   computed: {
     ...mapGetters({
       ruleId:'getruleId',
-      userInfo: 'getuserInfo',
-      bocaiMenu: 'getbocaiMenu'
+      userInfo: 'getuserInfo'
     })
   },
   created() {
 
-   // this.baseSet();
+   this.childUser();
 
   },
   mounted(){
   },
   methods: {
-    changefdtype(data) {
-      for(let n in this.baseBocaiList) {
-        this.baseBocaiList[n].floatType = data;
-        let obj = {
-                      id: this.baseBocaiList[n].id,
-                      dewaterName: this.baseBocaiList[n].dewaterName,
-                      floatType: this.baseBocaiList[n].floatType,
-                      triggerFloat: this.baseBocaiList[n].triggerFloat,
-                      floatValue: this.baseBocaiList[n].floatValue
-                    };
-            this.selectList.push(obj);
-      }
+    updateuser(item) {
+      store.commit('updateupUserInfo', item);
+      this.$router.push({name:'updatesubuser'});
     },
-    setfudong() {
-      if(+this.fudongvalue === 0) {
-        for(let n in this.baseBocaiList) {
-          this.baseBocaiList[n].triggerFloat = this.fudongnum;
-          let obj = {
-                        id: this.baseBocaiList[n].id,
-                        dewaterName: this.baseBocaiList[n].dewaterName,
-                        floatType: this.baseBocaiList[n].floatType,
-                        triggerFloat: this.baseBocaiList[n].triggerFloat,
-                        floatValue: this.baseBocaiList[n].floatValue
-                      };
-              this.selectList.push(obj);
-        }
-      } else {
-        for(let n in this.baseBocaiList) {
-          this.baseBocaiList[n].floatValue = this.fudongnum;
-          let obj = {
-                        id: this.baseBocaiList[n].id,
-                        dewaterName: this.baseBocaiList[n].dewaterName,
-                        floatType: this.baseBocaiList[n].floatType,
-                        triggerFloat: this.baseBocaiList[n].triggerFloat,
-                        floatValue: this.baseBocaiList[n].floatValue
-                      };
-              this.selectList.push(obj);
-        }
-      }
-    },
-    inputFunc(item) {
-      console.log('item',item);
+    hasitem(item,num) {
+      console.log('item.functionIdList',item.functionIdList);
+      let has = false;
 
-      let ifHas = false;
-                for(let n in this.selectList) {
-                  if(this.selectList[n].id == item.id) {
-                    ifHas = true;
-                    let obj = {
-                      id: item.id,
-                      dewaterName: item.dewaterName,
-                      floatType: item.floatType,
-                      triggerFloat: item.triggerFloat,
-                      floatValue: item.floatValue
-                    };
-
-                    this.selectList[n] = obj;
-                  }
-                }
-
-                if(!ifHas) {
-                  let obj = {
-                    id: item.id,
-                      dewaterName: item.dewaterName,
-                      floatType: item.floatType,
-                      triggerFloat: item.triggerFloat,
-                      floatValue: item.floatValue
-                  };
-
-                  this.selectList.push(obj);
-                }
-
-    },
-    async baseSet() {
-      if(this.routerName != 'peilvfudongset') {
-        this.$router.push({name:"peilvfudongset"});
-      } 
-
-      for(let n in this.bocaiMenu) {
-        if(this.bocaiId == this.bocaiMenu[n].id) {
-          this.curactiveIndex = this.bocaiMenu[n].name;
+      for(let n in item.functionIdList) {
+        if(num == item.functionIdList[n]) {
+          has = true;
         }
       }
 
-      let res = await this.$get(`${window.url}/admin/gameManage/oddsFloat?bocaiTypeId=`+this.bocaiId);
+      return has;
+    },
+    handleCurrentChange(cpage) {
+      this.currentPage = cpage;
+      this.getoddInfo(this.curOddsId);
+    },
+    async childUser() {
+
+      let res = await this.$get(`${window.url}/admin/auser/childUser?1=1&currentPage=1&pageSize=10&_=1546106036130`);
 
       if(res.code===200){
 
-        this.baseBocaiList = res.list;
+        this.childUserInfo = res.page;
       }
-    },
-
-    async saveoddCha() {
-
-      console.log('selectList',this.selectList);
-
-      let that = this;
-
-      let listdata = {};
-      listdata.list = this.selectList;
-
-      NProgress.start();
-          await that.$post(`${window.url}/admin/gameManage/oddsFloatSub`,listdata).then((res) => {
-            that.$handelResponse(res, (result) => {
-              NProgress.done();
-              if(result.code===200){
-                that.$success(result.msg);
-                that.selectList = [];
-                that.baseSet();
-              }
-            })
-      });
     }
+
 
 
   }

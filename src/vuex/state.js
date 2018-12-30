@@ -8,7 +8,8 @@ const state = {
 
   ruleId: '',
   userInfo: {},
-  bocaiMenu: []
+  bocaiMenu: [],
+  upUserInfo: {}
 }
 
 export default state

@@ -192,6 +192,18 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/subuser')), 'subuser'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/addsubuser', name: 'addsubuser',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/addsubuser')), 'addsubuser'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/updatesubuser', name: 'updatesubuser',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/addsubuser')), 'updatesubuser'), meta: { requiresAuth: true }
         }
 
       ]
