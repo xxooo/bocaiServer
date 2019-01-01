@@ -11,7 +11,7 @@
     <div class="nav">
       <div class="btn-ground">
         筛选 :
-        <el-select v-model="shuaixuanNum" @change="changeResult" placeholder="请选择" size="mini">
+        <el-select v-model="shuaixuanNum" @change="changeStats" placeholder="请选择" size="mini">
           <el-option value="1" key="1" label="启用"></el-option> 
           <el-option value="2" key="2" label="停用"></el-option> 
           <el-option value="3" key="3" label="解冻"></el-option>
@@ -137,7 +137,7 @@ export default {
       childUserList: [],
       childUserInfo: {},
       currentPage: 1,
-      shuaixuanNum: 1,
+      shuaixuanNum: '1',
       gudongAccout: ''
     }
   },
@@ -155,8 +155,11 @@ export default {
   mounted(){
   },
   methods: {
-    addgudong() {
+    changeStats() {
 
+    },
+    addgudong() {
+      this.$router.push({name:'addgudong'});
     },
     async deletesubuser(item) {
       let that = this;
