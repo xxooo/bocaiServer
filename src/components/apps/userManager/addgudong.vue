@@ -24,25 +24,25 @@
           </thead> 
           <tr>
             <td width="20%" class="tar">公司:</td> 
-            <td><p><span>{{fuusername}}</span></p></td> 
-            <td width="20%"></td>
+            <td class="tl"><p><span>{{fuusername}}</span></p></td> 
+            <td class="tl" width="20%"></td>
           </tr> 
           <tr>
             <td class="tar">股东帐号:</td> 
-            <td>
+            <td class="tl">
               <p>{{futaitou}}<input type="text" v-model="duanusername" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
             </td> 
-            <td><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
+            <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
           <tr>
             <td class="tar">股东名称:</td> 
-            <td><input v-model="nickname" type="text" placeholder="请输入名称"></td> 
-            <td> 请输入名称。</td>
+            <td class="tl"><input v-model="nickname" type="text" placeholder="请输入名称"></td> 
+            <td class="tl"> 请输入名称。</td>
           </tr>
           <tr>
             <td class="tar">密码:</td> 
-            <td><input v-model="password" type="password" placeholder="请输入密码"></td> 
-            <td>密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符) 同组密码限用30天。
+            <td class="tl"><input v-model="password" type="password" placeholder="请输入密码"></td> 
+            <td class="tl">密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符) 同组密码限用30天。
             </td>
           </tr>
           <tr>
@@ -54,35 +54,35 @@
           </tr>
           <tr>
             <td class="tar">冻结:</td>
-            <td>
+            <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>
                 <label><input v-model="isFrozen" type="radio" value="0"> 否 </label>
             </td> 
-            <td>请选择是否冻结</td>
+            <td class="tl">请选择是否冻结</td>
           </tr> 
           <tr>
             <td class="tar">补货:</td> 
-            <td>
+            <td class="tl">
               <label><input v-model="isReplenishment" type="radio" value="1"> 开启 </label> 
               <label><input v-model="isReplenishment" type="radio" value="0"> 关闭 </label>
             </td> 
-            <td> 请选择开启或关闭 </td>
+            <td class="tl"> 请选择开启或关闭 </td>
           </tr> 
           <tr>
             <td class="tar">收单/停押:</td> 
-            <td>
+            <td class="tl">
               <label><input v-model="tingyaShouya" type="radio" value="1"> 收单 </label> 
               <label><input v-model="tingyaShouya" type="radio" value="0"> 停押 </label>
             </td> 
-            <td>请选择收单或停押</td>
+            <td class="tl">请选择收单或停押</td>
           </tr> 
           <tr>
             <td width="20%" class="tar">结算方式:</td> 
-            <td>
+            <td class="tl">
               <label><input v-model="cashCredit" type="radio" :value="1"> 信用 </label> 
               <label><input v-model="cashCredit" type="radio" :value="0"> 现金 </label>
             </td> 
-            <td width="20%">请选择结算方式</td>
+            <td width="20%" class="tl">请选择结算方式</td>
           </tr>
         </table>
         <table v-if="ifxinyong">
@@ -91,25 +91,25 @@
               <th colspan="3">信用额度设置</th>
             </tr>
           </thead> 
-          <tr>
+          <!-- <tr>
             <td width="20%" class="tar">额度类型:</td> 
-            <td>
+            <td class="tl">
               <label><input v-model="cashCredit" type="radio" :value="1"> 第二天还原额度 </label> 
               <label><input v-model="cashCredit" type="radio" :value="0"> 正常交易 </label>
             </td> 
-            <td width="20%">
+            <td width="20%" class="tl">
               <span>请选择额度类型, 设定后不能修改</span>
             </td>
-          </tr>
+          </tr> -->
           <tr>
-            <td class="tar">信用额度:</td> 
-            <td><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
-            <td> 设定信用额度</td>
+            <td class="tar" width="20%">信用额度:</td> 
+            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
             <td class="tar">信用备注:</td> 
-            <td><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
-            <td> 设定信用备注</td>
+            <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
+            <td class="tl"> 设定信用备注</td>
           </tr>
         </table>
         <table>
@@ -120,7 +120,7 @@
           </thead> 
           <tr>
             <td width="20%" class="tar">股东占成:</td> 
-            <td>
+            <td class="tl">
               <select v-model="occupied">
                 <option value="100">100%</option>
                 <option value="99">99%</option>
@@ -162,16 +162,16 @@
               </select> 
               <span class="red" style="display: none;">暂未生效</span>
             </td> 
-            <td width="20%">请选择占成，不可超过上级占成</td>
+            <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
           <tr>
             <td class="tar">占成回收:</td> 
-            <td>
+            <td class="tl">
               <label><input v-model="occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
               <label><input v-model="occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
               <span class="red" style="display: none;">暂未生效</span>
             </td> 
-            <td width="20%"> 请选择现金占成回收方式 </td>
+            <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
           </tr>
         </table> 
         <table>
@@ -182,7 +182,7 @@
           </thead> 
           <tr>
             <td width="20%" class="tar">盘口:</td> 
-            <td>
+            <td class="tl">
               <el-checkbox-group v-model="functionIdList">
                 <el-checkbox :label="'A'" >{{'A'}}</el-checkbox>
                 <el-checkbox :label="'B'" >{{'B'}}</el-checkbox>
@@ -190,7 +190,7 @@
                 <el-checkbox :label="'D'" >{{'D'}}</el-checkbox>
               </el-checkbox-group>
             </td> 
-            <td width="20%">
+            <td class="tl" width="20%">
               <span>请选择盘口</span>
             </td>
           </tr>
@@ -248,7 +248,7 @@ export default {
               quotaRemark: ""//备注
           },
       repassword:"",//重复密码
-      ruleId:4,//角色ID
+      ruleId:'',//角色ID
       status:1,//账号状态，0：停用，1：启用
       tingyaShouya:'1',//停押/收押，0：停押，1：收押
       //username:"",//昵称
@@ -376,7 +376,7 @@ export default {
                     quotaRemark: this.quotaInfo.quotaRemark//备注
                 },
             repassword:this.repassword,//重复密码
-            ruleId:this.ruleId,//角色ID
+            ruleId:this.furuleId,//角色ID
             status:this.status,//账号状态，0：停用，1：启用
             tingyaShouya:this.tingyaShouya,//停押/收押，0：停押，1：收押
             username:this.username,//昵称

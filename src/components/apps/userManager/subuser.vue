@@ -134,11 +134,12 @@ export default {
     },
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
-      this.getoddInfo(this.curOddsId);
+      this.childUser();
     },
     async childUser() {
 
-      let res = await this.$get(`${window.url}/admin/auser/childUser?1=1&currentPage=1&pageSize=10&_=1546106036130`);
+      let res = await this.$get(`${window.url}/admin/auser/childUser?currentPage=`+this.currentPage+`&pageSize=10`);
+
 
       if(res.code===200){
 
