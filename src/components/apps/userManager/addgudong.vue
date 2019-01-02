@@ -282,7 +282,36 @@ export default {
 
       if(!this.isNew) {
 
-        stmp.substring(0,1)
+        this.aUserOccupied:{//当前用户占成数据
+          cChangeAllotOccupied:'',//当前设置占成
+          pChangeAllotOccupied:0,//当前父类设置占成
+          pid:4//父ID
+        },
+        this.cashCredit:'0',//0:现金模式，1：信用模式
+        handicapA: '0',//盘口设置A,0:不设置，1：设置
+        handicapB: '0',//盘口设置B,0:不设置，1：设置
+        handicapC: '0',//盘口设置C,0:不设置，1：设置
+        handicapD: '0',//盘口设置D,0:不设置，1：设置
+        id:'',//id
+        isFrozen:'0',//冻结状态，0：否，1：是
+        isReplenishment:'1',//允许补货，0：关闭，1：开启
+        nickname:"",//昵称
+        occupied:'0',//当前用户选择占成
+        password:"",//密码
+        pid:"",//父类ID
+        quota:0,//充值金额，股东/总代理/代理信用模式才传
+        quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
+                quotaType: 1,//1,充值,2,提现，公司只有充值
+                quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
+                quotaAmount: "",//提现充值金额
+                quotaRemark: ""//备注
+            },
+        repassword:"",//重复密码
+        ruleId:'',//角色ID
+        status:1,//账号状态，0：停用，1：启用
+        tingyaShouya:'1',//停押/收押，0：停押，1：收押
+        //username:"",//昵称
+        occupiedRecovery: '0',
 
         this.id = this.upUserInfo.id;
         this.username = this.upUserInfo.username;

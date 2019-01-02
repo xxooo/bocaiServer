@@ -79,8 +79,8 @@
                   <a class="tabBtn btnRed">关闭补货</a> 
                   <a class="tabBtn btnBlue" style="display: none;">收单</a> 
                   <a class="tabBtn btnRed">停押</a>  -->
-                  <a href="#/account/stockholder/edit/5a4f35456417286cc6274033" class="tabBtn btnPurple">修改资料</a> 
-                  <a href="#/account/stockholder/settings/5a4f35456417286cc6274033" class="tabBtn btnPurple">详细设定</a>
+                  <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
+                  <a class="tabBtn btnPurple">详细设定</a>
                 </span>
               </td>
             </tr>
@@ -102,22 +102,24 @@
     </div>
 
     <el-dialog :visible.sync="dialogAddParmasM" width="40%">
-      <table class="table" style="display: none;">
-                    <thead>
-                      <tr>
-                        <th width="">级别</th> 
-                        <th width="">帐号</th>
-                        <th>现金占成</th>
-                      </tr>
-                    </thead> 
-                    <tbody>
-                      <tr v-for="item in tixiinfo">
-                        <td>{{item.rulename}}</td> 
-                        <td>{{item.username}}</td> 
-                        <td>{{item.occupied}}</td> 
-                      </tr>
-                    </tbody>
-      </table>
+      <el-table
+        :data="tixiinfo"
+        style="width: 100%">
+        <el-table-column
+          prop="rulename"
+          label="级别"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="username"
+          label="帐号"
+          width="180">
+        </el-table-column>
+        <el-table-column
+          prop="occupied"
+          label="现金占成">
+        </el-table-column>
+      </el-table>
     </el-dialog>
 
   </div>
@@ -187,7 +189,7 @@ export default {
     },
     updateuser(item) {
       store.commit('updateupUserInfo', item);
-      this.$router.push({name:'updatesubuser'});
+      this.$router.push({name:'updategudong'});
     },
     hasitem(item,num) {
       console.log('item.functionIdList',item.functionIdList);
