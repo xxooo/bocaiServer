@@ -224,9 +224,9 @@ export default {
       duanusername:"",//用户名,
 
       aUserOccupied:{//当前用户占成数据
-        cChangeAllotOccupied:'',//当前设置占成
+        cChangeAllotOccupied:0,//当前设置占成
         pChangeAllotOccupied:0,//当前父类设置占成
-        pid:4//父ID
+        pid:''//父ID
       },
       cashCredit:'0',//0:现金模式，1：信用模式
       handicapA: '0',//盘口设置A,0:不设置，1：设置
@@ -244,11 +244,11 @@ export default {
       quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
               quotaType: 1,//1,充值,2,提现，公司只有充值
               quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-              quotaAmount: "",//提现充值金额
+              quotaAmount: '',//提现充值金额
               quotaRemark: ""//备注
           },
       repassword:"",//重复密码
-      ruleId:'',//角色ID
+      ruleId:4,//角色ID
       status:1,//账号状态，0：停用，1：启用
       tingyaShouya:'1',//停押/收押，0：停押，1：收押
       //username:"",//昵称
@@ -273,7 +273,7 @@ export default {
     }
   },
   created() {
-      console.log('this.fuuserInfo',this.fuuserInfo);
+      console.log('this.upUserInfo',this.upUserInfo);
 
       this.fuusername = this.fuuserInfo.username;
       this.futaitou = this.fuusername.substring(0,1);
@@ -282,11 +282,16 @@ export default {
 
       if(!this.isNew) {
 
-        this.aUserOccupied:{//当前用户占成数据
-          cChangeAllotOccupied:this.upUserInfo.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-          pChangeAllotOccupied:this.upUserInfo.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-          pid:this.upUserInfo.aUserOccupied.pid//父ID
-        },
+        //console.log('this.aUserOccupied',this.aUserOccupied);
+
+        if(this.upUserInfo.aUserOccupied) {
+          this.aUserOccupied = {//当前用户占成数据
+            cChangeAllotOccupied:this.upUserInfo.aUserOccupied.cChangeAllotOccupied,//当前设置占成
+            pChangeAllotOccupied:this.upUserInfo.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
+            pid:this.upUserInfo.aUserOccupied.pid//父ID
+          }
+        }
+
         this.cashCredit= this.upUserInfo.cashCredit;//0:现金模式，1：信用模式
        
         this.isFrozen= this.upUserInfo.isFrozen;//冻结状态，0：否，1：是
@@ -294,12 +299,16 @@ export default {
         this.occupied= this.upUserInfo.occupied;//当前用户选择占成
         this.pid= this.upUserInfo.pid;//父类ID
         this.quota= this.upUserInfo.quota;//充值金额，股东/总代理/代理信用模式才传
-        this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
+
+        if(this.upUserInfo.quotaInfo) {
+          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
                 quotaType: this.upUserInfo.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
                 quotaAccount: this.upUserInfo.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
                 quotaAmount: this.upUserInfo.quotaInfo.quotaAmount,//提现充值金额
                 quotaRemark: this.upUserInfo.quotaInfo.quotaRemark//备注
-            },
+          }
+        }
+        
         this.ruleId= this.upUserInfo.ruleId;//角色ID
         this.status= this.upUserInfo.status;//账号状态，0：停用，1：启用
         this.tingyaShouya= this.upUserInfo.tingyaShouya;//停押/收押，0：停押，1：收押
@@ -307,7 +316,7 @@ export default {
 
         this.id = this.upUserInfo.id;
         //this.username = this.upUserInfo.username;
-        this.duanusername = this.upUserInfo.username.substring(1,this.upUserInfo.username.length-1);
+        this.duanusername = this.upUserInfo.username.substring(1,this.upUserInfo.username.length);
         this.nickname = this.upUserInfo.nickname;
         this.password = this.upUserInfo.password;
         this.repassword = this.upUserInfo.password;
@@ -387,6 +396,13 @@ export default {
         }
 
         if(this.isNew) {
+
+          if(this.ifxinyong) {
+              this.quota = this.quotaInfo.quotaAmount;//充值金额，股东/总代理/代理信用模式才传
+          } else {
+            this.quota = '';
+          }
+
           let dataobj = {
             aUserOccupied:{//当前用户占成数据
               cChangeAllotOccupied:this.aUserOccupied.cChangeAllotOccupied,//当前设置占成
@@ -405,20 +421,20 @@ export default {
             occupied:this.occupied,//当前用户选择占成
             password:this.password,//密码
             pid:this.fuuserInfo.id,//父类ID
-            quota:'',//充值金额，股东/总代理/代理信用模式才传
+            quota:this.quota,//充值金额，股东/总代理/代理信用模式才传
             quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
-                    quotaType: 1,//1,充值,2,提现，公司只有充值
-                    quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                    quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
-                    quotaRemark: this.quotaInfo.quotaRemark//备注
-                },
-            repassword:this.repassword,//重复密码
-            ruleId:this.furuleId,//角色ID
+                      quotaType: 1,//1,充值,2,提现，公司只有充值
+                      quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
+                      quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
+                      quotaRemark: this.quotaInfo.quotaRemark//备注
+            },
+            ruleId:this.ruleId,//角色ID
             status:this.status,//账号状态，0：停用，1：启用
             tingyaShouya:this.tingyaShouya,//停押/收押，0：停押，1：收押
             username:this.username,//昵称
             occupiedRecovery: this.occupiedRecovery
           }
+
 
           console.log('dataobj',dataobj);
 

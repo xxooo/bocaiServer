@@ -5,7 +5,7 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
-        <el-breadcrumb-item>股东</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'gudong' }">股东</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="nav">
@@ -52,7 +52,7 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in childUserInfo.list">
-              <td><i class="iconfont" :class="item.isOnline == 1 ? 'icon-yonghu-copy' : 'icon-yonghu'"></i></td> 
+              <td><i class="iconfont" :class="item.isOnline == 1 ? 'icon-yonghu-copy bule' : 'icon-yonghu'"></i></td> 
               <td>
                 <div class="accountLevel">
                   <button class="btn-blue" @click="getUserzhangc(item)">查看</button> 

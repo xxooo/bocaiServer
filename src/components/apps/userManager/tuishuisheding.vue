@@ -1,5 +1,5 @@
 <template>
-  <div id="youxishezhi" class="content-main">
+  <div id="youxishezhi" class="content-main tuishuiclass">
     
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
@@ -24,7 +24,7 @@
 
     </div>
 
-    <div class="portlet">
+    <div class="portlet portlet-add">
       <div class="tab">
         <table>
           <thead>
