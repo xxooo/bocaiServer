@@ -222,6 +222,12 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/addgudong')), 'updategudong'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/tuishuisheding', name: 'tuishuisheding',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/tuishuisheding')), 'tuishuisheding'), meta: { requiresAuth: true }
         }
 
       ]

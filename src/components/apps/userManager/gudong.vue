@@ -80,7 +80,7 @@
                   <a class="tabBtn btnBlue" style="display: none;">收单</a> 
                   <a class="tabBtn btnRed">停押</a>  -->
                   <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
-                  <a class="tabBtn btnPurple">详细设定</a>
+                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
                 </span>
               </td>
             </tr>
@@ -158,6 +158,10 @@ export default {
   mounted(){
   },
   methods: {
+    async tuishuiset(item) {
+      store.commit('updateupUserInfo', item);
+      this.$router.push({name:'tuishuisheding'});
+    },
     async getUserzhangc(item) {
        let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);
 

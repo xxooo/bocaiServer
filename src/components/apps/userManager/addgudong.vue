@@ -283,44 +283,52 @@ export default {
       if(!this.isNew) {
 
         this.aUserOccupied:{//当前用户占成数据
-          cChangeAllotOccupied:'',//当前设置占成
-          pChangeAllotOccupied:0,//当前父类设置占成
-          pid:4//父ID
+          cChangeAllotOccupied:this.upUserInfo.aUserOccupied.cChangeAllotOccupied,//当前设置占成
+          pChangeAllotOccupied:this.upUserInfo.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
+          pid:this.upUserInfo.aUserOccupied.pid//父ID
         },
-        this.cashCredit:'0',//0:现金模式，1：信用模式
-        handicapA: '0',//盘口设置A,0:不设置，1：设置
-        handicapB: '0',//盘口设置B,0:不设置，1：设置
-        handicapC: '0',//盘口设置C,0:不设置，1：设置
-        handicapD: '0',//盘口设置D,0:不设置，1：设置
-        id:'',//id
-        isFrozen:'0',//冻结状态，0：否，1：是
-        isReplenishment:'1',//允许补货，0：关闭，1：开启
-        nickname:"",//昵称
-        occupied:'0',//当前用户选择占成
-        password:"",//密码
-        pid:"",//父类ID
-        quota:0,//充值金额，股东/总代理/代理信用模式才传
-        quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
-                quotaType: 1,//1,充值,2,提现，公司只有充值
-                quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                quotaAmount: "",//提现充值金额
-                quotaRemark: ""//备注
+        this.cashCredit= this.upUserInfo.cashCredit;//0:现金模式，1：信用模式
+       
+        this.isFrozen= this.upUserInfo.isFrozen;//冻结状态，0：否，1：是
+        this.isReplenishment= this.upUserInfo.isReplenishment;//允许补货，0：关闭，1：开启
+        this.occupied= this.upUserInfo.occupied;//当前用户选择占成
+        this.pid= this.upUserInfo.pid;//父类ID
+        this.quota= this.upUserInfo.quota;//充值金额，股东/总代理/代理信用模式才传
+        this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
+                quotaType: this.upUserInfo.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
+                quotaAccount: this.upUserInfo.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
+                quotaAmount: this.upUserInfo.quotaInfo.quotaAmount,//提现充值金额
+                quotaRemark: this.upUserInfo.quotaInfo.quotaRemark//备注
             },
-        repassword:"",//重复密码
-        ruleId:'',//角色ID
-        status:1,//账号状态，0：停用，1：启用
-        tingyaShouya:'1',//停押/收押，0：停押，1：收押
-        //username:"",//昵称
-        occupiedRecovery: '0',
+        this.ruleId= this.upUserInfo.ruleId;//角色ID
+        this.status= this.upUserInfo.status;//账号状态，0：停用，1：启用
+        this.tingyaShouya= this.upUserInfo.tingyaShouya;//停押/收押，0：停押，1：收押
+        this.occupiedRecovery=  this.upUserInfo.occupiedRecovery;
 
         this.id = this.upUserInfo.id;
-        this.username = this.upUserInfo.username;
+        //this.username = this.upUserInfo.username;
+        this.duanusername = this.upUserInfo.username.substring(1,this.upUserInfo.username.length-1);
         this.nickname = this.upUserInfo.nickname;
         this.password = this.upUserInfo.password;
         this.repassword = this.upUserInfo.password;
-        for(let n in this.upUserInfo.functionIdList) {
-          this.functionIdList.push(this.upUserInfo.functionIdList[n]+'');
+
+        if(this.upUserInfo.handicapA == 1) {
+          this.functionIdList.push('A');
         }
+        if(this.upUserInfo.handicapB == 1) {
+          this.functionIdList.push('B');
+        }
+        if(this.upUserInfo.handicapC == 1) {
+          this.functionIdList.push('C');
+        }
+        if(this.upUserInfo.handicapD == 1) {
+          this.functionIdList.push('D');
+        }
+
+        // this.handicapA=  this.upUserInfo.handicapA;//盘口设置A,0:不设置，1：设置
+        // this.handicapB=  this.upUserInfo.handicapB;//盘口设置B,0:不设置，1：设置
+        // this.handicapC=  this.upUserInfo.handicapC;//盘口设置C,0:不设置，1：设置
+        // this.handicapD=  this.upUserInfo.handicapD;//盘口设置D,0:不设置，1：设置
       }
   },
   mounted(){
