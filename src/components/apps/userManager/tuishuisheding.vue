@@ -41,9 +41,7 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in deWaterList">
-              <td><el-checkbox v-model="item.dewaterId"></el-checkbox></td> 
-
-              <!-- <td><input type="checkbox" value="单码" style="width: 40px;"></td> --> 
+              <td><i class="iconfont po" @click="checkedOdd(item)" :class="item.checked ? 'icon-30xuanzhongyuanxingfill bule' : 'icon-30xuanzhongyuanxing'"></i></td> 
               <td>{{item.deWaterName}}</td> 
               <td><input type="text"  v-model="item.handicapaDewaterRate"></td> 
               <td><input type="text"  v-model="item.handicapbDewaterRate"></td> 
@@ -108,6 +106,7 @@
           </div>
         </div>
       </div>
+      <div class="c"></div>
     </div>
 
   </div>
@@ -134,7 +133,8 @@ export default {
 
       userData: {},
       pDeWaterList: [],
-      deWaterList: []
+      deWaterList: [],
+
     }
   },
   computed: {
@@ -155,6 +155,18 @@ export default {
   mounted(){
   },
   methods: {
+    checkedOdd(item){
+      console.log('item',item);
+
+      for(let n in this.deWaterList) {
+        if(this.deWaterList[n].dewaterId == item.dewaterId) {
+          this.deWaterList[n].checked = true;
+        }
+      }
+
+      console.log('this.deWaterList',this.deWaterList);
+
+    },
     async childUser() {
 
       let res = await this.$get(`${window.url}/admin/bocai/getDewater?userId=`+this.userId+`&bocaiTypeId=`+this.bocaiId);
@@ -164,6 +176,12 @@ export default {
         this.userData = res.data.userData;
         this.pDeWaterList = res.data.pDeWaterList;
         this.deWaterList = res.data.deWaterList;
+
+        for(let n in this.deWaterList) {
+          this.deWaterList[n].checked = true;
+        }
+
+        console.log('this.deWaterList',this.deWaterList);
 
         //this.childUserInfo = res.page;
 
