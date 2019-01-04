@@ -140,6 +140,7 @@ export default {
       currentPage: 1,
       shuaixuanNum: '1',
       gudongAccout: '',
+      chaRuleid: 4,
       dialogAddParmasM: false,
       tixiinfo: []
     }
@@ -213,7 +214,7 @@ export default {
     },
     async childUser() {
 
-      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=`+this.ruleId+`&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.userInfo.id+`&currentPage=`+this.currentPage+`&pageSize=10`);
+      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=`+this.chaRuleid+`&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.userInfo.id+`&currentPage=`+this.currentPage+`&pageSize=10`);
 
       if(res.code===200){
 

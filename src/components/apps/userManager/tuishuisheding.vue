@@ -40,15 +40,17 @@
             </tr>
           </thead> 
           <tbody>
-            <tr>
-              <td><input type="checkbox" value="单码" style="width: 40px;"></td> 
-              <td>单码</td> 
-              <td><input type="text"></td> 
-              <td><input type="text"></td> 
-              <td><input type="text"></td> 
-              <td><input type="text"></td> 
-              <td><input type="text"></td> 
-              <td><input type="text"></td>
+            <tr v-for="(item,index) in deWaterList">
+              <td><el-checkbox v-model="item.dewaterId"></el-checkbox></td> 
+
+              <!-- <td><input type="checkbox" value="单码" style="width: 40px;"></td> --> 
+              <td>{{item.deWaterName}}</td> 
+              <td><input type="text"  v-model="item.handicapaDewaterRate"></td> 
+              <td><input type="text"  v-model="item.handicapbDewaterRate"></td> 
+              <td><input type="text"  v-model="item.handicapcDewaterRate"></td> 
+              <td><input type="text"  v-model="item.handicapdDewaterRate"></td> 
+              <td><input type="text"  v-model="item.danzhuXiane"></td> 
+              <td><input type="text"  v-model="item.danqiXiane"></td>
             </tr>
           </tbody>
         </table> 
@@ -124,10 +126,15 @@ export default {
       isSubTuishui: this.$route.name == 'tuishuisheding' ? true : false,
       childUserList: [],
       childUserInfo: {},
-      bocaiId: '',
+      bocaiId: '1',
+      userId: '',
       currentPage: 1,
       shuaixuanNum: '1',
-      gudongAccout: ''
+      gudongAccout: '',
+
+      userData: {},
+      pDeWaterList: [],
+      deWaterList: []
     }
   },
   computed: {
@@ -140,22 +147,23 @@ export default {
   },
   created() {
 
-   //this.childUser();
+    this.userId = this.isSubTuishui ? this.upUserInfo.id : '';
+
+    this.childUser();
 
   },
   mounted(){
   },
   methods: {
     async childUser() {
-      let userId = '';
 
-      if(isSubTuishui) {
-        userId = this.upUserInfo.id;
-      }
-
-      let res = await this.$get(`${window.url}/admin/bocai/getDewater?userId=`+userId+`&bocaiTypeId=`+this.bocaiId);
+      let res = await this.$get(`${window.url}/admin/bocai/getDewater?userId=`+this.userId+`&bocaiTypeId=`+this.bocaiId);
 
       if(res.code===200){
+
+        this.userData = res.data.userData;
+        this.pDeWaterList = res.data.pDeWaterList;
+        this.deWaterList = res.data.deWaterList;
 
         //this.childUserInfo = res.page;
 
