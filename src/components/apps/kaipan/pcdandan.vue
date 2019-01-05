@@ -530,15 +530,9 @@ export default {
 
         this.betfudu = parseFloat(this.betfudu);
 
-        console.log('this.betfudu',this.betfudu);
-
-        console.log('item.odds',item.odds);
-
         item.odds += this.betfudu;
 
         item.odds = (item.odds).toFixed(3)*1;
-
-        console.log('item.odds2222',item.odds);
 
       } else {
 

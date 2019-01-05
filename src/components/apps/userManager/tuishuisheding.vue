@@ -41,7 +41,7 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in deWaterList">
-              <td class="ifSelectTd"><i class="iconfont po icon-30xuanzhongyuanxing" @click="checkedOdd(item)" :class="'iconfont'+ item.dewaterId"></i></td> 
+              <td class="ifSelectTd"><i class="iconfont po icon-30xuanzhongyuanxingfill bule" @click="checkedOdd(item)" :class="'iconfont'+ item.dewaterId"></i></td> 
               <!-- <td><i class="iconfont po" @click="checkedOdd(item)" :class="'iconfont'+ item.checked ? 'icon-30xuanzhongyuanxingfill bule' : 'icon-30xuanzhongyuanxing'"></i></td>  -->
               <td>{{item.deWaterName}}</td> 
               <td><input type="text"  v-model="item.handicapaDewaterRate"></td> 
@@ -62,30 +62,27 @@
             </fieldset> 
             <fieldset>
               <legend>套用上层</legend> 
-              <label style="float: right;">
-              <input type="checkbox" @click="allTaoYong()">全套用</label> 
-              <label><input type="checkbox" value="A" >A</label> 
-              <label><input type="checkbox" value="B">B</label> 
-              <label><input type="checkbox" value="C">C</label> 
-              <label><input type="checkbox" value="D">D</label> 
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全套用</el-checkbox>
+              <div style="margin: 15px 0;"></div>
+              <el-checkbox-group v-model="checkedPan1" @change="handleCheckedCitiesChange">
+                <el-checkbox v-for="item in panOptions1" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
               <br> 
-              <label><input type="checkbox" value="item">单注限额</label> 
-              <label><input type="checkbox" value="bet">单期限额</label> 
-              <br> 
-              <button class="tabBtn btn-blue">套用上层</button>
+              <button class="tabBtn btn-blue" @click="taoyongshangchen()">套用上层</button>
             </fieldset> 
             <fieldset>
               <legend>退水</legend> 
-              <label style="float: right;"><input type="checkbox">全套用</label> 
-              <label><input type="checkbox" value="A">A</label> 
-              <label><input type="checkbox" value="B">B</label> 
-              <label><input type="checkbox" value="C">C</label> 
-              <label><input type="checkbox" value="D">D</label> 
+              <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">全套用</el-checkbox>
+              <div style="margin: 15px 0;"></div>
+              <el-checkbox-group v-model="checkedPan2" @change="handleCheckedCitiesChange2">
+                <el-checkbox v-for="item in panOptions2" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
+
               <br> 
-              <button class="tabBtn btn-blue">调高</button> 
-              <button class="tabBtn btn-blue">调低</button> 
-              <button class="tabBtn btn-blue">最大</button> 
-              <button class="tabBtn btn-blue">归零</button>
+              <button class="tabBtn btn-blue" @click="tiaogao()">调高</button> 
+              <button class="tabBtn btn-blue" @click="tiaodi()">调低</button> 
+              <button class="tabBtn btn-blue" @click="zuida()">最大</button> 
+              <button class="tabBtn btn-blue" @click="qinglin()">归零</button>
             </fieldset> 
             <fieldset>
               <legend>金额</legend> 
@@ -96,9 +93,9 @@
             </fieldset> 
             <fieldset>
               <legend>下层上修</legend> 
-              <label><input type="radio" value="0">保持不变</label> 
-              <label><input type="radio" value="1">等量修改</label> 
-              <label><input type="radio" value="2">套用本层</label>
+              <label><input type="radio" v-model="xiashangxiu" value="0">保持不变</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="1">等量修改</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="2">套用本层</label>
             </fieldset> 
             <div>
               <button class="tabBtn btn btn-blue">保存</button> 
@@ -118,6 +115,9 @@
 <script>
 import { mapGetters } from 'vuex';
 
+const taoOptions = ['A', 'B', 'C', 'D', '单注限额', '单期限额'];
+const taoOptions2 = ['A', 'B', 'C', 'D'];
+
 export default {
   components: {
   },
@@ -126,7 +126,7 @@ export default {
       isSubTuishui: this.$route.name == 'tuishuisheding' ? true : false,
       childUserList: [],
       childUserInfo: {},
-      bocaiId: '1',
+      bocaiId: 1,
       userId: '',
       currentPage: 1,
       shuaixuanNum: '1',
@@ -135,7 +135,20 @@ export default {
       userData: {},
       pDeWaterList: [],
       deWaterList: [],
-      selectList: []
+      selectList: [],
+      xiashangxiu: 0,
+
+      panOptions1: taoOptions,
+      checkedPan1: [],
+      checkAll: false,
+      isIndeterminate: true,
+
+      panOptions2: taoOptions2,
+      checkedPan2: [],
+      checkAll2: false,
+      isIndeterminate2: true,
+
+      
 
     }
   },
@@ -157,6 +170,150 @@ export default {
   mounted(){
   },
   methods: {
+    qinglin() {
+      for(let n in this.selectList) {
+        for(let y in this.checkedPan2) {
+              if(this.checkedPan2[y] == 'A') {
+                this.selectList[n].handicapaDewaterRate = 0;
+              }
+              if(this.checkedPan2[y] == 'B') {
+                this.selectList[n].handicapbDewaterRate = 0;
+              }
+              if(this.checkedPan2[y] == 'C') {
+                this.selectList[n].handicapcDewaterRate = 0;
+              }
+              if(this.checkedPan2[y] == 'D') {
+                this.selectList[n].handicapdDewaterRate = 0;
+              }
+            }
+      }
+    },
+    zuida() {
+      for(let n in this.selectList) {
+        for(let x in this.pDeWaterList) {
+          if(this.selectList[n].dewaterId == this.pDeWaterList[x].dewaterId) {
+            for(let y in this.checkedPan2) {
+              if(this.checkedPan2[y] == 'A') {
+                this.selectList[n].handicapaDewaterRate = this.pDeWaterList[x].handicapaDewaterRate;
+              }
+              if(this.checkedPan2[y] == 'B') {
+                this.selectList[n].handicapbDewaterRate = this.pDeWaterList[x].handicapbDewaterRate;
+              }
+              if(this.checkedPan2[y] == 'C') {
+                this.selectList[n].handicapcDewaterRate = this.pDeWaterList[x].handicapcDewaterRate;
+              }
+              if(this.checkedPan2[y] == 'D') {
+                this.selectList[n].handicapdDewaterRate = this.pDeWaterList[x].handicapdDewaterRate;
+              }
+            }
+          }
+        }
+      }
+    },
+    tiaodi() {
+      for(let n in this.selectList) {
+        for(let y in this.checkedPan2) {
+              if(this.checkedPan2[y] == 'A') {
+                this.selectList[n].handicapaDewaterRate = parseFloat(this.selectList[n].handicapaDewaterRate);
+                this.selectList[n].handicapaDewaterRate = +this.selectList[n].handicapaDewaterRate - 0.01;
+                this.selectList[n].handicapaDewaterRate = (this.selectList[n].handicapaDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'B') {
+                this.selectList[n].handicapbDewaterRate = parseFloat(this.selectList[n].handicapbDewaterRate);
+                this.selectList[n].handicapbDewaterRate = +this.selectList[n].handicapbDewaterRate - 0.01;
+                this.selectList[n].handicapbDewaterRate = (this.selectList[n].handicapbDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'C') {
+                this.selectList[n].handicapcDewaterRate = parseFloat(this.selectList[n].handicapcDewaterRate);
+                this.selectList[n].handicapcDewaterRate = +this.selectList[n].handicapcDewaterRate - 0.01;
+                this.selectList[n].handicapcDewaterRate = (this.selectList[n].handicapcDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'D') {
+                this.selectList[n].handicapdDewaterRate = parseFloat(this.selectList[n].handicapdDewaterRate);
+                this.selectList[n].handicapdDewaterRate = +this.selectList[n].handicapdDewaterRate - 0.01;
+                this.selectList[n].handicapdDewaterRate = (this.selectList[n].handicapdDewaterRate).toFixed(2)*1;
+              }
+
+        }
+      }
+    },
+    tiaogao() {
+      for(let n in this.selectList) {
+        for(let y in this.checkedPan2) {
+              if(this.checkedPan2[y] == 'A') {
+                this.selectList[n].handicapaDewaterRate = parseFloat(this.selectList[n].handicapaDewaterRate);
+                this.selectList[n].handicapaDewaterRate = +this.selectList[n].handicapaDewaterRate + 0.01;
+                this.selectList[n].handicapaDewaterRate = (this.selectList[n].handicapaDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'B') {
+                this.selectList[n].handicapbDewaterRate = parseFloat(this.selectList[n].handicapbDewaterRate);
+                this.selectList[n].handicapbDewaterRate = +this.selectList[n].handicapbDewaterRate + 0.01;
+                this.selectList[n].handicapbDewaterRate = (this.selectList[n].handicapbDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'C') {
+                this.selectList[n].handicapcDewaterRate = parseFloat(this.selectList[n].handicapcDewaterRate);
+                this.selectList[n].handicapcDewaterRate = +this.selectList[n].handicapcDewaterRate + 0.01;
+                this.selectList[n].handicapcDewaterRate = (this.selectList[n].handicapcDewaterRate).toFixed(2)*1;
+              }
+              if(this.checkedPan2[y] == 'D') {
+                this.selectList[n].handicapdDewaterRate = parseFloat(this.selectList[n].handicapdDewaterRate);
+                this.selectList[n].handicapdDewaterRate = +this.selectList[n].handicapdDewaterRate + 0.01;
+                this.selectList[n].handicapdDewaterRate = (this.selectList[n].handicapdDewaterRate).toFixed(2)*1;
+              }
+
+        }
+      }
+    },
+    handleCheckedCitiesChange2(value) {
+        let checkedCount = value.length;
+        this.checkAll2 = checkedCount === this.panOptions2.length;
+        this.isIndeterminate2 = checkedCount > 0 && checkedCount < this.panOptions2.length;
+      },
+    handleCheckAllChange2(val) {
+        this.checkedPan2 = val ? taoOptions2 : [];
+        this.isIndeterminate2 = false;
+      },
+    taoyongshangchen() {
+
+      console.log('checkedPan1',this.checkedPan1);
+
+      for(let n in this.selectList) {
+        for(let x in this.pDeWaterList) {
+          if(this.selectList[n].dewaterId == this.pDeWaterList[x].dewaterId) {
+            for(let y in this.checkedPan1) {
+              if(this.checkedPan1[y] == 'A') {
+                this.selectList[n].handicapaDewaterRate = this.pDeWaterList[x].handicapaDewaterRate;
+              }
+              if(this.checkedPan1[y] == 'B') {
+                this.selectList[n].handicapbDewaterRate = this.pDeWaterList[x].handicapbDewaterRate;
+              }
+              if(this.checkedPan1[y] == 'C') {
+                this.selectList[n].handicapcDewaterRate = this.pDeWaterList[x].handicapcDewaterRate;
+              }
+              if(this.checkedPan1[y] == 'D') {
+                this.selectList[n].handicapdDewaterRate = this.pDeWaterList[x].handicapdDewaterRate;
+              }
+              if(this.checkedPan1[y] == '单注限额') {
+                this.selectList[n].danzhuXiane = this.pDeWaterList[x].danzhuXiane;
+              }
+              if(this.checkedPan1[y] == '单期限额') {
+                this.selectList[n].danqiXiane = this.pDeWaterList[x].danqiXiane;
+              }
+            }
+          }
+        }
+      }
+
+    },
+    handleCheckedCitiesChange(value) {
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.panOptions1.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.panOptions1.length;
+      },
+    handleCheckAllChange(val) {
+        this.checkedPan1 = val ? taoOptions : [];
+        this.isIndeterminate = false;
+      },
     cancelAll() {
       $('.portlet .tuishuitable .ifSelectTd i').addClass('icon-30xuanzhongyuanxing');
       $('.portlet .tuishuitable .ifSelectTd i').removeClass('icon-30xuanzhongyuanxingfill bule');
@@ -239,9 +396,7 @@ export default {
         this.pDeWaterList = res.data.pDeWaterList;
         this.deWaterList = res.data.deWaterList;
 
-        for(let n in this.deWaterList) {
-          this.deWaterList[n].checked = true;
-        }
+        this.selectList = this.deWaterList;
 
         console.log('this.deWaterList',this.deWaterList);
 
