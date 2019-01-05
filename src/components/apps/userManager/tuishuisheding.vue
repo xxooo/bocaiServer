@@ -41,7 +41,8 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in deWaterList">
-              <td><i class="iconfont po" @click="checkedOdd(item)" :class="item.checked ? 'icon-30xuanzhongyuanxingfill bule' : 'icon-30xuanzhongyuanxing'"></i></td> 
+              <td><i class="iconfont po icon-30xuanzhongyuanxing" @click="checkedOdd(item)" :class="'iconfont'+ item.dewaterId"></i></td> 
+              <!-- <td><i class="iconfont po" @click="checkedOdd(item)" :class="'iconfont'+ item.checked ? 'icon-30xuanzhongyuanxingfill bule' : 'icon-30xuanzhongyuanxing'"></i></td>  -->
               <td>{{item.deWaterName}}</td> 
               <td><input type="text"  v-model="item.handicapaDewaterRate"></td> 
               <td><input type="text"  v-model="item.handicapbDewaterRate"></td> 
@@ -158,13 +159,32 @@ export default {
     checkedOdd(item){
       console.log('item',item);
 
-      for(let n in this.deWaterList) {
-        if(this.deWaterList[n].dewaterId == item.dewaterId) {
-          this.deWaterList[n].checked = true;
-        }
-      }
+      if($('.iconfont'+item.dewaterId).hasClass('icon-30xuanzhongyuanxing')){
 
-      console.log('this.deWaterList',this.deWaterList);
+              $('.iconfont'+item.dewaterId).removeClass('icon-30xuanzhongyuanxing');
+              // _.remove(this.orderDataList, function(n) {
+              //   return n.bocaiOddName == item.oddsName;
+              // });
+              $('.iconfont'+item.dewaterId).addClass('icon-30xuanzhongyuanxingfill bule')
+
+          } else {
+
+            $('.iconfont'+item.dewaterId).addClass('icon-30xuanzhongyuanxing');
+              // _.remove(this.orderDataList, function(n) {
+              //   return n.bocaiOddName == item.oddsName;
+              // });
+            $('.iconfont'+item.dewaterId).removeClass('icon-30xuanzhongyuanxingfill bule')
+          }
+
+      //item.checked = !item.checked;
+
+      // for(let n in this.deWaterList) {
+      //   if(this.deWaterList[n].dewaterId == item.dewaterId) {
+      //     this.deWaterList[n].checked = true;
+      //   }
+      // }
+
+      //console.log('this.deWaterList',this.deWaterList);
 
     },
     async childUser() {

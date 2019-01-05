@@ -66,9 +66,9 @@
               <td>{{item.memberNum}}</td> 
               <td>{{$timestampToTime(item.createDate)}}</td> 
               <td :class="item.status == '1' ? 'green': 'red'">{{item.status == '1' ? '启用' : '关闭'}}</td> 
-              <td :class="item.isFrozen == '0' ? 'green': 'red'">{{item.status == '1' ? '是' : '否'}}</td> 
-              <td :class="item.isReplenishment == '1' ? 'green': 'red'">{{item.status == '1' ? '开启' : '关闭'}}</td> 
-              <td :class="item.tingyaShouya == '1' ? 'green': 'red'">{{item.status == '1' ? '收单' : '停押'}}</td> 
+              <td :class="item.isFrozen == '0' ? 'green': 'red'">{{item.isFrozen == '1' ? '是' : '否'}}</td> 
+              <td :class="item.isReplenishment == '1' ? 'green': 'red'">{{item.isReplenishment == '1' ? '开启' : '关闭'}}</td> 
+              <td :class="item.tingyaShouya == '1' ? 'green': 'red'">{{item.tingyaShouya == '1' ? '收单' : '停押'}}</td> 
               <td class="btnFeatures">
                 <span>
                   <!-- <a class="tabBtn btnBlue" style="display: none;">启用帐号</a> 
