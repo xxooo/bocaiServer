@@ -26,7 +26,7 @@
 
     <div class="portlet portlet-add">
       <div class="tab">
-        <table>
+        <table class="tuishuitable">
           <thead>
             <tr>
               <th>勾选</th> 
@@ -41,7 +41,7 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in deWaterList">
-              <td><i class="iconfont po icon-30xuanzhongyuanxing" @click="checkedOdd(item)" :class="'iconfont'+ item.dewaterId"></i></td> 
+              <td class="ifSelectTd"><i class="iconfont po icon-30xuanzhongyuanxing" @click="checkedOdd(item)" :class="'iconfont'+ item.dewaterId"></i></td> 
               <!-- <td><i class="iconfont po" @click="checkedOdd(item)" :class="'iconfont'+ item.checked ? 'icon-30xuanzhongyuanxingfill bule' : 'icon-30xuanzhongyuanxing'"></i></td>  -->
               <td>{{item.deWaterName}}</td> 
               <td><input type="text"  v-model="item.handicapaDewaterRate"></td> 
@@ -57,14 +57,14 @@
           <div class="tabs">
             <fieldset>
               <legend>勾选</legend> 
-              <button class="tabBtn btn-blue">全选</button> 
-              <button class="tabBtn btn-red">取消</button>
+              <button class="tabBtn btn-blue" @click="selectAll()">全选</button> 
+              <button class="tabBtn btn-red" @click="cancelAll()">取消</button>
             </fieldset> 
             <fieldset>
               <legend>套用上层</legend> 
               <label style="float: right;">
-              <input type="checkbox">全套用</label> 
-              <label><input type="checkbox" value="A">A</label> 
+              <input type="checkbox" @click="allTaoYong()">全套用</label> 
+              <label><input type="checkbox" value="A" >A</label> 
               <label><input type="checkbox" value="B">B</label> 
               <label><input type="checkbox" value="C">C</label> 
               <label><input type="checkbox" value="D">D</label> 
@@ -135,6 +135,7 @@ export default {
       userData: {},
       pDeWaterList: [],
       deWaterList: [],
+      selectList: []
 
     }
   },
@@ -156,35 +157,76 @@ export default {
   mounted(){
   },
   methods: {
+    cancelAll() {
+      $('.portlet .tuishuitable .ifSelectTd i').addClass('icon-30xuanzhongyuanxing');
+      $('.portlet .tuishuitable .ifSelectTd i').removeClass('icon-30xuanzhongyuanxingfill bule');
+        this.selectList = [];
+    },
+    selectAll() {
+      $('.portlet .tuishuitable .ifSelectTd i').removeClass('icon-30xuanzhongyuanxing');
+      $('.portlet .tuishuitable .ifSelectTd i').addClass('icon-30xuanzhongyuanxingfill bule');
+
+      for(let n in this.deWaterList) {
+        this.selectList.push(this.deWaterList[n]);
+      }
+    },
     checkedOdd(item){
       console.log('item',item);
 
       if($('.iconfont'+item.dewaterId).hasClass('icon-30xuanzhongyuanxing')){
 
               $('.iconfont'+item.dewaterId).removeClass('icon-30xuanzhongyuanxing');
-              // _.remove(this.orderDataList, function(n) {
-              //   return n.bocaiOddName == item.oddsName;
-              // });
-              $('.iconfont'+item.dewaterId).addClass('icon-30xuanzhongyuanxingfill bule')
+              $('.iconfont'+item.dewaterId).addClass('icon-30xuanzhongyuanxingfill bule');
+
+              this.selectList.push(item);
+
+                // let ifHas = false;
+                // for(let n in this.selectList) {
+                //   if(this.selectList[n].dewaterId == item.dewaterId) {
+                //     ifHas = true;
+                //     let obj = {
+                //       bocaiCategory2Id: oddsObj.id,//8225,//投注博彩分类2ID
+                //       bocaiCategory2Name: oddsObj.name,//"混合",//投注博彩分类2名称
+                //       bocaiOddId: item.oddsId,//5543,//投注博彩赔率ID
+                //       bocaiOddName: item.oddsName,//"大",//投注博彩赔率名称
+                //       bocaiValue:"",//投注内容,六合彩连肖/连尾
+                //       normalMoney: item.normalMoney,//10000,//一般模式下，选择的金额
+                //       orderNormal: this.normalPay,   //是快捷，还是一般投注
+                //       bocaiOdds: item.odds,//1.90//赔率
+                //       dewaterId: item.dewaterId
+                //     };
+
+                //     this.orderDataList[n] = obj;
+                //   }
+                // }
+
+                // if(!ifHas) {
+                //   let obj = {
+                //     bocaiCategory2Id: oddsObj.id,//8225,//投注博彩分类2ID
+                //     bocaiCategory2Name: oddsObj.name,//"混合",//投注博彩分类2名称
+                //     bocaiOddId: item.oddsId,//5543,//投注博彩赔率ID
+                //     bocaiOddName: item.oddsName,//"大",//投注博彩赔率名称
+                //     bocaiValue:"",//投注内容,六合彩连肖/连尾
+                //     normalMoney: item.normalMoney,//10000,//一般模式下，选择的金额
+                //     orderNormal: this.normalPay,   //是快捷，还是一般投注
+                //     bocaiOdds: item.odds,//1.90//赔率
+                //     dewaterId: item.dewaterId
+                //   };
+
+                //   this.orderDataList.push(obj);
+                // }
+              
 
           } else {
 
             $('.iconfont'+item.dewaterId).addClass('icon-30xuanzhongyuanxing');
-              // _.remove(this.orderDataList, function(n) {
-              //   return n.bocaiOddName == item.oddsName;
-              // });
-            $('.iconfont'+item.dewaterId).removeClass('icon-30xuanzhongyuanxingfill bule')
+            $('.iconfont'+item.dewaterId).removeClass('icon-30xuanzhongyuanxingfill bule');
+
+              _.remove(this.selectList, function(n) {
+                return n.dewaterId == item.dewaterId;
+              });
+            
           }
-
-      //item.checked = !item.checked;
-
-      // for(let n in this.deWaterList) {
-      //   if(this.deWaterList[n].dewaterId == item.dewaterId) {
-      //     this.deWaterList[n].checked = true;
-      //   }
-      // }
-
-      //console.log('this.deWaterList',this.deWaterList);
 
     },
     async childUser() {
