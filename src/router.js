@@ -185,6 +185,19 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/jisusaicheBase')), 'jisusaicheBase'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/youxiguanli/tuishuiset', name: 'tuishuiset',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/tuishuiset')), 'tuishuiset'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/youxiguanli/kaipanshezhi', name: 'kaipanshezhi',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/kaipanshezhi')), 'kaipanshezhi'), meta: { requiresAuth: true }
+        },
+
 
         
         { path: '/gambling/userManager/subuser', name: 'subuser',

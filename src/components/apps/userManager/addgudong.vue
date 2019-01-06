@@ -91,16 +91,16 @@
               <th colspan="3">信用额度设置</th>
             </tr>
           </thead> 
-          <!-- <tr>
+          <tr>
             <td width="20%" class="tar">额度类型:</td> 
             <td class="tl">
-              <label><input v-model="cashCredit" type="radio" :value="1"> 第二天还原额度 </label> 
-              <label><input v-model="cashCredit" type="radio" :value="0"> 正常交易 </label>
+              <label><input v-model="creditType" type="radio" :value="1"> 第二天还原额度 </label> 
+              <label><input v-model="creditType" type="radio" :value="0"> 正常交易 </label>
             </td> 
             <td width="20%" class="tl">
               <span>请选择额度类型, 设定后不能修改</span>
             </td>
-          </tr> -->
+          </tr>
           <tr>
             <td class="tar" width="20%">信用额度:</td> 
             <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
@@ -229,6 +229,7 @@ export default {
         pid:''//父ID
       },
       cashCredit:'0',//0:现金模式，1：信用模式
+      creditType: '0',
       handicapA: '0',//盘口设置A,0:不设置，1：设置
       handicapB: '0',//盘口设置B,0:不设置，1：设置
       handicapC: '0',//盘口设置C,0:不设置，1：设置
@@ -255,7 +256,9 @@ export default {
       occupiedRecovery: '0',
 
       fuusername: '',
-      futaitou: ''
+      futaitou: '',
+      auser: {},
+      companyUser: {}
 
     }
   },
@@ -282,57 +285,11 @@ export default {
 
       if(!this.isNew) {
 
+        this.getupdategudong();
+
+
+
         //console.log('this.aUserOccupied',this.aUserOccupied);
-
-        if(this.upUserInfo.aUserOccupied) {
-          this.aUserOccupied = {//当前用户占成数据
-            cChangeAllotOccupied:this.upUserInfo.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-            pChangeAllotOccupied:this.upUserInfo.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-            pid:this.upUserInfo.aUserOccupied.pid//父ID
-          }
-        }
-
-        this.cashCredit= this.upUserInfo.cashCredit;//0:现金模式，1：信用模式
-       
-        this.isFrozen= this.upUserInfo.isFrozen;//冻结状态，0：否，1：是
-        this.isReplenishment= this.upUserInfo.isReplenishment;//允许补货，0：关闭，1：开启
-        this.occupied= this.upUserInfo.occupied;//当前用户选择占成
-        this.pid= this.upUserInfo.pid;//父类ID
-        this.quota= this.upUserInfo.quota;//充值金额，股东/总代理/代理信用模式才传
-
-        if(this.upUserInfo.quotaInfo) {
-          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
-                quotaType: this.upUserInfo.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
-                quotaAccount: this.upUserInfo.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                quotaAmount: this.upUserInfo.quotaInfo.quotaAmount,//提现充值金额
-                quotaRemark: this.upUserInfo.quotaInfo.quotaRemark//备注
-          }
-        }
-        
-        this.ruleId= this.upUserInfo.ruleId;//角色ID
-        this.status= this.upUserInfo.status;//账号状态，0：停用，1：启用
-        this.tingyaShouya= this.upUserInfo.tingyaShouya;//停押/收押，0：停押，1：收押
-        this.occupiedRecovery=  this.upUserInfo.occupiedRecovery;
-
-        this.id = this.upUserInfo.id;
-        //this.username = this.upUserInfo.username;
-        this.duanusername = this.upUserInfo.username.substring(1,this.upUserInfo.username.length);
-        this.nickname = this.upUserInfo.nickname;
-        this.password = this.upUserInfo.password;
-        this.repassword = this.upUserInfo.password;
-
-        if(this.upUserInfo.handicapA == 1) {
-          this.functionIdList.push('A');
-        }
-        if(this.upUserInfo.handicapB == 1) {
-          this.functionIdList.push('B');
-        }
-        if(this.upUserInfo.handicapC == 1) {
-          this.functionIdList.push('C');
-        }
-        if(this.upUserInfo.handicapD == 1) {
-          this.functionIdList.push('D');
-        }
 
         // this.handicapA=  this.upUserInfo.handicapA;//盘口设置A,0:不设置，1：设置
         // this.handicapB=  this.upUserInfo.handicapB;//盘口设置B,0:不设置，1：设置
@@ -343,6 +300,69 @@ export default {
   mounted(){
   },
   methods: {
+    async getupdategudong() {
+
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
+
+      if(+res.code===200) {
+
+        this.auser = res.auser;
+        this.companyUser = res.companyUser;
+
+        if(this.auser.aUserOccupied) {
+          this.aUserOccupied = {//当前用户占成数据
+            cChangeAllotOccupied:this.auser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
+            pChangeAllotOccupied:this.auser.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
+            pid:this.auser.aUserOccupied.pid//父ID
+          }
+        }
+
+        this.cashCredit= this.auser.cashCredit;//0:现金模式，1：信用模式
+       
+        this.isFrozen= this.auser.isFrozen;//冻结状态，0：否，1：是
+        this.isReplenishment= this.auser.isReplenishment;//允许补货，0：关闭，1：开启
+        this.occupied= this.auser.occupied;//当前用户选择占成
+        this.pid= this.auser.pid;//父类ID
+        this.quota= this.auser.quota;//充值金额，股东/总代理/代理信用模式才传
+
+        if(this.auser.quotaInfo) {
+          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
+                quotaType: this.auser.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
+                quotaAccount: this.auser.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
+                quotaAmount: this.auser.quotaInfo.quotaAmount,//提现充值金额
+                quotaRemark: this.auser.quotaInfo.quotaRemark//备注
+          }
+        }
+        
+        this.ruleId= this.auser.ruleId;//角色ID
+        this.status= this.auser.status;//账号状态，0：停用，1：启用
+        this.tingyaShouya= this.auser.tingyaShouya;//停押/收押，0：停押，1：收押
+        this.occupiedRecovery=  this.auser.occupiedRecovery;
+
+        this.creditType = this.auser.creditType;
+
+        this.id = this.auser.id;
+        //this.username = this.auser.username;
+        this.duanusername = this.auser.username.substring(1,this.auser.username.length);
+        this.nickname = this.auser.nickname;
+        this.password = this.auser.password;
+        this.repassword = this.auser.password;
+
+        if(this.auser.handicapA == 1) {
+          this.functionIdList.push('A');
+        }
+        if(this.auser.handicapB == 1) {
+          this.functionIdList.push('B');
+        }
+        if(this.auser.handicapC == 1) {
+          this.functionIdList.push('C');
+        }
+        if(this.auser.handicapD == 1) {
+          this.functionIdList.push('D');
+        }
+      }
+
+    },
     qingkong() {
       this.functionIdList =[];//权限ID列表
       this.id = ""; //id
@@ -410,6 +430,7 @@ export default {
               pid:this.fuuserInfo.id//父ID
             },  
             cashCredit:this.cashCredit,//0:现金模式，1：信用模式
+            creditType: this.creditType,
             handicapA: this.handicapA,//盘口设置A,0:不设置，1：设置
             handicapB: this.handicapB,//盘口设置B,0:不设置，1：设置
             handicapC: this.handicapC,//盘口设置C,0:不设置，1：设置

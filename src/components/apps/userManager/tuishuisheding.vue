@@ -86,20 +86,21 @@
             </fieldset> 
             <fieldset>
               <legend>金额</legend> 
-              <input type="text" class="inpText"> 
+              <input type="text" class="inpText" v-model="jine">
               <br> 
-              <button class="tabBtn btn-blue">单注限额</button> 
-              <button class="tabBtn btn-blue">单期限额</button>
+              <button class="tabBtn btn-blue" @click="danzhujine()">单注限额</button> 
+              <button class="tabBtn btn-blue" @click="danqijine()">单期限额</button>
             </fieldset> 
             <fieldset>
               <legend>下层上修</legend> 
-              <label><input type="radio" v-model="xiashangxiu" value="0">保持不变</label> 
-              <label><input type="radio" v-model="xiashangxiu" value="1">等量修改</label> 
-              <label><input type="radio" v-model="xiashangxiu" value="2">套用本层</label>
+              <label><input type="radio" v-model="xiashangxiu" value="1">保持不变</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="2">等量修改</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="3">套用本层</label>
+
             </fieldset> 
             <div>
-              <button class="tabBtn btn btn-blue">保存</button> 
-              <button class="tabBtn btn btn-red">取消</button>
+              <button class="tabBtn btn btn-blue" @click="baocun()">保存</button> 
+              <button class="tabBtn btn btn-red" @click="quxiao()">取消</button>
             </div>
           </div>
         </div>
@@ -136,7 +137,7 @@ export default {
       pDeWaterList: [],
       deWaterList: [],
       selectList: [],
-      xiashangxiu: 0,
+      xiashangxiu: 1,
 
       panOptions1: taoOptions,
       checkedPan1: [],
@@ -147,6 +148,9 @@ export default {
       checkedPan2: [],
       checkAll2: false,
       isIndeterminate2: true,
+
+      jine: '',
+      baocunuserid: ''
 
       
 
@@ -164,12 +168,101 @@ export default {
 
     this.userId = this.isSubTuishui ? this.upUserInfo.id : '';
 
+    this.baocunuserid = this.isSubTuishui ? this.upUserInfo.id : this.userInfo.id;
+
     this.childUser();
 
   },
   mounted(){
   },
   methods: {
+    async baocun() {
+      let that = this;
+
+      let isdayu = false;
+
+      for(let n in this.selectList) {
+        for(let x in this.pDeWaterList) {
+          if(this.selectList[n].dewaterId == this.pDeWaterList[x].dewaterId) {
+              if(+this.selectList[n].handicapaDewaterRate > +this.pDeWaterList[x].handicapaDewaterRate){
+                isdayu = true;
+              }
+              if(+this.selectList[n].handicapbDewaterRate > +this.pDeWaterList[x].handicapbDewaterRate){
+                isdayu = true;
+              }
+              if(+this.selectList[n].handicapcDewaterRate > +this.pDeWaterList[x].handicapcDewaterRate){
+                isdayu = true;
+              }
+              if(+this.selectList[n].handicapdDewaterRate > +this.pDeWaterList[x].handicapdDewaterRate){
+                isdayu = true;
+              }
+              if(+this.selectList[n].danzhuXiane > +this.pDeWaterList[x].danzhuXiane){
+                isdayu = true;
+              }
+              if(+this.selectList[n].danqiXiane > +this.pDeWaterList[x].danqiXiane){
+                isdayu = true;
+              }
+          }
+        }
+      }
+
+      if(!isdayu) {
+
+        let arr = [];
+
+        for(let n in this.selectList) {
+          let obj = {};
+
+          obj.handicapaDewaterRate = this.selectList[n].handicapaDewaterRate;
+          obj.handicapbDewaterRate = this.selectList[n].handicapbDewaterRate;
+          obj.handicapcDewaterRate = this.selectList[n].handicapcDewaterRate;
+          obj.handicapdDewaterRate = this.selectList[n].handicapdDewaterRate;
+          obj.danzhuXiane = this.selectList[n].danzhuXiane;
+          obj.danqiXiane = this.selectList[n].danqiXiane;
+          obj.userId = this.selectList[n].userId;
+          obj.dewaterId = this.selectList[n].dewaterId;
+
+          arr.push(obj);
+        }
+
+        let objdata = {
+          userId: this.baocunuserid,
+          bocaiTypeId: this.bocaiId,
+          childSet: this.xiashangxiu, 
+          list: arr
+        }
+
+
+        NProgress.start();
+            await that.$post(`${window.url}/admin/bocai/dewaterSub`,objdata).then((res) => {
+              that.$handelResponse(res, (result) => {
+                NProgress.done();
+                if(result.code===200){
+
+                  that.childUser();
+
+                }
+              })
+        });
+      } else {
+        this.$alertMessage('提交的退水数据不能大于父级退水数据!', '温馨提示');
+      }
+
+      
+    },
+    quxiao() {
+      this.childUser();
+    },
+    danqijine() {
+      for(let n in this.selectList) {
+        this.selectList[n].danqiXiane = this.jine;
+      }
+    },
+    danzhujine() {
+      for(let n in this.selectList) {
+        this.selectList[n].danzhuXiane = this.jine;
+      }
+    },
     qinglin() {
       for(let n in this.selectList) {
         for(let y in this.checkedPan2) {
