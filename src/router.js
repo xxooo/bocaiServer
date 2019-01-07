@@ -201,6 +201,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/kaipanshezhi')), 'kaipanshezhi'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/youxiguanli/kaijiangjieguo', name: 'kaijiangjieguo',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/kaijiangjieguo')), 'kaijiangjieguo'), meta: { requiresAuth: true }
+        },
 
 
         // -----------------帐户管理

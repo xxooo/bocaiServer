@@ -39,7 +39,7 @@
           <el-menu-item index="6-1" @click="$router.push({name:'youxishezhi'})">游戏设置</el-menu-item>
           <el-menu-item index="6-2" @click="$router.push({name:'tuishuiset'})">退水设置</el-menu-item>  
           <el-menu-item index="6-3" @click="$router.push({name:'kaipanshezhi'})">开盘设置</el-menu-item>
-          <el-menu-item index="6-4">开奖结果</el-menu-item>
+          <el-menu-item index="6-4" @click="$router.push({name:'kaijiangjieguo'})">开奖结果</el-menu-item>
           <el-menu-item index="6-5">菜单设置</el-menu-item>
         </el-submenu>
         <el-submenu index="7">
