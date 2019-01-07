@@ -31,6 +31,10 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/home')), 'home'), meta: { requiresAuth: true }
         },
+
+
+
+        // -----------------开盘管理
         { path: '/gambling/kaipan/pcdandan', name: 'pcdandan',
           meta: {
               requireAuth: true,
@@ -99,7 +103,7 @@ const router = new Router({
         },
         
 
-
+        // -----------------游戏管理
         { path: '/gambling/youxiguanli/youxishezhi', name: 'youxishezhi',
           meta: {
               requireAuth: true,
@@ -199,7 +203,7 @@ const router = new Router({
         },
 
 
-        
+        // -----------------帐户管理
         { path: '/gambling/userManager/subuser', name: 'subuser',
           meta: {
               requireAuth: true,
@@ -241,6 +245,21 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/tuishuisheding')), 'tuishuisheding'), meta: { requiresAuth: true }
+        },
+
+
+        // -----------------系统管理
+        { path: '/gambling/systemManager/huiyuangonggao', name: 'huiyuangonggao',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/huiyuangonggao')), 'huiyuangonggao'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/systemManager/huiyuanzaixian', name: 'huiyuanzaixian',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/huiyuanzaixian')), 'huiyuanzaixian'), meta: { requiresAuth: true }
         }
 
       ]

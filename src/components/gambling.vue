@@ -16,23 +16,23 @@
           <template slot="title">账号管理</template>
           <el-menu-item index="3-1" @click="$router.push({name:'subuser'})">子帐号</el-menu-item>
           <el-menu-item index="3-2" @click="$router.push({name:'gudong'})">股东</el-menu-item>
-          <el-menu-item index="3-3" @click="$router.push({name:'subuser'})">总代理</el-menu-item>
-          <el-menu-item index="3-4" @click="$router.push({name:'subuser'})">代理</el-menu-item>
-          <el-menu-item index="3-5" @click="$router.push({name:'subuser'})">会员</el-menu-item>
-          <el-menu-item index="3-6" @click="$router.push({name:'subuser'})">隐单账号</el-menu-item>
+          <el-menu-item index="3-3" @click="$router.push({name:''})">总代理</el-menu-item>
+          <el-menu-item index="3-4" @click="$router.push({name:''})">代理</el-menu-item>
+          <el-menu-item index="3-5" @click="$router.push({name:''})">会员</el-menu-item>
+          <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
         </el-submenu>
         <el-submenu index="4">
           <template slot="title">注单管理</template>
-          <el-menu-item index="4-1">流水注单</el-menu-item>
-          <el-menu-item index="4-2">补货注单</el-menu-item>
-          <el-menu-item index="4-3">注单查询</el-menu-item>
+          <el-menu-item index="4-1" @click="$router.push({name:''})">流水注单</el-menu-item>
+          <el-menu-item index="4-2" @click="$router.push({name:''})">补货注单</el-menu-item>
+          <el-menu-item index="4-3" @click="$router.push({name:''})">注单查询</el-menu-item>
         </el-submenu>
         <el-submenu index="5">
           <template slot="title">财务管理</template>
-          <el-menu-item index="5-1">充值方式</el-menu-item>
-          <el-menu-item index="5-2">充值审核</el-menu-item>
-          <el-menu-item index="5-3">提现审核</el-menu-item>
-          <el-menu-item index="5-4">推广</el-menu-item>
+          <el-menu-item index="5-1" @click="$router.push({name:''})">充值方式</el-menu-item>
+          <el-menu-item index="5-2" @click="$router.push({name:''})">充值审核</el-menu-item>
+          <el-menu-item index="5-3" @click="$router.push({name:''})">提现审核</el-menu-item>
+          <el-menu-item index="5-4" @click="$router.push({name:''})">推广</el-menu-item>
         </el-submenu>
         <el-submenu index="6">
           <template slot="title">游戏管理</template>
@@ -44,13 +44,13 @@
         </el-submenu>
         <el-submenu index="7">
           <template slot="title">系统管理</template>
-          <el-menu-item index="7-1">网站设置</el-menu-item>
-          <el-menu-item index="7-2">会员公告</el-menu-item>
-          <el-menu-item index="7-3">会员在线</el-menu-item>
-          <el-menu-item index="7-4">代理在线</el-menu-item>
+          <el-menu-item index="7-1" @click="$router.push({name:''})">网站设置</el-menu-item>
+          <el-menu-item index="7-2" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
+          <el-menu-item index="7-3" @click="$router.push({name:'huiyuanzaixian'})">会员在线</el-menu-item>
+          <el-menu-item index="7-4" @click="$router.push({name:''})">代理在线</el-menu-item>
         </el-submenu>
-        <el-menu-item index="8">IP设置</el-menu-item>
-        <el-menu-item index="9">报表</el-menu-item>
+        <el-menu-item index="8" @click="$router.push({name:''})">IP设置</el-menu-item>
+        <el-menu-item index="9" @click="$router.push({name:''})">报表</el-menu-item>
       </el-menu>
       <!-- <el-dropdown class="lang" @command="menuAction">
           <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
