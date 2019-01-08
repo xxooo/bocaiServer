@@ -31,9 +31,12 @@
             <td class="tl" width="20%">请选择会员类型</td>
           </tr> 
           <tr>
-            <td class="tar">股东帐号:</td> 
+            <td class="tar">上级代理:</td> 
             <td class="tl">
-              <p>{{futaitou}}<input type="text" v-model="duanusername" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
+              <el-select v-model="shuaixuanNum" @change="changeStats" placeholder="请选择" size="mini">
+                <el-option v-for="" value="1" key="1" label="启用"></el-option> 
+                <el-option value="2" key="0" label="停用"></el-option> 
+              </el-select>
             </td> 
             <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
@@ -261,7 +264,8 @@ export default {
       fuusername: '',
       futaitou: '',
       auser: {},
-      companyUser: {}
+      companyUser: {},
+      allDailiList: []
 
     }
   },
@@ -299,10 +303,20 @@ export default {
         // this.handicapC=  this.upUserInfo.handicapC;//盘口设置C,0:不设置，1：设置
         // this.handicapD=  this.upUserInfo.handicapD;//盘口设置D,0:不设置，1：设置
       }
+
+
+      this.getAlldaili();
   },
   mounted(){
   },
   methods: {
+    async getAlldaili() {
+      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=6&isUp=1`);
+      if(+res.code===200) {
+        this.allDailiList = res.list;
+      }
+
+    },
     async getupdategudong() {
 
       let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);

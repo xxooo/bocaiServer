@@ -228,7 +228,7 @@ export default {
 
     },
     addgudong() {
-      this.$router.push({name:'addgudong'});
+      this.$router.push({name:'addhuiyuan'});
     },
     async deletesubuser(item) {
       let that = this;
