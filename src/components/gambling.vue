@@ -18,7 +18,7 @@
           <el-menu-item index="3-2" @click="$router.push({name:'gudong'})">股东</el-menu-item>
           <el-menu-item index="3-3" @click="$router.push({name:''})">总代理</el-menu-item>
           <el-menu-item index="3-4" @click="$router.push({name:''})">代理</el-menu-item>
-          <el-menu-item index="3-5" @click="$router.push({name:''})">会员</el-menu-item>
+          <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
           <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
         </el-submenu>
         <el-submenu index="4">
