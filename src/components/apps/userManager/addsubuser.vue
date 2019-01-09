@@ -138,6 +138,10 @@ export default {
     },
     async checkRepte() {
 
+      if(!isNew) {
+        this.id = this.upUserInfo.id;
+      }
+
       let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+this.username+`&id=`+this.id);
 
       if(+res.code===500){

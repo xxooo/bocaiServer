@@ -25,23 +25,65 @@
           <tr>
             <td width="20%" class="tar">会员类型:</td> 
             <td class="tl">
-              <label><input v-model="creditType" type="radio" :value="1"> 普通会员 </label> 
-              <label><input v-model="creditType" type="radio" :value="0"> 直属会员 </label>
+              <label><input v-model="userType" type="radio" :value="1"> 普通会员 </label> 
+              <label><input v-model="userType" type="radio" :value="2"> 直属会员 </label>
             </td> 
             <td class="tl" width="20%">请选择会员类型</td>
           </tr> 
-          <tr>
+          <tr v-if="userType == 1">
             <td class="tar">上级代理:</td> 
             <td class="tl">
-              <el-select v-model="shuaixuanNum" @change="changeStats" placeholder="请选择" size="mini">
-                <el-option v-for="" value="1" key="1" label="启用"></el-option> 
-                <el-option value="2" key="0" label="停用"></el-option> 
+              <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-option v-for="(item,index) in allDailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
               </el-select>
+            </td> 
+            <td class="tl"><p>请选择代理</p></td>
+          </tr> 
+          <tr v-if="userType == 2">
+            <td class="tar">上级直属:</td> 
+            <td class="tl">
+              <label><input v-model="zhishuPji" type="radio" :value="1" @click="zhishugongsi()"> 直属公司 </label> 
+              <label><input v-model="zhishuPji" type="radio" :value="2" @click="zhishugudong()"> 直属股东 </label>
+              <label><input v-model="zhishuPji" type="radio" :value="3" @click="zhishuzongdaili()"> 直属总代理 </label>
+            </td> 
+            <td class="tl" width="20%">请选择直属上级</td>
+          </tr>
+          <tr v-if="zhishuPji == 1">
+            <td class="tar">上级公司:</td> 
+            <td class="tl">
+              <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-option v-for="(item,index) in zhishugongsiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+              </el-select>
+            </td> 
+            <td class="tl"><p>请选择上级公司</p></td>
+          </tr>
+          <tr v-if="zhishuPji == 2">
+            <td class="tar">上级股东:</td> 
+            <td class="tl">
+              <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-option v-for="(item,index) in zhishugudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+              </el-select>
+            </td> 
+            <td class="tl"><p>请选择上级股东</p></td>
+          </tr>
+          <tr v-if="zhishuPji == 3">
+            <td class="tar">上级总代理:</td> 
+            <td class="tl">
+              <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-option v-for="(item,index) in zhishuzongdailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+              </el-select>
+            </td> 
+            <td class="tl"><p>请选择上级总代理</p></td>
+          </tr>
+          <tr>
+            <td class="tar">会员帐号:</td> 
+            <td class="tl">
+              <p><input type="text" v-model="username" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
             </td> 
             <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
           <tr>
-            <td class="tar">股东名称:</td> 
+            <td class="tar">会员名称:</td> 
             <td class="tl"><input v-model="nickname" type="text" placeholder="请输入名称"></td> 
             <td class="tl"> 请输入名称。</td>
           </tr>
@@ -59,20 +101,20 @@
             </td>
           </tr>
           <tr>
+            <td class="tar">帐号状态:</td> 
+            <td class="tl">
+              <label><input v-model="status" type="radio" value="1"> 启用 </label> 
+              <label><input v-model="status" type="radio" value="0"> 停用 </label>
+            </td> 
+            <td class="tl"> 请选择开启或关闭 </td>
+          </tr> 
+          <tr>
             <td class="tar">冻结:</td>
             <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>
                 <label><input v-model="isFrozen" type="radio" value="0"> 否 </label>
             </td> 
             <td class="tl">请选择是否冻结</td>
-          </tr> 
-          <tr>
-            <td class="tar">补货:</td> 
-            <td class="tl">
-              <label><input v-model="isReplenishment" type="radio" value="1"> 开启 </label> 
-              <label><input v-model="isReplenishment" type="radio" value="0"> 关闭 </label>
-            </td> 
-            <td class="tl"> 请选择开启或关闭 </td>
           </tr> 
           <tr>
             <td class="tar">收单/停押:</td> 
@@ -82,19 +124,15 @@
             </td> 
             <td class="tl">请选择收单或停押</td>
           </tr> 
-          <tr>
-            <td width="20%" class="tar">结算方式:</td> 
-            <td class="tl">
-              <label><input v-model="cashCredit" type="radio" :value="1"> 信用 </label> 
-              <label><input v-model="cashCredit" type="radio" :value="0"> 现金 </label>
-            </td> 
-            <td width="20%" class="tl">请选择结算方式</td>
-          </tr>
         </table>
-        <table v-if="ifxinyong">
+
+
+
+        
+        <table>
           <thead>
             <tr>
-              <th colspan="3">信用额度设置</th>
+              <th colspan="3">设置</th>
             </tr>
           </thead> 
           <tr>
@@ -229,43 +267,41 @@ export default {
       repassword:"",//重复密码
       duanusername:"",//用户名,
 
-      aUserOccupied:{//当前用户占成数据
-        cChangeAllotOccupied:0,//当前设置占成
-        pChangeAllotOccupied:0,//当前父类设置占成
-        pid:''//父ID
+      aUserOccupied: {//占成对象
+          cChangeAllotOccupied: 0,
+          pChangeAllotOccupied: 0//上级占成
       },
-      cashCredit:'0',//0:现金模式，1：信用模式
-      creditType: '0',
-      handicapA: '0',//盘口设置A,0:不设置，1：设置
-      handicapB: '0',//盘口设置B,0:不设置，1：设置
-      handicapC: '0',//盘口设置C,0:不设置，1：设置
-      handicapD: '0',//盘口设置D,0:不设置，1：设置
-      id:'',//id
-      isFrozen:'0',//冻结状态，0：否，1：是
-      isReplenishment:'1',//允许补货，0：关闭，1：开启
-      nickname:"",//昵称
-      occupied:'0',//当前用户选择占成
-      password:"",//密码
-      pid:"",//父类ID
-      quota:0,//充值金额，股东/总代理/代理信用模式才传
-      quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
-              quotaType: 1,//1,充值,2,提现，公司只有充值
-              quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-              quotaAmount: '',//提现充值金额
-              quotaRemark: ""//备注
-          },
-      repassword:"",//重复密码
-      ruleId:4,//角色ID
-      status:1,//账号状态，0：停用，1：启用
-      tingyaShouya:'1',//停押/收押，0：停押，1：收押
-      //username:"",//昵称
-      occupiedRecovery: '0',
+      cashBalance: 0,//现金余额，1，信用余额
+      cashCredit: 0,//0:现金模式，1：信用模式
+      handicap: '',//盘口
+      isFrozen: 0,//冻结状态，0：否，1：是
+      nickname: "",//昵称
+      password: "",//密码
+      pid: "",//上级ID
+      ruleId: 13,//角色ID
+      status: 1,//账号状态，0：停用，1：启用
+      tingyaShouya: 0,//停押/收押，0：停押，1：收押
+      userType: 1,//会员类型,1:普通,2:直属
+      username: "",//用户名
+      creditType:0,//信用模式才有,1,第二天还原额度。0，正常交易
+      quotaInfo: {//充值数据
+          quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡
+          quotaAmount: "",//信用金额
+          quotaRemark: "",//备注
+          quotaType: 1//1,充值,2,提现
+      },
+
+      zhishuPji: 1,
+
 
       fuusername: '',
       futaitou: '',
       auser: {},
       companyUser: {},
-      allDailiList: []
+      allDailiList: [],
+      zhishugongsiList: [],
+      zhishugudongList: [],
+      zhishuzongdailiList: []
 
     }
   },
@@ -310,6 +346,24 @@ export default {
   mounted(){
   },
   methods: {
+    async zhishuzongdaili() {
+      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=5&isUp=1`);
+      if(+res.code===200) {
+        this.zhishuzongdailiList = res.list;
+      }
+    },
+    async zhishugudong() {
+      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=4&isUp=1`);
+      if(+res.code===200) {
+        this.zhishugudongList = res.list;
+      }
+    },
+    async zhishugongsi() {
+      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=3&isUp=1`);
+      if(+res.code===200) {
+        this.zhishugongsiList = res.list;
+      }
+    },
     async getAlldaili() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=6&isUp=1`);
       if(+res.code===200) {
@@ -389,6 +443,10 @@ export default {
       this.duanusername= "";
     },
     async checkRepte() {
+
+      if(!isNew) {
+        this.id = this.upUserInfo.id;
+      }
 
       console.log('username',this.username);
 

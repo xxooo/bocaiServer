@@ -372,6 +372,9 @@ export default {
       this.duanusername= "";
     },
     async checkRepte() {
+      if(!isNew) {
+        this.id = this.upUserInfo.id;
+      }
 
       console.log('username',this.username);
 
