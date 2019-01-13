@@ -38,43 +38,47 @@
               </el-select>
             </td> 
             <td class="tl"><p>请选择代理</p></td>
-          </tr> 
-          <tr v-if="userType == 2">
-            <td class="tar">上级直属:</td> 
-            <td class="tl">
-              <label><input v-model="zhishuPji" type="radio" :value="1" @click="zhishugongsi()"> 直属公司 </label> 
-              <label><input v-model="zhishuPji" type="radio" :value="2" @click="zhishugudong()"> 直属股东 </label>
-              <label><input v-model="zhishuPji" type="radio" :value="3" @click="zhishuzongdaili()"> 直属总代理 </label>
-            </td> 
-            <td class="tl" width="20%">请选择直属上级</td>
           </tr>
-          <tr v-if="zhishuPji == 1">
-            <td class="tar">上级公司:</td> 
-            <td class="tl">
-              <el-select v-model="pid" placeholder="请选择" size="mini">
-                <el-option v-for="(item,index) in zhishugongsiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-              </el-select>
-            </td> 
-            <td class="tl"><p>请选择上级公司</p></td>
-          </tr>
-          <tr v-if="zhishuPji == 2">
-            <td class="tar">上级股东:</td> 
-            <td class="tl">
-              <el-select v-model="pid" placeholder="请选择" size="mini">
-                <el-option v-for="(item,index) in zhishugudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-              </el-select>
-            </td> 
-            <td class="tl"><p>请选择上级股东</p></td>
-          </tr>
-          <tr v-if="zhishuPji == 3">
-            <td class="tar">上级总代理:</td> 
-            <td class="tl">
-              <el-select v-model="pid" placeholder="请选择" size="mini">
-                <el-option v-for="(item,index) in zhishuzongdailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-              </el-select>
-            </td> 
-            <td class="tl"><p>请选择上级总代理</p></td>
-          </tr>
+
+          <template v-if="userType == 2">
+            <tr>
+              <td class="tar">上级直属:</td> 
+              <td class="tl">
+                <label><input v-model="zhishuPji" type="radio" :value="1" @click="zhishugongsi()"> 直属公司 </label> 
+                <label><input v-model="zhishuPji" type="radio" :value="2" @click="zhishugudong()"> 直属股东 </label>
+                <label><input v-model="zhishuPji" type="radio" :value="3" @click="zhishuzongdaili()"> 直属总代理 </label>
+              </td> 
+              <td class="tl" width="20%">请选择直属上级</td>
+            </tr>
+            <tr v-if="zhishuPji == 1">
+              <td class="tar">上级公司:</td> 
+              <td class="tl">
+                <el-select v-model="pid" placeholder="请选择" size="mini">
+                  <el-option v-for="(item,index) in zhishugongsiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+                </el-select>
+              </td> 
+              <td class="tl"><p>请选择上级公司</p></td>
+            </tr>
+            <tr v-if="zhishuPji == 2">
+              <td class="tar">上级股东:</td> 
+              <td class="tl">
+                <el-select v-model="pid" placeholder="请选择" size="mini">
+                  <el-option v-for="(item,index) in zhishugudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+                </el-select>
+              </td> 
+              <td class="tl"><p>请选择上级股东</p></td>
+            </tr>
+            <tr v-if="zhishuPji == 3">
+              <td class="tar">上级总代理:</td> 
+              <td class="tl">
+                <el-select v-model="pid" placeholder="请选择" size="mini">
+                  <el-option v-for="(item,index) in zhishuzongdailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+                </el-select>
+              </td> 
+              <td class="tl"><p>请选择上级总代理</p></td>
+            </tr>
+          </template> 
+          
           <tr>
             <td class="tar">会员帐号:</td> 
             <td class="tl">
@@ -125,14 +129,28 @@
             <td class="tl">请选择收单或停押</td>
           </tr> 
         </table>
-
-
-
-        
         <table>
           <thead>
             <tr>
-              <th colspan="3">设置</th>
+              <th colspan="3">基础功能设置</th>
+            </tr>
+          </thead> 
+          <tr>
+            <td width="20%" class="tar">消费模式:</td> 
+            <td class="tl">
+              <label><input v-model="cashCredit" type="radio" :value="0" disabled="true"> 现金模式 </label> 
+              <label><input v-model="cashCredit" type="radio" :value="1" disabled="true"> 信用模式 </label>
+            </td> 
+            <td width="20%" class="tl">
+              <span>请选择消费模式</span>
+            </td>
+          </tr>
+        </table>
+
+        <table v-if="cashCredit == 1">
+          <thead>
+            <tr>
+              <th colspan="3">信用额度设置</th>
             </tr>
           </thead> 
           <tr>
@@ -159,13 +177,16 @@
         <table>
           <thead>
             <tr>
-              <th colspan="3">现金设定</th>
+              <th colspan="3">占成分配</th>
             </tr>
           </thead> 
+
+          <!-- 要不要填的，还是直接用上级的占成 -->
+
           <tr>
             <td width="20%" class="tar">股东占成:</td> 
             <td class="tl">
-              <select v-model="occupied">
+              <select v-model="aUserOccupied.cChangeAllotOccupied"> 
                 <option value="100">100%</option>
                 <option value="99">99%</option>
                 <option value="98">98%</option>
@@ -263,7 +284,6 @@ export default {
       childUserInfo: {},
       currentPage: 1,
       functionIdList:[],//权限ID列表
-      password:"",//密码
       repassword:"",//重复密码
       duanusername:"",//用户名,
 
@@ -311,15 +331,12 @@ export default {
       fuuserInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo'
     }),
-    username() {
-      return this.futaitou + this.duanusername;
-    },
     ifxinyong() {
       return this.cashCredit == '1' ? true : false;
     }
   },
   created() {
-      console.log('this.upUserInfo',this.upUserInfo);
+      console.log('this.fuuserInfo',this.fuuserInfo);
 
       this.fuusername = this.fuuserInfo.username;
       this.futaitou = this.fuusername.substring(0,1);
@@ -333,7 +350,7 @@ export default {
 
 
         //console.log('this.aUserOccupied',this.aUserOccupied);
-
+;
         // this.handicapA=  this.upUserInfo.handicapA;//盘口设置A,0:不设置，1：设置
         // this.handicapB=  this.upUserInfo.handicapB;//盘口设置B,0:不设置，1：设置
         // this.handicapC=  this.upUserInfo.handicapC;//盘口设置C,0:不设置，1：设置

@@ -174,8 +174,8 @@ export default {
       }
 
     },
-    changeStats() {
-
+    changeStats(data) {
+      console.log(data);
     },
     addgudong() {
       this.$router.push({name:'addgudong'});
