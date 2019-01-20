@@ -33,7 +33,7 @@
           <tr v-if="userType == 1">
             <td class="tar">上级代理:</td> 
             <td class="tl">
-              <el-select v-model="pid" placeholder="请选择" size="mini">
+              <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                 <el-option v-for="(item,index) in allDailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
               </el-select>
             </td> 
@@ -184,60 +184,15 @@
           <!-- 要不要填的，还是直接用上级的占成 -->
 
           <tr>
-            <td width="20%" class="tar">股东占成:</td> 
+            <td width="20%" class="tar">上级占成:</td> 
             <td class="tl">
-              <select v-model="aUserOccupied.cChangeAllotOccupied"> 
-                <option value="100">100%</option>
-                <option value="99">99%</option>
-                <option value="98">98%</option>
-                <option value="97">97%</option>
-                <option value="96">96%</option>
-                <option value="95">95%</option>
-                <option value="94">94%</option>
-                <option value="93">93%</option>
-                <option value="92">92%</option>
-                <option value="91">91%</option>
-                <option value="90">90%</option>
-                <option value="89">89%</option>
-                <option value="88">88%</option>
-                <option value="87">87%</option>
-                <option value="86">86%</option>
-                <option value="85">85%</option>
-                <option value="84">84%</option>
-                <option value="83">83%</option>
-                <option value="82">82%</option>
-                <option value="81">81%</option>
-                <option value="80">80%</option>
-                <option value="75">75%</option>
-                <option value="70">70%</option>
-                <option value="65">65%</option>
-                <option value="60">60%</option>
-                <option value="55">55%</option>
-                <option value="50">50%</option>
-                <option value="45">45%</option>
-                <option value="40">40%</option>
-                <option value="35">35%</option>
-                <option value="30">30%</option>
-                <option value="25">25%</option>
-                <option value="20">20%</option>
-                <option value="15">15%</option>
-                <option value="10">10%</option>
-                <option value="5">5%</option>
-                <option value="0">不占成</option>
-              </select> 
-              <span class="red" style="display: none;">暂未生效</span>
+              <el-select v-model="cselectPzhancheng" placeholder="请选择" size="mini" @change="getCzhangcheng">
+                <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              </el-select>
+
             </td> 
             <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
-          <tr>
-            <td class="tar">占成回收:</td> 
-            <td class="tl">
-              <label><input v-model="occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
-              <label><input v-model="occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
-              <span class="red" style="display: none;">暂未生效</span>
-            </td> 
-            <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
-          </tr>
         </table> 
         <table>
           <thead>
@@ -248,21 +203,30 @@
           <tr>
             <td width="20%" class="tar">盘口:</td> 
             <td class="tl">
-              <el-checkbox-group v-model="functionIdList">
-                <el-checkbox :label="'A'" >{{'A'}}</el-checkbox>
-                <el-checkbox :label="'B'" >{{'B'}}</el-checkbox>
-                <el-checkbox :label="'C'" >{{'C'}}</el-checkbox>
-                <el-checkbox :label="'D'" >{{'D'}}</el-checkbox>
-              </el-checkbox-group>
+              <label v-if="fujiUserInfo.handicapA == 1"><input type="radio" v-model="handicap" value="a">A</label> 
+              <label v-if="fujiUserInfo.handicapB == 1"><input type="radio" v-model="handicap" value="b">B</label> 
+              <label v-if="fujiUserInfo.handicapC == 1"><input type="radio" v-model="handicap" value="c">C</label>
+              <label v-if="fujiUserInfo.handicapD == 1"><input type="radio" v-model="handicap" value="d">D</label>
+
+             <!-- <el-checkbox v-model="checked">备选项</el-checkbox>
+
+              <el-checkbox-group v-model="handicap">
+                <el-checkbox v-if="fujiUserInfo.handicapA == 1" :label="'a'" >{{'A'}}</el-checkbox>
+                <el-checkbox v-if="fujiUserInfo.handicapB == 1" :label="'b'" >{{'B'}}</el-checkbox>
+                <el-checkbox v-if="fujiUserInfo.handicapC == 1" :label="'c'" >{{'C'}}</el-checkbox>
+                <el-checkbox v-if="fujiUserInfo.handicapD == 1" :label="'d'" >{{'D'}}</el-checkbox>
+              </el-checkbox-group> -->
+
             </td> 
             <td class="tl" width="20%">
               <span>请选择盘口</span>
             </td>
+
           </tr>
         </table> 
           <p class="tac" style="margin-top: 8px;">
             <button class="tabBtn btn btn-blue mgr10" @click="addsubUser()">确定</button> 
-            <button class="tabBtn btn btn-red" @click="$router.push({name:'gudong'})">取消</button>
+            <button class="tabBtn btn btn-red" @click="$router.push({name:'huiyuan'})">取消</button>
           </p>
       </div>
     </div>
@@ -321,7 +285,51 @@ export default {
       allDailiList: [],
       zhishugongsiList: [],
       zhishugudongList: [],
-      zhishuzongdailiList: []
+      zhishuzongdailiList: [],
+      zhanchengList: [
+        {label: '99%',value: 99},
+        {label: '98%',value: 98},
+        {label: '97%',value: 97},
+        {label: '96%',value: 96},
+        {label: '95%',value: 95},
+        {label: '94%',value: 94},
+        {label: '93%',value: 93},
+        {label: '92%',value: 92},
+        {label: '91%',value: 91},
+        {label: '90%',value: 90},
+        {label: '89%',value: 89},
+        {label: '88%',value: 88},
+        {label: '87%',value: 87},
+        {label: '86%',value: 86},
+        {label: '85%',value: 85},
+        {label: '84%',value: 84},
+        {label: '83%',value: 83},
+        {label: '82%',value: 82},
+        {label: '81%',value: 81},
+        {label: '80%',value: 80},
+        {label: '75%',value: 75},
+        {label: '70%',value: 70},
+        {label: '65%',value: 65},
+        {label: '60%',value: 60},
+        {label: '55%',value: 55},
+        {label: '50%',value: 50},
+        {label: '45%',value: 45},
+        {label: '40%',value: 40},
+        {label: '35%',value: 35},
+        {label: '30%',value: 30},
+        {label: '25%',value: 25},
+        {label: '20%',value: 20},
+        {label: '15%',value: 15},
+        {label: '10%',value: 10},
+        {label: '5%',value: 5},
+        {label: '不占成',value: 0},
+      ],
+
+      fujiUserInfo: {},
+
+      pzhancheng: 0,
+      cselectPzhancheng: 0,
+      fuPankou: []
 
     }
   },
@@ -333,13 +341,16 @@ export default {
     }),
     ifxinyong() {
       return this.cashCredit == '1' ? true : false;
+    },
+    czhancheng() {
+      return this.pzhancheng*1 - this.cselectPzhancheng*1;
     }
   },
   created() {
       console.log('this.fuuserInfo',this.fuuserInfo);
 
       this.fuusername = this.fuuserInfo.username;
-      this.futaitou = this.fuusername.substring(0,1);
+      //this.futaitou = this.fuusername.substring(0,1);
       this.cashCredit = this.fuuserInfo.cashCredit;
 
 
@@ -347,14 +358,6 @@ export default {
 
         this.getupdategudong();
 
-
-
-        //console.log('this.aUserOccupied',this.aUserOccupied);
-;
-        // this.handicapA=  this.upUserInfo.handicapA;//盘口设置A,0:不设置，1：设置
-        // this.handicapB=  this.upUserInfo.handicapB;//盘口设置B,0:不设置，1：设置
-        // this.handicapC=  this.upUserInfo.handicapC;//盘口设置C,0:不设置，1：设置
-        // this.handicapD=  this.upUserInfo.handicapD;//盘口设置D,0:不设置，1：设置
       }
 
 
@@ -363,6 +366,57 @@ export default {
   mounted(){
   },
   methods: {
+    async getCzhangcheng(data) {
+      console.log('zhangc',data);
+
+      if(data > this.pzhancheng) {
+        this.$alertMessage('不可超过上级占成!', '温馨提示');
+
+        this.cselectPzhancheng = 0;
+      }
+
+      // if(data*1 > this.fujiUserInfo.aUserOccupied.cOccupied*1) {
+      //   this.$alertMessage('上级占成，不能超过原有占成!', '温馨提示');
+
+
+      // } else {
+      //   let num = this.fujiUserInfo.aUserOccupied.cOccupied*1 - data*1;
+
+      //   if(num > this.fujiUserInfo.aUserOccupied.cOccupied) {
+      //     this.$alertMessage('不可超过上级占成!', '温馨提示');
+      //   }
+      // }
+
+      
+    },
+    async getshangjidaili(data) {
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
+      if(+res.code===200) {
+
+        this.fujiUserInfo = res.auser;
+
+        console.log('this.fujiUserInfo',this.fujiUserInfo);
+
+        this.pzhancheng = res.auser.aUserOccupied.cOccupied;
+
+
+
+//         auser: {currentPage: 0, pageSize: 10, startDate: null, endDate: null, id: 11, pid: 10,…}
+// aUserOccupied: {id: 9, userId: 11, cChangeAllotOccupied: 20, cOccupied: 20, pid: 10, pChangeAllotOccupied: 20,…}
+// allotOccupied: null
+// cChangeAllotOccupied: 20
+// cOccupied: 20
+// id: 9
+// occupiedRecovery: null
+// pChangeAllotOccupied: 20
+// pOccupied: 20
+// pid: 10
+// ruleId: null
+// status: 0
+// userId: 11
+
+      }
+    },
     async zhishuzongdaili() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=5&isUp=1`);
       if(+res.code===200) {
@@ -384,7 +438,7 @@ export default {
     async getAlldaili() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=6&isUp=1`);
       if(+res.code===200) {
-        this.allDailiList = res.list;
+        this.allDailiList = res.userList;
       }
 
     },
@@ -452,22 +506,20 @@ export default {
 
     },
     qingkong() {
-      this.functionIdList =[];//权限ID列表
       this.id = ""; //id
       this.nickname= "";
       this.password= "";
       this.repassword= "";
-      this.duanusername= "";
     },
     async checkRepte() {
 
-      if(!isNew) {
+      if(!this.isNew) {
         this.id = this.upUserInfo.id;
+      } else {
+        this.id = '';
       }
 
-      console.log('username',this.username);
-
-      let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+this.username+`&id=`+this.id);
+      let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
 
       if(+res.code===500){
         this.$alertMessage(res.msg, '温馨提示');
@@ -490,75 +542,68 @@ export default {
       } else {
 
 
-        this.aUserOccupied.cChangeAllotOccupied = this.occupied;
+        //this.aUserOccupied.cChangeAllotOccupied = this.occupied;
 
-        for(let n in this.functionIdList) {
-          if(this.functionIdList[n] == 'A') {
-            this.handicapA = '1';
-          }
-          if(this.functionIdList[n] == 'B') {
-            this.handicapB = '1';
-          }
-          if(this.functionIdList[n] == 'C') {
-            this.handicapC = '1';
-          }
-          if(this.functionIdList[n] == 'D') {
-            this.handicapD = '1';
-          }
-        }
+        // for(let n in this.functionIdList) {
+        //   if(this.functionIdList[n] == 'A') {
+        //     this.handicapA = '1';
+        //   }
+        //   if(this.functionIdList[n] == 'B') {
+        //     this.handicapB = '1';
+        //   }
+        //   if(this.functionIdList[n] == 'C') {
+        //     this.handicapC = '1';
+        //   }
+        //   if(this.functionIdList[n] == 'D') {
+        //     this.handicapD = '1';
+        //   }
+        // }
 
         if(this.isNew) {
 
-          if(this.ifxinyong) {
-              this.quota = this.quotaInfo.quotaAmount;//充值金额，股东/总代理/代理信用模式才传
-          } else {
-            this.quota = '';
-          }
+          // if(this.ifxinyong) {
+          //     this.quota = this.quotaInfo.quotaAmount;//充值金额，股东/总代理/代理信用模式才传
+          // } else {
+          //   this.quota = '';
+          // }
 
           let dataobj = {
-            aUserOccupied:{//当前用户占成数据
-              cChangeAllotOccupied:this.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-              pChangeAllotOccupied:this.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-              pid:this.fuuserInfo.id//父ID
-            },  
-            cashCredit:this.cashCredit,//0:现金模式，1：信用模式
-            creditType: this.creditType,
-            handicapA: this.handicapA,//盘口设置A,0:不设置，1：设置
-            handicapB: this.handicapB,//盘口设置B,0:不设置，1：设置
-            handicapC: this.handicapC,//盘口设置C,0:不设置，1：设置
-            handicapD: this.handicapD,//盘口设置D,0:不设置，1：设置
-            id:'',//id
-            isFrozen:this.isFrozen,//冻结状态，0：否，1：是
-            isReplenishment:this.isReplenishment,//允许补货，0：关闭，1：开启
-            nickname:this.nickname,//昵称
-            occupied:this.occupied,//当前用户选择占成
-            password:this.password,//密码
-            pid:this.fuuserInfo.id,//父类ID
-            quota:this.quota,//充值金额，股东/总代理/代理信用模式才传
-            quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
-                      quotaType: 1,//1,充值,2,提现，公司只有充值
-                      quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                      quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
-                      quotaRemark: this.quotaInfo.quotaRemark//备注
-            },
-            ruleId:this.ruleId,//角色ID
-            status:this.status,//账号状态，0：停用，1：启用
-            tingyaShouya:this.tingyaShouya,//停押/收押，0：停押，1：收押
-            username:this.username,//昵称
-            occupiedRecovery: this.occupiedRecovery
-          }
+             aUserOccupied: {//占成对象
+                  cChangeAllotOccupied: this.czhancheng,
+                  pChangeAllotOccupied: this.cselectPzhancheng,//上级占成
+              },
+              cashBalance: 0,//现金余额，1，信用余额
+              cashCredit: 0,//0:现金模式，1：信用模式
+              handicap: this.handicap,//盘口
+              isFrozen: this.isFrozen,//冻结状态，0：否，1：是
+              nickname: this.nickname,//昵称
+              password: this.password,//密码
+              pid: this.pid,//上级ID
+              ruleId: 13,//角色ID
+              status: this.status,//账号状态，0：停用，1：启用
+              tingyaShouya: this.tingyaShouya,//停押/收押，0：停押，1：收押
+              userType: this.userType,//会员类型,1:普通,2:直属
+              username: this.username,//用户名
+              creditType: this.creditType,//信用模式才有,1,第二天还原额度。0，正常交易
+              quotaInfo: {//充值数据
+                  quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡
+                  quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
+                  quotaRemark: this.quotaInfo.quotaRemark,//备注
+                  quotaType: 1//1,充值,2,提现
+              }
+            }
 
 
           console.log('dataobj',dataobj);
 
           let that = this;
             NProgress.start();
-            await that.$post(`${window.url}/admin/auser/addUser`,dataobj).then((res) => {
+            await that.$post(`${window.url}/admin/cuser/addUser`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
                 NProgress.done();
                 if(result.code===200){
                   that.$success('提交成功!');
-                  that.$router.push({name:'gudong'});
+                  that.$router.push({name:'huiyuan'});
                   that.qingkong();
                 }
               })
@@ -580,7 +625,7 @@ export default {
                 NProgress.done();
                 if(result.code===200){
                   that.$success('提交成功!');
-                  that.$router.push({name:'gudong'});
+                  that.$router.push({name:'huiyuan'});
                   that.qingkong();
                 }
               })
