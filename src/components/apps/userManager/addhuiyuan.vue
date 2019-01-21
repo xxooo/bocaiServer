@@ -280,7 +280,7 @@ export default {
 
       fuusername: '',
       futaitou: '',
-      auser: {},
+      cuser: {},
       companyUser: {},
       allDailiList: [],
       zhishugongsiList: [],
@@ -356,7 +356,7 @@ export default {
 
       if(!this.isNew) {
 
-        this.getupdategudong();
+        this.getupdatehuiyuan();
 
       }
 
@@ -375,19 +375,6 @@ export default {
         this.cselectPzhancheng = 0;
       }
 
-      // if(data*1 > this.fujiUserInfo.aUserOccupied.cOccupied*1) {
-      //   this.$alertMessage('上级占成，不能超过原有占成!', '温馨提示');
-
-
-      // } else {
-      //   let num = this.fujiUserInfo.aUserOccupied.cOccupied*1 - data*1;
-
-      //   if(num > this.fujiUserInfo.aUserOccupied.cOccupied) {
-      //     this.$alertMessage('不可超过上级占成!', '温馨提示');
-      //   }
-      // }
-
-      
     },
     async getshangjidaili(data) {
       let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
@@ -398,22 +385,6 @@ export default {
         console.log('this.fujiUserInfo',this.fujiUserInfo);
 
         this.pzhancheng = res.auser.aUserOccupied.cOccupied;
-
-
-
-//         auser: {currentPage: 0, pageSize: 10, startDate: null, endDate: null, id: 11, pid: 10,…}
-// aUserOccupied: {id: 9, userId: 11, cChangeAllotOccupied: 20, cOccupied: 20, pid: 10, pChangeAllotOccupied: 20,…}
-// allotOccupied: null
-// cChangeAllotOccupied: 20
-// cOccupied: 20
-// id: 9
-// occupiedRecovery: null
-// pChangeAllotOccupied: 20
-// pOccupied: 20
-// pid: 10
-// ruleId: null
-// status: 0
-// userId: 11
 
       }
     },
@@ -442,13 +413,14 @@ export default {
       }
 
     },
-    async getupdategudong() {
+    async getupdatehuiyuan() {
 
-      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
+
+      let res = await this.$get(`${window.url}/admin/cuser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
 
       if(+res.code===200) {
 
-        this.auser = res.auser;
+        this.cuser = res.cuser;
         this.companyUser = res.companyUser;
 
         if(this.auser.aUserOccupied) {

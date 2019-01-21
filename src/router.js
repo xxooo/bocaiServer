@@ -264,7 +264,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/addhuiyuan')), 'addhuiyuan'), meta: { requiresAuth: true }
         },
-
+        { path: '/gambling/userManager/updatehuiyuan', name: 'updatehuiyuan',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatehuiyuan')), 'updatehuiyuan'), meta: { requiresAuth: true }
+        },
 
 
         // -----------------系统管理

@@ -244,7 +244,8 @@ export default {
     },
     updateuser(item) {
       store.commit('updateupUserInfo', item);
-      this.$router.push({name:'updategudong'});
+
+      this.$router.push({name:'updatehuiyuan'});
     },
     hasitem(item,num) {
       console.log('item.functionIdList',item.functionIdList);
