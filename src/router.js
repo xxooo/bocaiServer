@@ -240,11 +240,11 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/addgudong')), 'addgudong'), meta: { requiresAuth: true }
         },
-        { path: '/gambling/userManager/updatesubuser', name: 'updategudong',
+        { path: '/gambling/userManager/updategudong', name: 'updategudong',
           meta: {
               requireAuth: true,
           },
-          component: r => require.ensure([], () => r(require('@/components/apps/userManager/addgudong')), 'updategudong'), meta: { requiresAuth: true }
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/updategudong')), 'updategudong'), meta: { requiresAuth: true }
         },
         { path: '/gambling/userManager/tuishuisheding', name: 'tuishuisheding',
           meta: {
@@ -269,6 +269,42 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatehuiyuan')), 'updatehuiyuan'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/zongdaili', name: 'zongdaili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/zongdaili')), 'zongdaili'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/addzongdaili', name: 'addzongdaili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/addzongdaili')), 'addzongdaili'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/updatezongdaili', name: 'updatezongdaili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatezongdaili')), 'updatezongdaili'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/daili', name: 'daili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/daili')), 'daili'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/adddaili', name: 'adddaili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/adddaili')), 'adddaili'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/updatedaili', name: 'updatedaili',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatedaili')), 'updatedaili'), meta: { requiresAuth: true }
         },
 
 
