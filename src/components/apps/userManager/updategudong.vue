@@ -30,9 +30,9 @@
           <tr>
             <td class="tar">股东帐号:</td> 
             <td class="tl">
-              <p>{{futaitou}}<input type="text" v-model="duanusername" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
+              <p>{{username}}</p>
             </td> 
-            <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
+            <td class="tl"></td>
           </tr> 
           <tr>
             <td class="tar">股东名称:</td> 
@@ -52,6 +52,14 @@
               密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符)同组密码限用30天。
             </td>
           </tr>
+          <tr>
+            <td class="tar">帐号状态:</td>
+            <td class="tl">
+                <label><input v-model="status" type="radio" value="1">启用</label>
+                <label><input v-model="status" type="radio" value="0">停用</label>
+            </td> 
+            <td class="tl">请选择是否冻结</td>
+          </tr> 
           <tr>
             <td class="tar">冻结:</td>
             <td class="tl">
@@ -76,15 +84,25 @@
             </td> 
             <td class="tl">请选择收单或停押</td>
           </tr> 
+        </table>
+
+        <table>
+          <thead>
+            <tr>
+              <th colspan="3">基础功能设置</th>
+            </tr>
+          </thead> 
           <tr>
-            <td width="20%" class="tar">结算方式:</td> 
+            <td width="20%" class="tar">消费模式:</td> 
             <td class="tl">
-              <label><input v-model="cashCredit" type="radio" :value="1"> 信用 </label> 
-              <label><input v-model="cashCredit" type="radio" :value="0"> 现金 </label>
+              <label><input v-model="cashCredit" type="radio" :value="0" disabled="true"> 现金模式 </label> 
+              <label><input v-model="cashCredit" type="radio" :value="1" disabled="true"> 信用模式 </label>
             </td> 
-            <td width="20%" class="tl">请选择结算方式</td>
+            <td width="20%" class="tl">
+            </td>
           </tr>
         </table>
+
         <table v-if="ifxinyong">
           <thead>
             <tr>
@@ -112,68 +130,26 @@
             <td class="tl"> 设定信用备注</td>
           </tr>
         </table>
+
         <table>
           <thead>
             <tr>
-              <th colspan="3">现金设定</th>
+              <th colspan="3">占成分配</th>
             </tr>
           </thead> 
+
           <tr>
-            <td width="20%" class="tar">股东占成:</td> 
+            <td width="20%" class="tar">上级占成:</td> 
             <td class="tl">
-              <select v-model="occupied">
-                <option value="100">100%</option>
-                <option value="99">99%</option>
-                <option value="98">98%</option>
-                <option value="97">97%</option>
-                <option value="96">96%</option>
-                <option value="95">95%</option>
-                <option value="94">94%</option>
-                <option value="93">93%</option>
-                <option value="92">92%</option>
-                <option value="91">91%</option>
-                <option value="90">90%</option>
-                <option value="89">89%</option>
-                <option value="88">88%</option>
-                <option value="87">87%</option>
-                <option value="86">86%</option>
-                <option value="85">85%</option>
-                <option value="84">84%</option>
-                <option value="83">83%</option>
-                <option value="82">82%</option>
-                <option value="81">81%</option>
-                <option value="80">80%</option>
-                <option value="75">75%</option>
-                <option value="70">70%</option>
-                <option value="65">65%</option>
-                <option value="60">60%</option>
-                <option value="55">55%</option>
-                <option value="50">50%</option>
-                <option value="45">45%</option>
-                <option value="40">40%</option>
-                <option value="35">35%</option>
-                <option value="30">30%</option>
-                <option value="25">25%</option>
-                <option value="20">20%</option>
-                <option value="15">15%</option>
-                <option value="10">10%</option>
-                <option value="5">5%</option>
-                <option value="0">不占成</option>
-              </select> 
-              <span class="red" style="display: none;">暂未生效</span>
+              <el-select v-model="cselectPzhancheng" placeholder="请选择" size="mini" @change="getCzhangcheng">
+                <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              </el-select>
+
             </td> 
             <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
-          <tr>
-            <td class="tar">占成回收:</td> 
-            <td class="tl">
-              <label><input v-model="occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
-              <label><input v-model="occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
-              <span class="red" style="display: none;">暂未生效</span>
-            </td> 
-            <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
-          </tr>
         </table> 
+
         <table>
           <thead>
             <tr>
@@ -258,7 +234,46 @@ export default {
       fuusername: '',
       futaitou: '',
       auser: {},
-      companyUser: {}
+      companyUser: {},
+
+      zhanchengList: [
+        {label: '99%',value: 99},
+        {label: '98%',value: 98},
+        {label: '97%',value: 97},
+        {label: '96%',value: 96},
+        {label: '95%',value: 95},
+        {label: '94%',value: 94},
+        {label: '93%',value: 93},
+        {label: '92%',value: 92},
+        {label: '91%',value: 91},
+        {label: '90%',value: 90},
+        {label: '89%',value: 89},
+        {label: '88%',value: 88},
+        {label: '87%',value: 87},
+        {label: '86%',value: 86},
+        {label: '85%',value: 85},
+        {label: '84%',value: 84},
+        {label: '83%',value: 83},
+        {label: '82%',value: 82},
+        {label: '81%',value: 81},
+        {label: '80%',value: 80},
+        {label: '75%',value: 75},
+        {label: '70%',value: 70},
+        {label: '65%',value: 65},
+        {label: '60%',value: 60},
+        {label: '55%',value: 55},
+        {label: '50%',value: 50},
+        {label: '45%',value: 45},
+        {label: '40%',value: 40},
+        {label: '35%',value: 35},
+        {label: '30%',value: 30},
+        {label: '25%',value: 25},
+        {label: '20%',value: 20},
+        {label: '15%',value: 15},
+        {label: '10%',value: 10},
+        {label: '5%',value: 5},
+        {label: '不占成',value: 0},
+      ]
 
     }
   },
@@ -304,9 +319,9 @@ export default {
           this.aUserOccupied = {//当前用户占成数据
             cChangeAllotOccupied:this.auser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
             cOccupied: this.auser.aUserOccupied.cOccupied,//当前设置占成
-            id:this.auser.aUserOccupied.id
+            id:this.auser.aUserOccupied.id,
             pChangeAllotOccupied:this.auser.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-            pid:this.auser.aUserOccupied.pid//父ID
+            pid:this.auser.aUserOccupied.pid,//父ID
             userId:this.auser.aUserOccupied.userId
           }
         }
@@ -339,146 +354,31 @@ export default {
         this.id= this.auser.id;
         this.isFrozen= this.auser.isFrozen;//冻结状态，0：否，1：是
         this.isReplenishment= this.auser.isReplenishment;//允许补货，0：关闭，1：开启
-        this.occupied= 0;//当前用户选择占成, 不知道填哪个
+        this.occupied= this.auser.aUserOccupied.cOccupied;//当前用户选择占成, 不知道填哪个
 
         this.nickname = this.auser.nickname;
         this.password = this.auser.password;
         this.repassword = this.auser.password;
+        this.phandicapA = this.auser.phandicapA;
+        this.phandicapB = this.auser.phandicapB;
+        this.phandicapC = this.auser.phandicapC;
+        this.phandicapD = this.auser.phandicapD;
 
 
         this.pid= this.auser.pid;//父类ID
         this.quota= this.auser.quota;//充值金额，股东/总代理/代理信用模式才传
+        this.creditType= this.auser.creditType;
 
+        this.quotaInfo.quotaType = 1;
+        this.quotaInfo.quotaAccount = 1;
+        this.quotaInfo.quotaAmount = 1;
+        this.quotaInfo.quotaRemark = '';
 
-
-
-        "cashCredit":0,//0:现金模式，1：信用模式
-    "handicapA": 1,//盘口设置A,0:不设置，1：设置
-    "handicapB": 1,//盘口设置B,0:不设置，1：设置
-    "handicapC": 1,//盘口设置C,0:不设置，1：设置
-    "handicapD": 1,//盘口设置D,0:不设置，1：设置
-    "id":"159",//id
-    "isFrozen":0,//冻结状态，0：否，1：是
-    "isReplenishment":0,//允许补货，0：关闭，1：开启
-    "nickname":"fdsf111",//昵称
-    "occupied":0,//当前用户选择占成
-    "password":"a111111",//密码
-    "phandicapA":1,//父类盘口设置A,0:不设置，1：设置
-    "phandicapB":1,//父类盘口设置B,0:不设置，1：设置
-    "phandicapC":1,//父类盘口设置C,0:不设置，1：设置
-    "phandicapD":1,//父类盘口设置D,0:不设置，1：设置
-    "pid":"159",//父类ID
-    "quota":0,//充值金额，股东/总代理/代理信用模式才传
-    "creditType":0,//0：正常交易,1:第二天还原额度信用模式才传
-
-
-    "currentPage": 0,
-        "pageSize": 10,
-        "startDate": null,
-        "endDate": null,
-        "id": 160,//id
-        "pid": 159,
-        "username": "yyydwgudong1",//用户账号
-        "nickname": "股东",//昵称
-        "password": "a111111",//解密后的密码
-        "tpassword": null,
-        "status": 1,//账号状态，0：停用，1：启用
-        "isFrozen": 0,//冻结状态，0：否，1：是
-        "isReplenishment": 0,//允许补货，0：关闭，1：开启
-        "tingyaShouya": 0,//停押/收押，0：停押，1：收押
-        "ruleId": 4,//角色ID
-        "isOnline": 1,//0:不在线，1：在线
-        "quota": 0,//额度
-        "cashCredit": 0,//0:现金模式，1：信用模式
-        "creditType": 0,//0:正常交易,1:第二天还原额度,创建会员的时候分配
-        "allotOccupied": 60,
-        "noOccupiedRecovery": 0,
-        "occupiedRecovery": 0,
-        
-        "createDate": "2018-07-16T09:29:15.000+0000",//创建时间
-        "updateDate": "2018-07-16T09:29:15.000+0000",
-        "teamId": 1,
-        "passwordFixDate": null,
-        "loginIp": "",
-        "userClass": "1-2-159-160",//体系层级关系
-        "isChild": 0,//是否是子账号,0:否,1:是
-        "ruleName": null,
-        "operationContent": null,
-        "partnerNum": 0,
-        "generalAgentNum": 0,
-        "agentNum": 0,
-        "memberNum": 0,
-        "phandicapA": 1,//父类盘口设置A,0:不设置，1：设置
-        "phandicapB": 1,//父类盘口设置B,0:不设置，1：设置
-        "phandicapC": 1,//父类盘口设置C,0:不设置，1：设置
-        "phandicapD": 1,//父类盘口设置D,0:不设置，1：设置
-        "pAllotOccupied": 100,//父类占成，0是不占成,其他按照数字显示
-        "pCashCredit": 0,//父类，0:现金模式，1：信用模式
-        "functionIdList": null,
-        "pnickname": null,
-        "pusername": "ydwgongsi1",//父类用户账号
-        "pquota": 119878,//父类额度
-        "quotaInfo": null,
-
-        "aUserOccupied": {//当前用户占成分配
-            "id": 179,//占成ID
-            "userId": 160,//用户ID
-            "cChangeAllotOccupied": 60,//当前用户修改的占成,取这个
-            "cOccupied": 60,//当前用户确定的占成
-            "pid": 159,//父类用户ID
-            "pChangeAllotOccupied": 40,//当前父类用户修改的占成，取这个
-            "pOccupied": 40,//当前父类用户确定的占成
-            "status": 1,
-            "allotOccupied": null,
-            "occupiedRecovery": null,
-            "ruleId": null
-        },
-        "loginFunction": 0,
-        "panshiFunction": 0,
-        "chakanFunction": 0,
-        "chongzhiFunction": 0,
-        "zhudanFunction": 0,
-        "caiwuFunction": 0,
-        "baobiaoFunction": 0
-
-
-        
-
-        if(this.auser.quotaInfo) {
-          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
-                quotaType: this.auser.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
-                quotaAccount: this.auser.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                quotaAmount: this.auser.quotaInfo.quotaAmount,//提现充值金额
-                quotaRemark: this.auser.quotaInfo.quotaRemark//备注
-          }
-        }
-        
-        this.ruleId= this.auser.ruleId;//角色ID
-        this.status= this.auser.status;//账号状态，0：停用，1：启用
-        this.tingyaShouya= this.auser.tingyaShouya;//停押/收押，0：停押，1：收押
-        this.occupiedRecovery=  this.auser.occupiedRecovery;
-
-        this.creditType = this.auser.creditType;
-
-        this.id = this.auser.id;
-        
-
-        
-
-
-    
-    "quotaInfo":{//股东/总代理/代理只有信用模式才有充值数据
-            "quotaType": 1,//1,充值,2,提现，公司只有充值
-            "quotaAccount": 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-            "quotaAmount": "",//提现充值金额
-            "quotaRemark": "34123123"//备注
-        }
-    "repassword":"a111111",//重复密码
-    "ruleId":4,//角色ID
-    "status":0,//账号状态，0：停用，1：启用
-    "tingyaShouya":0,//停押/收押，0：停押，1：收押
-    "username":"yfsdf111",用户名
-    "occupiedRecovery":0，//0多余占成返回公司　，1多余占成返回直接上级
+        this.ruleId = this.auser.ruleId;
+        this.status = this.auser.status;
+        this.tingyaShouya = this.auser.tingyaShouya;
+        this.username = this.auser.username;
+        this.occupiedRecovery = this.auser.occupiedRecovery;
 
 
       }
