@@ -257,7 +257,9 @@ export default {
     },
     async childUser() {
 
-      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=5&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.userInfo.id+`&currentPage=`+this.currentPage+`&pageSize=10`);
+      console.log('gudonguclass',this.gudonguclass);
+
+      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=5&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.gudonguclass+`&currentPage=`+this.currentPage+`&pageSize=10`);
 
       if(res.code===200){
 

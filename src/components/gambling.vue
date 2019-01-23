@@ -16,8 +16,8 @@
           <template slot="title">账号管理</template>
           <el-menu-item index="3-1" @click="$router.push({name:'subuser'})">子帐号</el-menu-item>
           <el-menu-item index="3-2" @click="$router.push({name:'gudong'})">股东</el-menu-item>
-          <el-menu-item index="3-3" @click="$router.push({name:''})">总代理</el-menu-item>
-          <el-menu-item index="3-4" @click="$router.push({name:''})">代理</el-menu-item>
+          <el-menu-item index="3-3" @click="$router.push({name:'zongdaili'})">总代理</el-menu-item>
+          <el-menu-item index="3-4" @click="$router.push({name:'daili'})">代理</el-menu-item>
           <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
           <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
         </el-submenu>
