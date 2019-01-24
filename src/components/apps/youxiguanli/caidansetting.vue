@@ -43,7 +43,10 @@ export default {
 
     return {
       data: generateData(),
-      value1: [1, 4],
+      value1: [2, 4,1],
+
+      caizhongList: [],
+      companyId: '',
 
       bocaiId: 1,
       baseBocaiInfo: {},
@@ -66,12 +69,12 @@ export default {
   },
   methods: {
     async baseSet() {
-      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
+
+      let res = await this.$get(`${window.url}/admin/gameManage/getCompanyBocaiSet?companyId=`+this.companyId);
 
       if(res.code===200){
 
-        this.baseBocaiInfo = res.data;
-        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+        this.caizhongList = res.data;
       }
     },
 
