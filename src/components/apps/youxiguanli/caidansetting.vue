@@ -1,5 +1,5 @@
 <template>
-  <div id="youxishezhi" class="content-main">
+  <div id="caidansetting" class="content-main">
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
@@ -10,10 +10,20 @@
 
     <div class="portlet portlet-add">
       <div class="tab">
-        <el-transfer v-model="value1" :data="data"></el-transfer>
 
-        <button class="tabBtn btn btn-blue mgr10">确定</button> 
-        <button class="tabBtn btn btn-red">取消</button></p>
+        <el-transfer
+          :titles="['可分配菜单', '已分配菜单']"
+          :button-texts="['移除', '添加']"
+          target-order="push"
+          v-model="value2"
+          :data="data3">
+        </el-transfer>
+
+        <el-button size="mini" @click="savecaidan()">确定</el-button>
+        <el-button size="mini" @click="baseSet()">取消</el-button>
+
+        <!-- <button class="tabBtn btn btn-blue mgr10">确定</button> 
+        <button class="tabBtn btn btn-red">取消</button> -->
       </div>
     </div>
 
@@ -29,24 +39,13 @@ export default {
   components: {
   },
   data () {
-    const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `备选项 ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-
     return {
-      data: generateData(),
-      value1: [2, 4,1],
-
+      value2: [],
       caizhongList: [],
       companyId: '',
+      allotList: [],  //可分配 
+      choiseList: [], //已分配
+
 
       bocaiId: 1,
       baseBocaiInfo: {},
@@ -57,8 +56,23 @@ export default {
     ...mapGetters({
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
-      bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    data3() {
+      let data = [];
+        this.choiseList.forEach((item, index) => {
+          data.push({
+            label: item.bocaiName,
+            key: item.bocaiId
+          });
+        });
+        this.allotList.forEach((item, index) => {
+          data.push({
+            label: item.bocaiTypeName,
+            key: item.bocaiTypeId
+          });
+        });
+        return data;
+    }
   },
   created() {
 
@@ -69,35 +83,48 @@ export default {
   },
   methods: {
     async baseSet() {
+      this.value2 = [];
 
       let res = await this.$get(`${window.url}/admin/gameManage/getCompanyBocaiSet?companyId=`+this.companyId);
 
       if(res.code===200){
+        this.allotList = res.data.allotList;
+        this.choiseList = res.data.choiseList;
 
-        this.caizhongList = res.data;
+
+        this.choiseList.forEach((item, index) => {
+
+          this.value2.push(
+            item.bocaiId
+          );
+        });
       }
     },
 
-    async saveoddInfo() {
+    async savecaidan() {
 
-      console.log('baseBocaiInfo',this.baseBocaiInfo);
+      console.log('value2',this.value2);
 
       let that = this;
 
+      let idlist = '';
+
+
+      for(let n in this.value2){
+        idlist += this.value2[n];
+        if(n != this.value2.length-1){
+            idlist += ",";
+        }       
+      }
+
+
       let obj = {
-        userId: this.baseBocaiInfo.userId,
-        bocaiId: this.baseBocaiInfo.bocaiId,
-        bocaiName: this.baseBocaiInfo.bocaiName,
-        minimumBet: this.baseBocaiInfo.minimumBet,
-        highestPayout: this.baseBocaiInfo.highestPayout,
-        opentime: this.baseBocaiInfo.opentime,
-        closetime: this.baseBocaiInfo.closetime,
-        isOpen: this.baseBocaiInfo.isOpen ? 1 : 0,
-        advanceTime: this.baseBocaiInfo.advanceTime
+        companyId: '',
+        bocaiTypeIds: idlist
       }
 
       NProgress.start();
-          await that.$post(`${window.url}/admin/gameManage/bocaiBaseSet`,obj).then((res) => {
+          await that.$post(`${window.url}/admin/gameManage/bocaiSortSet`,obj).then((res) => {
             that.$handelResponse(res, (result) => {
               NProgress.done();
               if(result.code===200){
@@ -115,4 +142,32 @@ export default {
 </script>
 
 <style scoped>
+</style>
+<style lang="less">
+#caidansetting {
+
+  .el-checkbox__input {
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+    line-height: 1;
+    position: relative;
+    vertical-align: middle;
+  }
+  .el-checkbox {
+    text-align: left;
+  }
+  .el-checkbox-group.el-transfer-panel__list .el-checkbox__input {
+    position: absolute;
+  }
+  .el-transfer-panel {
+    width: 400px;
+  }
+
+  .el-transfer {
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+}
 </style>
