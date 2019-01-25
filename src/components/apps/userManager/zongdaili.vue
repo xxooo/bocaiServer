@@ -56,34 +56,26 @@
                   <button class="btn-blue" @click="getUserzhangc(item)">查看</button> 
                 </div>
               </td> 
-              <td style="font-weight: bold;">{{item.userType}}</td> 
               <td>{{item.username}}</td>
               <td><span>{{item.nickname}}</span></td> 
-              <!-- <td>{{item.generalAgentNum}}</td>  -->
-              <td>{{item.cashBalance+'('+item.lockBalance+')'}}</td> 
-              <td>{{item.handicap}}</td> 
+              <td>{{item.quota}}</td> 
+              <td>{{item.agentNum}}</td> 
+              <td>{{item.memberNum}}</td> 
               <td>{{$timestampToTime(item.createDate)}}</td> 
               <td :class="item.status == '1' ? 'green': 'red'">{{item.status == '1' ? '启用' : '关闭'}}</td> 
               <td :class="item.isFrozen == '0' ? 'green': 'red'">{{item.isFrozen == '1' ? '是' : '否'}}</td> 
+              <td :class="item.isReplenishment == '1' ? 'green': 'red'">{{item.isFrozen == '1' ? '开启' : '关闭'}}</td> 
               <td :class="item.tingyaShouya == '1' ? 'green': 'red'">{{item.tingyaShouya == '1' ? '收单' : '停押'}}</td> 
               <td class="btnFeatures">
                 <span>
-                  <!-- <a class="tabBtn btnBlue" style="display: none;">启用帐号</a> 
-                  <a class="tabBtn btnRed">停用帐号</a> 
-                  <a class="tabBtn btnBlue" style="display: none;">解冻</a> 
-                  <a class="tabBtn btnRed">冻结 </a> 
-                  <a class="tabBtn btnBlue" style="display: none;">开启补货</a> 
-                  <a class="tabBtn btnRed">关闭补货</a> 
-                  <a class="tabBtn btnBlue" style="display: none;">收单</a> 
-                  <a class="tabBtn btnRed">停押</a>  -->
                   <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
                   <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
+                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">查看密码</a>
                   <a class="tabBtn btnPurple" @click="tuishuiset(item)">信用记录</a>
                 </span>
               </td>
             </tr>
           </tbody>
-
         </table>
 
         <div class="block" v-if="childUserInfo.totalPage > 1">
@@ -220,7 +212,7 @@ export default {
 
     },
     addgudong() {
-      this.$router.push({name:'addhuiyuan'});
+      this.$router.push({name:'addzongdaili'});
     },
     async deletesubuser(item) {
       let that = this;
