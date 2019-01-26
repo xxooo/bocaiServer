@@ -32,9 +32,9 @@
             <td class="tl"><p>请选择上级股东</p></td>
           </tr>
           <tr>
-            <td class="tar">股东帐号:</td> 
+            <td class="tar">总代理帐号:</td> 
             <td class="tl">
-              <p>{{futaitou}}<input type="text" v-model="duanusername" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
+              <p><input type="text" v-model="username" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
             </td> 
             <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
@@ -262,7 +262,9 @@ export default {
       fuusername: '',
       futaitou: '',
       auser: {},
-      companyUser: {}
+      companyUser: {},
+
+      zhishugudongList: []
 
     }
   },
@@ -290,7 +292,7 @@ export default {
     async zhishugudong() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=4&isUp=1`);
       if(+res.code===200) {
-        this.zhishugudongList = res.list;
+        this.zhishugudongList = res.userList;
       }
     },
     qingkong() {

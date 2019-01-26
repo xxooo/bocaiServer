@@ -4,10 +4,6 @@
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
-        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'huiyuan' }">会员</el-breadcrumb-item>
         <el-breadcrumb-item>{{isNew?'新增会员':'修改资料'}}</el-breadcrumb-item>
@@ -26,7 +22,7 @@
             <td width="20%" class="tar">会员类型:</td> 
             <td class="tl">
               <label><input v-model="userType" type="radio" :value="1"> 普通会员 </label> 
-              <label><input v-model="userType" type="radio" :value="2"> 直属会员 </label>
+              <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2"> 直属会员 </label>
             </td> 
             <td class="tl" width="20%">请选择会员类型</td>
           </tr> 
@@ -82,7 +78,7 @@
           <tr>
             <td class="tar">会员帐号:</td> 
             <td class="tl">
-              <p><input type="text" v-model="username" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
+              <p>{{pakoun}}<input type="text" v-model="username" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
             </td> 
             <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
@@ -142,7 +138,7 @@
               <label><input v-model="cashCredit" type="radio" :value="1" disabled="true"> 信用模式 </label>
             </td> 
             <td width="20%" class="tl">
-              <span>请选择消费模式</span>
+              <span>消费模式</span>
             </td>
           </tr>
         </table>
@@ -154,7 +150,7 @@
             </tr>
           </thead> 
           <tr>
-            <td width="20%" class="tar">额度类型:</td> 
+            <td width="20%" class="tar">信用类型:</td> 
             <td class="tl">
               <label><input v-model="creditType" type="radio" :value="1"> 第二天还原额度 </label> 
               <label><input v-model="creditType" type="radio" :value="0"> 正常交易 </label>
@@ -164,16 +160,47 @@
             </td>
           </tr>
           <tr>
-            <td class="tar" width="20%">信用额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
-            <td class="tl" width="20%"> 设定信用额度</td>
+            <td class="tar" width="20%">充值信用额度:</td> 
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定充值信用额度</td>
           </tr>
           <tr>
-            <td class="tar">信用备注:</td> 
+            <td class="tar">充值备注:</td> 
             <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
-            <td class="tl"> 设定信用备注</td>
+            <td class="tl"> 设定充值备注</td>
           </tr>
         </table>
+        <table v-else>
+          <thead>
+            <tr>
+              <th colspan="3">现金额度设置</th>
+            </tr>
+          </thead> 
+          <tr>
+            <td width="20%" class="tar">现金类型:</td> 
+            <td class="tl">
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="1"> 微信 </label> 
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="2"> 支付宝 </label>
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="3"> 银行卡 </label>
+            </td> 
+            <td width="20%" class="tl">
+              <span>请选择额度类型, 设定后不能修改</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tar" width="20%">充值现金额度:</td> 
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定充值现金额度</td>
+
+
+          </tr>
+          <tr>
+            <td class="tar">充值备注:</td> 
+            <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
+            <td class="tl"> 设定充值备注</td>
+          </tr>
+        </table>
+
         <table>
           <thead>
             <tr>
@@ -186,8 +213,8 @@
           <tr>
             <td width="20%" class="tar">上级占成:</td> 
             <td class="tl">
-              <el-select v-model="cselectPzhancheng" placeholder="请选择" size="mini" @change="getCzhangcheng">
-                <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              <el-select v-model="aUserOccupied.pChangeAllotOccupied" placeholder="请选择" size="mini" @change="getCzhangcheng">
+                <el-option v-for="(item,index) in onlyzhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
               </el-select>
 
             </td> 
@@ -269,7 +296,7 @@ export default {
       username: "",//用户名
       creditType:0,//信用模式才有,1,第二天还原额度。0，正常交易
       quotaInfo: {//充值数据
-          quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡
+          quotaAccount: 3,//金额账户,1:微信,2:支付宝,3:银行卡
           quotaAmount: "",//信用金额
           quotaRemark: "",//备注
           quotaType: 1//1,充值,2,提现
@@ -278,7 +305,6 @@ export default {
       zhishuPji: 1,
 
 
-      fuusername: '',
       futaitou: '',
       cuser: {},
       companyUser: {},
@@ -329,7 +355,10 @@ export default {
 
       pzhancheng: 0,
       cselectPzhancheng: 0,
-      fuPankou: []
+      fuPankou: [],
+      sessionAUser: {},
+      isshangji: false,
+      companyUser: {}
 
     }
   },
@@ -342,26 +371,25 @@ export default {
     ifxinyong() {
       return this.cashCredit == '1' ? true : false;
     },
-    czhancheng() {
-      return this.pzhancheng*1 - this.cselectPzhancheng*1;
+    onlyzhanchengList() {
+      let arr = [];
+      for(let n in this.zhanchengList) {
+        if(this.zhanchengList[n].value < this.pzhancheng) {
+          arr.push(this.zhanchengList[n]);
+        }
+      }
+      return arr;
+    },
+    pakoun() {
+      return this.handicap;
     }
   },
   created() {
-      console.log('this.fuuserInfo',this.fuuserInfo);
-
-      this.fuusername = this.fuuserInfo.username;
-      //this.futaitou = this.fuusername.substring(0,1);
       this.cashCredit = this.fuuserInfo.cashCredit;
 
+      console.log('wwwww');
 
-      if(!this.isNew) {
-
-        this.getupdatehuiyuan();
-
-      }
-
-
-      this.getAlldaili();
+      this.getSessionAUser();
   },
   mounted(){
   },
@@ -371,22 +399,47 @@ export default {
 
       if(data > this.pzhancheng) {
         this.$alertMessage('不可超过上级占成!', '温馨提示');
-
-        this.cselectPzhancheng = 0;
+      } else {
+        this.aUserOccupied.cChangeAllotOccupied = +this.pzhancheng - (+data);
       }
 
     },
-    async getshangjidaili(data) {
-      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
+    async getSessionAUser() {
+      console.log('ttttt');
+      let res = await this.$get(`${window.url}/admin/getSessionAUser`);
       if(+res.code===200) {
 
-        this.fujiUserInfo = res.auser;
+        this.sessionAUser = res.sessionAUser;
+                if (this.sessionAUser.ruleId == 6) {//如果是代理，则直接返回代理数据
+                    this.isshangji = true;
+                    this.allDailiList.push(res.sessionAUser);
+                } else {
+                    this.getAlldaili(6);//获取代理列表
+                }
 
-        console.log('this.fujiUserInfo',this.fujiUserInfo);
-
-        this.pzhancheng = res.auser.aUserOccupied.cOccupied;
 
       }
+    },
+    async getshangjidaili(data) {
+      // let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data);
+      if(+res.code===200) {
+
+        if (res.auser != null) {
+
+          this.fujiUserInfo = res.auser;
+
+          this.companyUser = res.companyUser;
+
+          this.pzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
+
+          this.aUserOccupied.pChangeAllotOccupied = res.auser.aUserOccupied.pChangeAllotOccupied;
+
+          this.pid = res.auser.id;
+
+        }
+      }
+
     },
     async zhishuzongdaili() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=5&isUp=1`);
@@ -411,71 +464,6 @@ export default {
       if(+res.code===200) {
         this.allDailiList = res.userList;
       }
-
-    },
-    async getupdatehuiyuan() {
-
-
-      let res = await this.$get(`${window.url}/admin/cuser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
-
-      if(+res.code===200) {
-
-        this.cuser = res.cuser;
-        this.companyUser = res.companyUser;
-
-        if(this.auser.aUserOccupied) {
-          this.aUserOccupied = {//当前用户占成数据
-            cChangeAllotOccupied:this.auser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-            pChangeAllotOccupied:this.auser.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-            pid:this.auser.aUserOccupied.pid//父ID
-          }
-        }
-
-        this.cashCredit= this.auser.cashCredit;//0:现金模式，1：信用模式
-       
-        this.isFrozen= this.auser.isFrozen;//冻结状态，0：否，1：是
-        this.isReplenishment= this.auser.isReplenishment;//允许补货，0：关闭，1：开启
-        this.occupied= this.auser.occupied;//当前用户选择占成
-        this.pid= this.auser.pid;//父类ID
-        this.quota= this.auser.quota;//充值金额，股东/总代理/代理信用模式才传
-
-        if(this.auser.quotaInfo) {
-          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
-                quotaType: this.auser.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
-                quotaAccount: this.auser.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                quotaAmount: this.auser.quotaInfo.quotaAmount,//提现充值金额
-                quotaRemark: this.auser.quotaInfo.quotaRemark//备注
-          }
-        }
-        
-        this.ruleId= this.auser.ruleId;//角色ID
-        this.status= this.auser.status;//账号状态，0：停用，1：启用
-        this.tingyaShouya= this.auser.tingyaShouya;//停押/收押，0：停押，1：收押
-        this.occupiedRecovery=  this.auser.occupiedRecovery;
-
-        this.creditType = this.auser.creditType;
-
-        this.id = this.auser.id;
-        //this.username = this.auser.username;
-        this.duanusername = this.auser.username.substring(1,this.auser.username.length);
-        this.nickname = this.auser.nickname;
-        this.password = this.auser.password;
-        this.repassword = this.auser.password;
-
-        if(this.auser.handicapA == 1) {
-          this.functionIdList.push('A');
-        }
-        if(this.auser.handicapB == 1) {
-          this.functionIdList.push('B');
-        }
-        if(this.auser.handicapC == 1) {
-          this.functionIdList.push('C');
-        }
-        if(this.auser.handicapD == 1) {
-          this.functionIdList.push('D');
-        }
-      }
-
     },
     qingkong() {
       this.id = ""; //id
@@ -485,19 +473,20 @@ export default {
     },
     async checkRepte() {
 
-      if(!this.isNew) {
-        this.id = this.upUserInfo.id;
+      if(this.username == '') {
+        this.$alertMessage('用户名不能为空!', '温馨提示');
       } else {
         this.id = '';
-      }
 
-      let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
+        let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
 
-      if(+res.code===500){
-        this.$alertMessage(res.msg, '温馨提示');
-      } else if(+res.code===200) {
-        this.$alertMessage('此帐号可用', '温馨提示');
+        if(+res.code===500){
+          this.$alertMessage(res.msg, '温馨提示');
+        } else if(+res.code===200) {
+          this.$alertMessage('此帐号可用', '温馨提示');
+        }
       }
+      
 
     },
     async addsubUser() {
@@ -511,57 +500,35 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else {
-
-
-        //this.aUserOccupied.cChangeAllotOccupied = this.occupied;
-
-        // for(let n in this.functionIdList) {
-        //   if(this.functionIdList[n] == 'A') {
-        //     this.handicapA = '1';
-        //   }
-        //   if(this.functionIdList[n] == 'B') {
-        //     this.handicapB = '1';
-        //   }
-        //   if(this.functionIdList[n] == 'C') {
-        //     this.handicapC = '1';
-        //   }
-        //   if(this.functionIdList[n] == 'D') {
-        //     this.handicapD = '1';
-        //   }
-        // }
-
-        if(this.isNew) {
-
-          // if(this.ifxinyong) {
-          //     this.quota = this.quotaInfo.quotaAmount;//充值金额，股东/总代理/代理信用模式才传
-          // } else {
-          //   this.quota = '';
-          // }
+      } else if(this.cashBalance > this.companyUser.quota) {
+        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+      } else if(this.pid == '') {
+        this.$alertMessage('上级不能为空!', '温馨提示');
+      }  else {
 
           let dataobj = {
              aUserOccupied: {//占成对象
-                  cChangeAllotOccupied: this.czhancheng,
-                  pChangeAllotOccupied: this.cselectPzhancheng,//上级占成
+                cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
+                pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
               },
-              cashBalance: 0,//现金余额，1，信用余额
-              cashCredit: 0,//0:现金模式，1：信用模式
+              cashBalance: this.cashBalance,
+              cashCredit: this.cashCredit,
               handicap: this.handicap,//盘口
               isFrozen: this.isFrozen,//冻结状态，0：否，1：是
               nickname: this.nickname,//昵称
               password: this.password,//密码
               pid: this.pid,//上级ID
-              ruleId: 13,//角色ID
+              ruleId: this.ruleId,//角色ID
               status: this.status,//账号状态，0：停用，1：启用
               tingyaShouya: this.tingyaShouya,//停押/收押，0：停押，1：收押
               userType: this.userType,//会员类型,1:普通,2:直属
-              username: this.username,//用户名
+              username: this.pakoun + this.username,//用户名
               creditType: this.creditType,//信用模式才有,1,第二天还原额度。0，正常交易
               quotaInfo: {//充值数据
-                  quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡
-                  quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
-                  quotaRemark: this.quotaInfo.quotaRemark,//备注
-                  quotaType: 1//1,充值,2,提现
+                  quotaAccount : this.quotaInfo.quotaAccount,
+                  quotaAmount : this.quotaInfo.quotaAmount,
+                  quotaRemark : this.quotaInfo.quotaRemark,
+                  quotaType : this.quotaInfo.quotaType,
               }
             }
 
@@ -580,29 +547,6 @@ export default {
                 }
               })
             });
-        } else {
-          let dataobj = {
-            id: this.id,
-            username: this.username,
-            nickname: this.nickname,
-            password: this.password,
-            repassword: this.repassword,
-            functionIdList: this.functionIdList
-          }
-
-          let that = this;
-            NProgress.start();
-            await that.$post(`${window.url}/admin/auser/editChildUser`,dataobj).then((res) => {
-              that.$handelResponse(res, (result) => {
-                NProgress.done();
-                if(result.code===200){
-                  that.$success('提交成功!');
-                  that.$router.push({name:'huiyuan'});
-                  that.qingkong();
-                }
-              })
-            });
-        }
       }
     }
 

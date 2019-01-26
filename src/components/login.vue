@@ -101,7 +101,8 @@ export default {
       let that = this;
 
                let obj = {
-                username: 'gsceshi1',
+                // username: 'gsceshi1',  ydwgongsi1
+                username: 'ydwgongsi1',
                 password: 'a111111'
               };
 

@@ -27,6 +27,13 @@
             <td class="tl" width="20%"></td>
           </tr> 
           <tr>
+            <td class="tar">上级直属:</td> 
+            <td class="tl">
+              <p>{{pusername}}</p>
+            </td> 
+            <td class="tl"></td>
+          </tr> 
+          <tr>
             <td class="tar">会员帐号:</td> 
             <td class="tl">
               <p>{{username}}</p>
@@ -93,6 +100,7 @@
           </tr>
         </table>
 
+        <!-- 信用模式 -->
         <table v-if="cashCredit == 1">
           <thead>
             <tr>
@@ -100,40 +108,78 @@
             </tr>
           </thead> 
           <tr>
+            <td class="tar" width="20%">已有信用额度:</td> 
+            <td class="tl"><input v-model="hascashBalance" type="text" placeholder="" disabled="true"></td> 
+            <td class="tl" width="20%"> </td>
+          </tr>
+          <tr>
             <td width="20%" class="tar">额度类型:</td> 
             <td class="tl">
-              <label><input v-model="creditType" type="radio" :value="1" disabled="true"> 第二天还原额度 </label> 
-              <label><input v-model="creditType" type="radio" :value="0" disabled="true"> 正常交易 </label>
+              <label><input v-model="creditType" type="radio" :value="1"> 第二天还原额度 </label> 
+              <label><input v-model="creditType" type="radio" :value="0"> 正常交易 </label>
             </td> 
             <td width="20%" class="tl">
-              <span>设定后不能修改</span>
+              <span>请选择充值额度类型</span>
             </td>
           </tr>
           <tr>
-            <td class="tar" width="20%">信用额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
+            <td class="tar" width="20%">充值信用额度:</td> 
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
-            <td class="tar">信用备注:</td> 
+            <td class="tar">充值备注:</td> 
             <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
             <td class="tl"> 设定信用备注</td>
           </tr>
         </table>
+        <table v-else>
+          <thead>
+            <tr>
+              <th colspan="3">现金额度设置</th>
+            </tr>
+          </thead> 
+          <tr>
+            <td class="tar" width="20%">已有现金额度:</td> 
+            <td class="tl"><input v-model="hascashBalance" type="text" placeholder="" disabled="true"></td> 
+            <td class="tl" width="20%"> </td>
+          </tr>
+          <tr>
+            <td width="20%" class="tar">充值现金类型:</td> 
+            <td class="tl">
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="1"> 微信 </label> 
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="2"> 支付宝 </label>
+              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="3"> 银行卡 </label>
+            </td> 
+            <td width="20%" class="tl">
+              <span>请选择充值额度类型</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tar" width="20%">充值现金额度:</td> 
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定充值现金额度</td>
+
+
+          </tr>
+          <tr>
+            <td class="tar">充值备注:</td> 
+            <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
+            <td class="tl"> 设定充值备注</td>
+          </tr>
+        </table>
+
         <table>
           <thead>
             <tr>
               <th colspan="3">占成分配</th>
             </tr>
           </thead> 
-
-          <!-- 要不要填的，还是直接用上级的占成 -->
-
           <tr>
             <td width="20%" class="tar">上级占成:</td> 
             <td class="tl">
-              <el-select v-model="cselectPzhancheng" placeholder="请选择" size="mini" @change="getCzhangcheng">
-                <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              <el-select v-model="aUserOccupied.pChangeAllotOccupied" placeholder="请选择" size="mini" @change="getCzhangcheng">
+                <el-option v-for="(item,index) in onlyzhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
               </el-select>
 
             </td> 
@@ -163,7 +209,7 @@
           </tr>
         </table> 
           <p class="tac" style="margin-top: 8px;">
-            <button class="tabBtn btn btn-blue mgr10" @click="addsubUser()">确定</button> 
+            <button class="tabBtn btn btn-blue mgr10" @click="updatehuiyuan()">确定</button> 
             <button class="tabBtn btn btn-red" @click="$router.push({name:'huiyuan'})">取消</button>
           </p>
       </div>
@@ -194,6 +240,7 @@ export default {
           pChangeAllotOccupied: 0//上级占成
       },
       cashBalance: 0,//现金余额，1，信用余额
+      hascashBalance: '',//已有额度
       cashCredit: 0,//0:现金模式，1：信用模式
       handicap: '',//盘口
       isFrozen: 0,//冻结状态，0：否，1：是
@@ -207,7 +254,7 @@ export default {
       username: "",//用户名
       creditType:0,//信用模式才有,1,第二天还原额度。0，正常交易
       quotaInfo: {//充值数据
-          quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡
+          quotaAccount: 3,//金额账户,1:微信,2:支付宝,3:银行卡
           quotaAmount: "",//信用金额
           quotaRemark: "",//备注
           quotaType: 1//1,充值,2,提现
@@ -216,7 +263,7 @@ export default {
       zhishuPji: 1,
 
 
-      fuusername: '',
+      pusername: '',
       futaitou: '',
       cuser: {},
       companyUser: {},
@@ -277,8 +324,14 @@ export default {
       fuuserInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo'
     }),
-    czhancheng() {
-      return this.pzhancheng*1 - this.cselectPzhancheng*1;
+    onlyzhanchengList() {
+      let arr = [];
+      for(let n in this.zhanchengList) {
+        if(this.zhanchengList[n].value < this.pzhancheng) {
+          arr.push(this.zhanchengList[n]);
+        }
+      }
+      return arr;
     }
   },
   created() {
@@ -293,8 +346,8 @@ export default {
 
       if(data > this.pzhancheng) {
         this.$alertMessage('不可超过上级占成!', '温馨提示');
-
-        this.cselectPzhancheng = 0;
+      } else {
+        this.aUserOccupied.cChangeAllotOccupied = +this.pzhancheng - (+data);
       }
 
     },
@@ -306,6 +359,8 @@ export default {
 
         this.cuser = res.cuser;
 
+        this.pusername = this.cuser.pusername;
+
         if(this.cuser.aUserOccupied) {
           this.aUserOccupied = {//当前用户占成数据
             cChangeAllotOccupied:this.cuser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
@@ -313,7 +368,9 @@ export default {
           }
         }
 
-        this.cashBalance = this.cuser.cashBalance;
+        this.pzhancheng = this.cuser.aUserOccupied.pChangeAllotOccupied;
+
+        this.hascashBalance = this.cuser.cashBalance;
         this.cashCredit = this.cuser.cashCredit;//0:现金模式，1：信用模式
         this.handicap = this.cuser.handicap;
         this.id = this.cuser.id;
@@ -323,24 +380,6 @@ export default {
         this.password = this.cuser.password;
         this.repassword = this.password;
         this.pid= this.cuser.pid;//父类ID
-
-        // if(this.cuser.quotaInfo) {
-        //   this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
-        //         quotaType: this.cuser.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
-        //         quotaAccount: this.cuser.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-        //         quotaAmount: this.cuser.quotaInfo.quotaAmount,//提现充值金额
-        //         quotaRemark: this.cuser.quotaInfo.quotaRemark//备注
-        //   }
-        // }      //获取的为null，怎么搞？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
-
-        // "quotaInfo": {//充值数据
-        //     "quotaAccount": 1,//金额账户,1:微信,2:支付宝,3:银行卡
-        //     "quotaAmount": "",//信用金额
-        //     "quotaRemark": "",//备注
-        //     "quotaType": 1//1,充值,2,提现
-        // },
-
-
 
         this.ruleId = this.cuser.ruleId;//角色ID
         this.status = this.cuser.status;//账号状态，0：停用，1：启用
@@ -357,7 +396,7 @@ export default {
       this.password= "";
       this.repassword= "";
     },
-    async addsubUser() {
+    async updatehuiyuan() {
 
 
       if(this.username == '') {
@@ -368,21 +407,43 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
+      } else if(this.cashBalance > this.cuser.pquota) {
+        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else {
 
 
           let dataobj = {
+            aUserOccupied: {
+              cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
+              pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
+            },
+            cashBalance: +this.cashBalance,
+            cashCredit: this.cashCredit,
+            handicap: this.handicap,
             id: this.id,
-            username: this.username,
+            isFrozen: this.isFrozen,
             nickname: this.nickname,
+            occupied: this.occupied,
             password: this.password,
-            repassword: this.repassword,
-            functionIdList: this.functionIdList
+            pid: this.pid,
+            quotaInfo: {
+              quotaAccount : this.quotaInfo.quotaAccount,
+              quotaAmount : this.quotaInfo.quotaAmount,
+              quotaRemark : this.quotaInfo.quotaRemark,
+              quotaType : this.quotaInfo.quotaType,
+            },
+            ruleId: this.ruleId,
+            status: this.status,
+            tingyaShouya: this.tingyaShouya,
+            userType: this.userType,
+            username: this.username,
+            isHide: this.cuser.isHide,
+            userClass: this.cuser.userClass
           }
 
           let that = this;
             NProgress.start();
-            await that.$post(`${window.url}/admin/cuser/editChildUser`,dataobj).then((res) => {
+            await that.$post(`${window.url}/admin/cuser/editUser`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
                 NProgress.done();
                 if(result.code===200){
@@ -392,7 +453,6 @@ export default {
                 }
               })
             });
-
 
       }
     }

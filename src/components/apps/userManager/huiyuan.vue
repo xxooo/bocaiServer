@@ -64,7 +64,7 @@
                   <button class="btn-blue" @click="getUserzhangc(item)">查看</button> 
                 </div>
               </td> 
-              <td style="font-weight: bold;">{{item.userType}}</td> 
+              <td style="font-weight: bold;">{{item.userType == 1? '普通会员' : '直属会员'}}</td> 
               <td>{{item.username}}</td>
               <td><span>{{item.nickname}}</span></td> 
               <!-- <td>{{item.generalAgentNum}}</td>  -->
@@ -83,68 +83,6 @@
               </td>
             </tr>
           </tbody>
-
-
-            "currentPage": 0,
-                "pageSize": 10,
-                "startDate": null,
-                "endDate": null,
-                "id": 210,//ID
-                "pid": 3,
-                "username": "gongsi22",//用户名称
-                "nickname": "gongsi22",//用户昵称
-                "password": "YTExMTExMWJvY2Fp",
-                "tpassword": "",
-                "status": 1,//账号状态，0：停用，1：启用
-                "isFrozen": 0,//冻结状态，0：否，1：是
-                "isReplenishment": 0,//允许补货，0：关闭，1：开启
-                "tingyaShouya": 0,//停押/收押，0：停押，1：收押
-                "ruleId": 13,
-                "isOnline": 0,//0不在线，1在线
-                "quota": 1000,//用户金额
-                "cashCredit": 0,
-                "creditType": 0,
-                "allotOccupied": 0,
-                "noOccupiedRecovery": 0,
-                "occupiedRecovery": 0,
-                "handicapA": 1,
-                "handicapB": 1,
-                "handicapC": 1,
-                "handicapD": 1,
-                "createDate": "2018-11-08T06:43:16.000+0000",//创建时间
-                "updateDate": "2018-11-08T06:43:15.000+0000",
-                "teamId": 1,
-                "passwordFixDate": null,
-                "loginIp": "",
-                "userClass": "1-3-210",//体系关系
-                "isChild": 0,
-                "ruleName": null,
-                "operationContent": null,
-                //注意下面4个数量，当前登录只能获取到下级数量，所以取数据要注意
-                "partnerNum": 0,//股东数量
-                "generalAgentNum": 0,//总代理数量
-                "agentNum": 0,//代理数量
-                "memberNum": 0,//会员数量
-                "phandicapA": null,
-                "phandicapB": null,
-                "phandicapC": null,
-                "phandicapD": null,
-                "pAllotOccupied": null,
-                "pCashCredit": null,
-                "functionIdList": null,
-                "pnickname": null,
-                "pusername": null,
-                "pquota": null,
-                "quotaInfo": null,
-                "aUserOccupied": null,
-                "loginFunction": 0,
-                "panshiFunction": 0,
-                "chakanFunction": 0,
-                "chongzhiFunction": 0,
-                "zhudanFunction": 0,
-                "caiwuFunction": 0,
-                "baobiaoFunction": 0
-                
 
         </table>
 
