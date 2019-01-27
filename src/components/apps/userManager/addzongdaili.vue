@@ -283,12 +283,22 @@ export default {
   },
   created() {
 
-      this.zhishugudong();
+      //this.zhishugudong();
+
+      this.ifshangji(5);
+
+      admin/auser/userInfo?ruleId=5
 
   },
   mounted(){
   },
   methods: {
+    async zhishugudong(ruleid) {
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=`);
+      if(+res.code===200) {
+        this.zhishugudongList = res.userList;
+      }
+    },
     async zhishugudong() {
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=4&isUp=1`);
       if(+res.code===200) {

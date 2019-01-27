@@ -21,8 +21,8 @@
           <tr>
             <td width="20%" class="tar">会员类型:</td> 
             <td class="tl">
-              <label><input v-model="userType" type="radio" :value="1"> 普通会员 </label> 
-              <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2"> 直属会员 </label>
+              <label><input v-model="userType" type="radio" :value="1" @click="getSessionAUser()"> 普通会员 </label> 
+              <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2" @click="zhishugongsi()"> 直属会员 </label>
             </td> 
             <td class="tl" width="20%">请选择会员类型</td>
           </tr> 
@@ -49,7 +49,7 @@
             <tr v-if="zhishuPji == 1">
               <td class="tar">上级公司:</td> 
               <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                   <el-option v-for="(item,index) in zhishugongsiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
                 </el-select>
               </td> 
@@ -58,7 +58,7 @@
             <tr v-if="zhishuPji == 2">
               <td class="tar">上级股东:</td> 
               <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                   <el-option v-for="(item,index) in zhishugudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
                 </el-select>
               </td> 
@@ -67,7 +67,7 @@
             <tr v-if="zhishuPji == 3">
               <td class="tar">上级总代理:</td> 
               <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini">
+                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                   <el-option v-for="(item,index) in zhishuzongdailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
                 </el-select>
               </td> 
@@ -442,24 +442,31 @@ export default {
 
     },
     async zhishuzongdaili() {
+      this.pid = '';
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=5&isUp=1`);
       if(+res.code===200) {
-        this.zhishuzongdailiList = res.list;
+        this.zhishuzongdailiList = res.userList;
       }
     },
     async zhishugudong() {
+      this.pid = '';
+
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=4&isUp=1`);
       if(+res.code===200) {
-        this.zhishugudongList = res.list;
+        this.zhishugudongList = res.userList;
       }
     },
     async zhishugongsi() {
+      this.pid = '';
+
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=3&isUp=1`);
       if(+res.code===200) {
-        this.zhishugongsiList = res.list;
+        this.zhishugongsiList = res.userList;
       }
     },
     async getAlldaili() {
+      this.pid = '';
+
       let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=6&isUp=1`);
       if(+res.code===200) {
         this.allDailiList = res.userList;
