@@ -131,34 +131,6 @@
             <td class="tl"> 设定充值备注</td>
           </tr>
         </table>
-        <table v-else>
-          <thead>
-            <tr>
-              <th colspan="3">现金额度设置</th>
-            </tr>
-          </thead> 
-          <tr>
-            <td width="20%" class="tar">现金类型:</td> 
-            <td class="tl">
-              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="1"> 微信 </label> 
-              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="2"> 支付宝 </label>
-              <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="3"> 银行卡 </label>
-            </td> 
-            <td width="20%" class="tl">
-              <span>请选择额度类型, 设定后不能修改</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="tar" width="20%">充值现金额度:</td> 
-            <td class="tl"><input v-model="quota" type="text" placeholder=""></td> 
-            <td class="tl" width="20%"> 设定充值现金额度</td>
-          </tr>
-          <tr>
-            <td class="tar">充值备注:</td> 
-            <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
-            <td class="tl"> 设定充值备注</td>
-          </tr>
-        </table>
 
         <table>
           <thead>
