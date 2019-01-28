@@ -4,13 +4,9 @@
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
-        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'gudong' }">股东</el-breadcrumb-item>
-        <el-breadcrumb-item>{{isNew?'新增股东':'修改资料'}}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{isNew?'新增':'修改资料'}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -22,85 +18,100 @@
               <th colspan="3">基本资料设定</th>
             </tr>
           </thead> 
-          <tr>
+
+          <tr v-if="isshangji">
             <td width="20%" class="tar">公司:</td> 
-            <td class="tl"><p><span>{{fuusername}}</span></p></td> 
-            <td class="tl" width="20%"></td>
-          </tr> 
+              <td class="tl">
+                <p>{{fujiUserInfo.username}}</p>
+              </td> 
+            <td width="20%" class="tl"><p>上级公司</p></td>
+          </tr>
+          <tr v-else isshangji>
+            <td width="20%" class="tar">公司:</td> 
+              <td class="tl">
+                <el-select v-model="fujiUserInfodemo" placeholder="请选择" size="mini" @change="gettouname" value-key="username" :disabled="isshangji">
+                  <el-option v-for="(item,index) in zhishugudongList" :value="item" :key="item.id" :label="item.username"></el-option> 
+                </el-select>
+
+              </td> 
+            <td width="20%" class="tl"><p>请选择上级公司</p></td>
+          </tr>
           <tr>
-            <td class="tar">股东帐号:</td> 
+            <td width="20%" class="tar">股东帐号:</td> 
             <td class="tl">
               <p>{{futaitou}}<input type="text" v-model="duanusername" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
             </td> 
-            <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
+            <td width="20%" class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
           <tr>
-            <td class="tar">股东名称:</td> 
+            <td width="20%" class="tar">股东名称:</td> 
             <td class="tl"><input v-model="nickname" type="text" placeholder="请输入名称"></td> 
-            <td class="tl"> 请输入名称。</td>
+            <td width="20%" class="tl"> 请输入名称。</td>
           </tr>
           <tr>
-            <td class="tar">密码:</td> 
+            <td width="20%" class="tar">密码:</td> 
             <td class="tl"><input v-model="password" type="password" placeholder="请输入密码"></td> 
-            <td class="tl">密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符) 同组密码限用30天。
+            <td width="20%" class="tl">密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符) 同组密码限用30天。
             </td>
           </tr>
           <tr>
-            <td class="tar"><span class="red">*</span> 重新输入密码:</td> 
+            <td width="20%" class="tar"><span class="red">*</span> 重新输入密码:</td> 
             <td class="tl"><input type="password" v-model="repassword" placeholder="请输入密码"></td> 
-            <td class="tl"><i class="icon-exclamation-sign"></i>
+            <td width="20%" class="tl"><i class="icon-exclamation-sign"></i>
               密码长度不小于6位,且需数字字母混用(不可接受!#$&amp;*+.=@|等特殊字符)同组密码限用30天。
             </td>
           </tr>
           <tr>
-            <td class="tar">帐号状态:</td>
-            <td class="tl">
-                <label><input v-model="status" type="radio" value="1">启用</label>
-                <label><input v-model="status" type="radio" value="0">停用</label>
-            </td> 
-            <td class="tl">请选择启用/停用账号</td>
-          </tr> 
-          <tr>
-            <td class="tar">冻结:</td>
+            <td width="20%" class="tar">冻结:</td>
             <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>
                 <label><input v-model="isFrozen" type="radio" value="0"> 否 </label>
             </td> 
-            <td class="tl">请选择是否冻结</td>
+            <td width="20%" class="tl">请选择是否冻结</td>
           </tr> 
           <tr>
-            <td class="tar">补货:</td> 
+            <td width="20%" class="tar">补货:</td> 
             <td class="tl">
               <label><input v-model="isReplenishment" type="radio" value="1"> 开启 </label> 
               <label><input v-model="isReplenishment" type="radio" value="0"> 关闭 </label>
             </td> 
-            <td class="tl"> 请选择开启或关闭 </td>
+            <td width="20%" class="tl"> 请选择开启或关闭 </td>
           </tr> 
           <tr>
-            <td class="tar">收单/停押:</td> 
+            <td width="20%" class="tar">收单/停押:</td> 
             <td class="tl">
               <label><input v-model="tingyaShouya" type="radio" value="1"> 收单 </label> 
               <label><input v-model="tingyaShouya" type="radio" value="0"> 停押 </label>
             </td> 
-            <td class="tl">请选择收单或停押</td>
+            <td width="20%" class="tl">请选择收单或停押</td>
           </tr> 
-          <tr>
-            <td width="20%" class="tar">结算方式:</td> 
-            <td class="tl">
-              <label><input v-model="cashCredit" type="radio" :value="1"> 信用 </label> 
-              <label><input v-model="cashCredit" type="radio" :value="0"> 现金 </label>
-            </td> 
-            <td width="20%" class="tl">请选择结算方式</td>
-          </tr>
         </table>
-        <table v-if="ifxinyong">
+        <table>
+            <thead>
+              <tr>
+                <th colspan="3">基础功能设置</th>
+              </tr>
+            </thead> 
+            <tr>
+              <td width="20%" class="tar">消费模式:</td> 
+              <td class="tl">
+                <label><input v-model="cashCredit" type="radio" :value="0" disabled="true"> 现金模式 </label> 
+                <label><input v-model="cashCredit" type="radio" :value="1" disabled="true"> 信用模式 </label>
+              </td> 
+              <td width="20%" class="tl">
+                <span>消费模式</span>
+              </td>
+            </tr>
+        </table>
+
+        <table v-if="cashCredit == 1">
           <thead>
             <tr>
               <th colspan="3">信用额度设置</th>
             </tr>
           </thead> 
           <tr>
-            <td width="20%" class="tar">额度类型:</td> 
+            <td width="20%" class="tar">信用类型:</td> 
             <td class="tl">
               <label><input v-model="creditType" type="radio" :value="1"> 第二天还原额度 </label> 
               <label><input v-model="creditType" type="radio" :value="0"> 正常交易 </label>
@@ -110,65 +121,30 @@
             </td>
           </tr>
           <tr>
-            <td class="tar" width="20%">信用额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
-            <td class="tl" width="20%"> 设定信用额度</td>
+            <td class="tar" width="20%">充值信用额度:</td> 
+            <td class="tl"><input v-model="quota" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定充值信用额度</td>
           </tr>
           <tr>
-            <td class="tar">信用备注:</td> 
+            <td class="tar">充值备注:</td> 
             <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
-            <td class="tl"> 设定信用备注</td>
+            <td class="tl"> 设定充值备注</td>
           </tr>
         </table>
+
         <table>
           <thead>
             <tr>
-              <th colspan="3">现金设定</th>
+              <th colspan="3">占成分配</th>
             </tr>
           </thead> 
+
           <tr>
             <td width="20%" class="tar">股东占成:</td> 
             <td class="tl">
-              <select v-model="occupied">
-                <option value="100">100%</option>
-                <option value="99">99%</option>
-                <option value="98">98%</option>
-                <option value="97">97%</option>
-                <option value="96">96%</option>
-                <option value="95">95%</option>
-                <option value="94">94%</option>
-                <option value="93">93%</option>
-                <option value="92">92%</option>
-                <option value="91">91%</option>
-                <option value="90">90%</option>
-                <option value="89">89%</option>
-                <option value="88">88%</option>
-                <option value="87">87%</option>
-                <option value="86">86%</option>
-                <option value="85">85%</option>
-                <option value="84">84%</option>
-                <option value="83">83%</option>
-                <option value="82">82%</option>
-                <option value="81">81%</option>
-                <option value="80">80%</option>
-                <option value="75">75%</option>
-                <option value="70">70%</option>
-                <option value="65">65%</option>
-                <option value="60">60%</option>
-                <option value="55">55%</option>
-                <option value="50">50%</option>
-                <option value="45">45%</option>
-                <option value="40">40%</option>
-                <option value="35">35%</option>
-                <option value="30">30%</option>
-                <option value="25">25%</option>
-                <option value="20">20%</option>
-                <option value="15">15%</option>
-                <option value="10">10%</option>
-                <option value="5">5%</option>
-                <option value="0">不占成</option>
-              </select> 
-              <span class="red" style="display: none;">暂未生效</span>
+              <el-select v-model="pzhancheng" placeholder="请选择" size="mini">
+                <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              </el-select>
             </td> 
             <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
@@ -177,11 +153,12 @@
             <td class="tl">
               <label><input v-model="occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
               <label><input v-model="occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
-              <span class="red" style="display: none;">暂未生效</span>
             </td> 
             <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
           </tr>
-        </table> 
+        </table>
+
+
         <table>
           <thead>
             <tr>
@@ -248,7 +225,6 @@ export default {
       nickname:"",//昵称
       occupied:'0',//当前用户选择占成
       password:"",//密码
-      pid:"",//父类ID
       quota:0,//充值金额，股东/总代理/代理信用模式才传
       quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
               quotaType: 1,//1,充值,2,提现，公司只有充值
@@ -264,9 +240,57 @@ export default {
       occupiedRecovery: '0',
 
       fuusername: '',
-      futaitou: '',
       auser: {},
-      companyUser: {}
+      companyUser: {},
+      zhishugudongList: [],
+
+      fujiUserInfo: {},
+      fujiUserInfodemo: {},
+      isshangji: false,
+      zhanchengList: [
+        {label: '99%',value: 99},
+        {label: '98%',value: 98},
+        {label: '97%',value: 97},
+        {label: '96%',value: 96},
+        {label: '95%',value: 95},
+        {label: '94%',value: 94},
+        {label: '93%',value: 93},
+        {label: '92%',value: 92},
+        {label: '91%',value: 91},
+        {label: '90%',value: 90},
+        {label: '89%',value: 89},
+        {label: '88%',value: 88},
+        {label: '87%',value: 87},
+        {label: '86%',value: 86},
+        {label: '85%',value: 85},
+        {label: '84%',value: 84},
+        {label: '83%',value: 83},
+        {label: '82%',value: 82},
+        {label: '81%',value: 81},
+        {label: '80%',value: 80},
+        {label: '75%',value: 75},
+        {label: '70%',value: 70},
+        {label: '65%',value: 65},
+        {label: '60%',value: 60},
+        {label: '55%',value: 55},
+        {label: '50%',value: 50},
+        {label: '45%',value: 45},
+        {label: '40%',value: 40},
+        {label: '35%',value: 35},
+        {label: '30%',value: 30},
+        {label: '25%',value: 25},
+        {label: '20%',value: 20},
+        {label: '15%',value: 15},
+        {label: '10%',value: 10},
+        {label: '5%',value: 5},
+        {label: '不占成',value: 0},
+      ],
+      pzhancheng: 0,
+      mzhancheng: 0,
+      yzhancheng: 0,
+      pquota: 0,
+      pid: ''
+
 
     }
   },
@@ -281,95 +305,63 @@ export default {
     },
     ifxinyong() {
       return this.cashCredit == '1' ? true : false;
-    }
+    },
+    futaitou() {
+      return this.fujiUserInfo.username ? this.fujiUserInfo.username.substring(0,3) : '';
+    },
   },
   created() {
-      console.log('this.upUserInfo',this.upUserInfo);
 
-      this.fuusername = this.fuuserInfo.username;
-      this.futaitou = this.fuusername.substring(0,1);
       this.cashCredit = this.fuuserInfo.cashCredit;
 
+      this.ifshangji(this.ruleId);
 
-      if(!this.isNew) {
-
-        this.getupdategudong();
-
-
-
-        //console.log('this.aUserOccupied',this.aUserOccupied);
-
-        // this.handicapA=  this.upUserInfo.handicapA;//盘口设置A,0:不设置，1：设置
-        // this.handicapB=  this.upUserInfo.handicapB;//盘口设置B,0:不设置，1：设置
-        // this.handicapC=  this.upUserInfo.handicapC;//盘口设置C,0:不设置，1：设置
-        // this.handicapD=  this.upUserInfo.handicapD;//盘口设置D,0:不设置，1：设置
-      }
   },
   mounted(){
   },
   methods: {
-    async getupdategudong() {
-
-      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
-
+    async getuserInfo(item) {
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+item.id);
       if(+res.code===200) {
+        if(res.auser) {
+          this.fujiUserInfo = res.auser;
 
-        this.auser = res.auser;
-        this.companyUser = res.companyUser;
+          this.yzhancheng = res.auser.cChangeAllotOccupied;
+          this.pzhancheng = res.auser.cChangeAllotOccupied;
+          this.pquota = res.auser.quota;
+          this.pid = res.auser.id;
 
-        if(this.auser.aUserOccupied) {
-          this.aUserOccupied = {//当前用户占成数据
-            cChangeAllotOccupied:this.auser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-            pChangeAllotOccupied:this.auser.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-            pid:this.auser.aUserOccupied.pid//父ID
-          }
-        }
-
-        this.cashCredit= this.auser.cashCredit;//0:现金模式，1：信用模式
-       
-        this.isFrozen= this.auser.isFrozen;//冻结状态，0：否，1：是
-        this.isReplenishment= this.auser.isReplenishment;//允许补货，0：关闭，1：开启
-        this.occupied= this.auser.occupied;//当前用户选择占成
-        this.pid= this.auser.pid;//父类ID
-        this.quota= this.auser.quota;//充值金额，股东/总代理/代理信用模式才传
-
-        if(this.auser.quotaInfo) {
-          this.quotaInfo= {//股东/总代理/代理只有信用模式才有充值数据
-                quotaType: this.auser.quotaInfo.quotaType,//1,充值,2,提现，公司只有充值
-                quotaAccount: this.auser.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
-                quotaAmount: this.auser.quotaInfo.quotaAmount,//提现充值金额
-                quotaRemark: this.auser.quotaInfo.quotaRemark//备注
-          }
-        }
-        
-        this.ruleId= this.auser.ruleId;//角色ID
-        this.status= this.auser.status;//账号状态，0：停用，1：启用
-        this.tingyaShouya= this.auser.tingyaShouya;//停押/收押，0：停押，1：收押
-        this.occupiedRecovery=  this.auser.occupiedRecovery;
-
-        this.creditType = this.auser.creditType;
-
-        this.id = this.auser.id;
-        //this.username = this.auser.username;
-        this.duanusername = this.auser.username.substring(1,this.auser.username.length);
-        this.nickname = this.auser.nickname;
-        this.password = this.auser.password;
-        this.repassword = this.auser.password;
-
-        if(this.auser.handicapA == 1) {
-          this.functionIdList.push('A');
-        }
-        if(this.auser.handicapB == 1) {
-          this.functionIdList.push('B');
-        }
-        if(this.auser.handicapC == 1) {
-          this.functionIdList.push('C');
-        }
-        if(this.auser.handicapD == 1) {
-          this.functionIdList.push('D');
+          console.log('this.fujiUserInfo',this.fujiUserInfo);
         }
       }
+    },
+    gettouname(item) {
 
+      console.log('item',item);
+
+      this.getuserInfo(item);
+
+    },
+    async ifshangji(ruleid) {
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=`+ruleid);
+      if(+res.code===200) {
+        if(res.auser) {
+          this.zhishugudongList.push(res.auser);
+          this.fujiUserInfo = res.auser;
+          this.getuserInfo(res.auser);
+          // if(this.fujiUserInfo.aUserOccupied) {
+          //   this.yzhancheng = this.fujiUserInfo.aUserOccupied.pChangeAllotOccupied;
+          // } else {
+          //   this.yzhancheng = 0;
+          // }
+
+          this.isshangji = true;
+        } else {
+          this.zhishugudongList = res.pAUserList;
+          this.isshangji = false;
+        }
+        
+      }
     },
     qingkong() {
       this.functionIdList =[];//权限ID列表
@@ -380,9 +372,7 @@ export default {
       this.duanusername= "";
     },
     async checkRepte() {
-      if(!this.isNew) {
-        this.id = this.upUserInfo.id;
-      }
+      this.id = '';
 
       console.log('username',this.username);
 
@@ -397,7 +387,6 @@ export default {
     },
     async addsubUser() {
 
-
       if(this.username == '') {
         this.$alertMessage('用户名不能为空!', '温馨提示');
       } else if(this.nickname == '') {
@@ -406,8 +395,11 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
+      } else if(+this.pzhancheng > +this.yzhancheng) {
+        this.$alertMessage('总占成不能超过上级占成!', '温馨提示');
+      } else if(this.ifxinyong && (this.quota > + this.pquota)) {
+        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else {
-
 
         this.aUserOccupied.cChangeAllotOccupied = this.occupied;
 
@@ -426,19 +418,11 @@ export default {
           }
         }
 
-        if(this.isNew) {
-
-          if(this.ifxinyong) {
-              this.quota = this.quotaInfo.quotaAmount;//充值金额，股东/总代理/代理信用模式才传
-          } else {
-            this.quota = '';
-          }
-
           let dataobj = {
             aUserOccupied:{//当前用户占成数据
-              cChangeAllotOccupied:this.aUserOccupied.cChangeAllotOccupied,//当前设置占成
-              pChangeAllotOccupied:this.aUserOccupied.pChangeAllotOccupied,//当前父类设置占成
-              pid:this.fuuserInfo.id//父ID
+              cChangeAllotOccupied:this.mzhancheng,//当前设置占成
+              pChangeAllotOccupied:this.pzhancheng,//当前父类设置占成
+              pid:this.pid//父ID
             },  
             cashCredit:this.cashCredit,//0:现金模式，1：信用模式
             creditType: this.creditType,
@@ -456,7 +440,7 @@ export default {
             quota:this.quota,//充值金额，股东/总代理/代理信用模式才传
             quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
                       quotaType: 1,//1,充值,2,提现，公司只有充值
-                      quotaAccount: 1,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
+                      quotaAccount: this.quotaInfo.quotaAccount,//金额账户,1:微信,2:支付宝,3:银行卡，公司默认微信
                       quotaAmount: this.quotaInfo.quotaAmount,//提现充值金额
                       quotaRemark: this.quotaInfo.quotaRemark//备注
             },
@@ -482,33 +466,8 @@ export default {
                 }
               })
             });
-        } else {
-          let dataobj = {
-            id: this.id,
-            username: this.username,
-            nickname: this.nickname,
-            password: this.password,
-            repassword: this.repassword,
-            functionIdList: this.functionIdList
-          }
-
-          let that = this;
-            NProgress.start();
-            await that.$post(`${window.url}/admin/auser/editChildUser`,dataobj).then((res) => {
-              that.$handelResponse(res, (result) => {
-                NProgress.done();
-                if(result.code===200){
-                  that.$success('提交成功!');
-                  that.$router.push({name:'gudong'});
-                  that.qingkong();
-                }
-              })
-            });
-        }
       }
     }
-
-
 
   }
 }

@@ -5,24 +5,19 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'gudong' }">股东</el-breadcrumb-item>
+        <el-breadcrumb-item>股东</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="nav">
       <div class="btn-ground">
         筛选 :
-        <el-select v-model="shuaixuanNum" @change="changeStats" placeholder="请选择" size="mini">
+        <el-select v-model="shuaixuanNum" placeholder="请选择" size="mini" style="width: 15%;">
           <el-option value="1" key="1" label="启用"></el-option> 
-          <el-option value="2" key="0" label="停用"></el-option> 
-          <!-- <el-option value="3" key="3" label="解冻"></el-option>
-          <el-option value="4" key="4" label="冻结"></el-option>
-          <el-option value="5" key="5" label="开启补货"></el-option>
-          <el-option value="6" key="6" label="关闭补货"></el-option>
-          <el-option value="7" key="7" label="收单"></el-option>
-          <el-option value="8" key="8" label="停押"></el-option> -->
+          <el-option value="0" key="0" label="停用"></el-option> 
+          <el-option :value="''" key="null" label="全部"></el-option> 
         </el-select>
         股东帐号 :
-        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width: 30%;"></el-input>
+        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width: 20%;"></el-input>
         <button class="btn btn-blue" @click="childUser()">查询</button>
         <button class="btn btn-blue" @click="addgudong()">新增</button>
       </div>
@@ -71,21 +66,12 @@
               <td :class="item.tingyaShouya == '1' ? 'green': 'red'">{{item.tingyaShouya == '1' ? '收单' : '停押'}}</td> 
               <td class="btnFeatures">
                 <span>
-                  <!-- <a class="tabBtn btnBlue" style="display: none;">启用帐号</a> 
-                  <a class="tabBtn btnRed">停用帐号</a> 
-                  <a class="tabBtn btnBlue" style="display: none;">解冻</a> 
-                  <a class="tabBtn btnRed">冻结 </a> 
-                  <a class="tabBtn btnBlue" style="display: none;">开启补货</a> 
-                  <a class="tabBtn btnRed">关闭补货</a> 
-                  <a class="tabBtn btnBlue" style="display: none;">收单</a> 
-                  <a class="tabBtn btnRed">停押</a>  -->
                   <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
                   <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
                 </span>
               </td>
             </tr>
           </tbody>
-
         </table>
 
         <div class="block" v-if="childUserInfo.totalPage > 1">
@@ -138,11 +124,20 @@ export default {
       childUserList: [],
       childUserInfo: {},
       currentPage: 1,
-      shuaixuanNum: '1',
+      shuaixuanNum: '',
       gudongAccout: '',
       chaRuleid: 4,
       dialogAddParmasM: false,
-      tixiinfo: []
+      tixiinfo: [],
+
+      gudongList: [],
+      zongdlList: [],
+      dailiList: [],
+      gudongobj: {},
+      zongdlobj: {},
+      dailiobj: {},
+      gudonguclass: '',
+      zongdluclass: ''
     }
   },
   computed: {
@@ -154,17 +149,25 @@ export default {
   created() {
 
    this.childUser();
-
+   this.getfuji();
   },
   mounted(){
   },
   methods: {
+    async getfuji() {
+      let res = await this.$get(`${window.url}/admin/auser/selectByPid?pid=`+this.userInfo.id);
+
+      if(res.code===200){
+
+        this.gudongList = res.list;
+      }
+    },
     async tuishuiset(item) {
       store.commit('updateupUserInfo', item);
       this.$router.push({name:'tuishuisheding'});
     },
     async getUserzhangc(item) {
-       let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);
+      let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);
 
       if(res.code===200){
 
@@ -174,8 +177,8 @@ export default {
       }
 
     },
-    changeStats(data) {
-      console.log(data);
+    changeStats() {
+
     },
     addgudong() {
       this.$router.push({name:'addgudong'});
@@ -194,6 +197,7 @@ export default {
     },
     updateuser(item) {
       store.commit('updateupUserInfo', item);
+
       this.$router.push({name:'updategudong'});
     },
     hasitem(item,num) {
@@ -214,15 +218,14 @@ export default {
     },
     async childUser() {
 
-      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=`+this.chaRuleid+`&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.userInfo.id+`&currentPage=`+this.currentPage+`&pageSize=10`);
+      let res = await this.$get(`${window.url}/admin/auser/userList?ruleId=4&status=`+this.shuaixuanNum+`&username=`+this.gudongAccout+`&pid=`+this.userInfo.id+`&currentPage=`+this.currentPage+`&pageSize=10`);
 
       if(res.code===200){
 
         this.childUserInfo = res.page;
       }
+
     }
-
-
 
   }
 }

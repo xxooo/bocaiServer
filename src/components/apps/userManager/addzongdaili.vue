@@ -44,7 +44,7 @@
             <td width="20%" class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
           </tr> 
           <tr>
-            <td width="20%" class="tar">股东名称:</td> 
+            <td width="20%" class="tar">总代理名称:</td> 
             <td class="tl"><input v-model="nickname" type="text" placeholder="请输入名称"></td> 
             <td width="20%" class="tl"> 请输入名称。</td>
           </tr>
@@ -177,7 +177,7 @@
             <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
           <tr>
-            <td width="20%" class="tar">股东占成:</td> 
+            <td width="20%" class="tar">总代理占成:</td> 
             <td class="tl">
               <el-select v-model="mzhancheng" placeholder="请选择" size="mini">
                 <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
@@ -219,7 +219,7 @@
         </table> 
           <p class="tac" style="margin-top: 8px;">
             <button class="tabBtn btn btn-blue mgr10" @click="addsubUser()">确定</button> 
-            <button class="tabBtn btn btn-red" @click="$router.push({name:'gudong'})">取消</button>
+            <button class="tabBtn btn btn-red" @click="$router.push({name:'zongdaili'})">取消</button>
           </p>
       </div>
     </div>
@@ -237,7 +237,7 @@ export default {
   },
   data () {
     return {
-      isNew: this.$route.name == 'addgudong' ? true : false,
+      isNew: this.$route.name == 'addzongdaili' ? true : false,
       childUserInfo: {},
       currentPage: 1,
       functionIdList:[],//权限ID列表

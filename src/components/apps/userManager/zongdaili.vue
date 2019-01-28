@@ -11,17 +11,17 @@
     <div class="nav">
       <div class="btn-ground">
         筛选 :
-        <el-select v-model="shuaixuanNum" placeholder="请选择" size="mini" style="width: 10%;">
+        <el-select v-model="shuaixuanNum" placeholder="请选择" size="mini" style="width: 15%;">
           <el-option value="1" key="1" label="启用"></el-option> 
           <el-option value="0" key="0" label="停用"></el-option> 
           <el-option :value="''" key="null" label="全部"></el-option> 
         </el-select>
         股东 :
-        <el-select v-model="gudonguclass" @change="changegudong" placeholder="请选择" size="mini" style="width: 10%;">
+        <el-select v-model="gudonguclass" @change="changegudong" placeholder="请选择" size="mini" style="width: 15%;">
           <el-option v-for="(item,index) in gudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
         </el-select>
         总代理帐号 :
-        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width: 10%;"></el-input>
+        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width: 15%;"></el-input>
         <button class="btn btn-blue" @click="childUser()">查询</button>
         <button class="btn btn-blue" @click="addgudong()">新增</button>
       </div>
