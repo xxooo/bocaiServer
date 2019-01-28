@@ -53,6 +53,14 @@
             </td>
           </tr>
           <tr>
+            <td class="tar">帐号状态:</td>
+            <td class="tl">
+                <label><input v-model="status" type="radio" value="1">启用</label>
+                <label><input v-model="status" type="radio" value="0">停用</label>
+            </td> 
+            <td class="tl">请选择启用/停用账号</td>
+          </tr> 
+          <tr>
             <td class="tar">冻结:</td>
             <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>

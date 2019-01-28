@@ -161,7 +161,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值信用额度:</td> 
-            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值信用额度</td>
           </tr>
           <tr>
@@ -189,10 +189,8 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值现金额度:</td> 
-            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值现金额度</td>
-
-
           </tr>
           <tr>
             <td class="tar">充值备注:</td> 
@@ -207,8 +205,6 @@
               <th colspan="3">占成分配</th>
             </tr>
           </thead> 
-
-          <!-- 要不要填的，还是直接用上级的占成 -->
 
           <tr>
             <td width="20%" class="tar">上级占成:</td> 
@@ -234,15 +230,6 @@
               <label v-if="fujiUserInfo.handicapB == 1"><input type="radio" v-model="handicap" value="b">B</label> 
               <label v-if="fujiUserInfo.handicapC == 1"><input type="radio" v-model="handicap" value="c">C</label>
               <label v-if="fujiUserInfo.handicapD == 1"><input type="radio" v-model="handicap" value="d">D</label>
-
-             <!-- <el-checkbox v-model="checked">备选项</el-checkbox>
-
-              <el-checkbox-group v-model="handicap">
-                <el-checkbox v-if="fujiUserInfo.handicapA == 1" :label="'a'" >{{'A'}}</el-checkbox>
-                <el-checkbox v-if="fujiUserInfo.handicapB == 1" :label="'b'" >{{'B'}}</el-checkbox>
-                <el-checkbox v-if="fujiUserInfo.handicapC == 1" :label="'c'" >{{'C'}}</el-checkbox>
-                <el-checkbox v-if="fujiUserInfo.handicapD == 1" :label="'d'" >{{'D'}}</el-checkbox>
-              </el-checkbox-group> -->
 
             </td> 
             <td class="tl" width="20%">
