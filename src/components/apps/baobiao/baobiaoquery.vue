@@ -5,6 +5,7 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>报表</el-breadcrumb-item>
+        <el-breadcrumb-item>报表查询</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -21,7 +22,7 @@
                 <th>博彩类型</th>
                 <td class="tl">
                     <template v-for="bocaiType in bocaiMenu">
-                        <label><input type="radio" :value="bocaiType.id" v-model="q.bocaiTypeId"><span class="blue">{{bocaiType.name}}</span></label>
+                        <label><input type="radio" :value="bocaiType" v-model="q.bocai"><span class="blue">{{bocaiType.name}}</span></label>
                     </template>
                 </td>
         </tr>
@@ -86,13 +87,15 @@ export default {
             cuserOrderStatus: 1,
             startTime:"",
             endTime:"",
-            bocaiTypeId:"",
             userId:"",
+            bocai: {
+              id: '',
+              name: ''
+            }
+            
         },
       timesvalue: '',
-      dealType: '1',
-      option: 1,
-      currentPage: 1,
+      dealType: '1'
     }
   },
   computed: {
@@ -115,14 +118,38 @@ export default {
       console.log('timesvalue',this.timesvalue);
       console.log('q',this.q);
 
-      this.q.startTime = this.timesvalue[0];
-      this.q.endTime = this.timesvalue[1];
+      if(this.timesvalue == '' || this.timesvalue == null) {
+        this.$alertMessage('请选择时间!', '温馨提示');
+      } else if(this.q.reportType == 2 && this.q.bocai.id == '') {
+        this.$alertMessage('请选择游戏类型!', '温馨提示');
+      } else {
+        this.q.startTime = this.timesvalue[0];
+        this.q.endTime = this.timesvalue[1];
+        this.q.userId = this.userInfo.id;
 
+        store.commit('updatebaobiaoQinfo',this.q);
 
-      let res = await this.$get(`${window.url}/admin/report/reportList?type=`+this.option+`&reportType=`+this.q.reportType+`&cuserOrderStatus=`+this.q.cuserOrderStatus+`&startTime=`+this.q.startTime+`&endTime=`+this.q.endTime+`&currentPage=`+this.currentPage+`&pageSize=10`+`&userId=`+this.userInfo.id+`&bocaiTypeId=`+this.q.bocaiTypeId);
-
-      if(res.code===200){
+        this.$router.push({name:'baobiaolist'});
       }
+
+      
+
+
+
+      // q: {//查询条件
+      //       reportType: 1,
+      //       cuserOrderStatus: 1,
+      //       startTime:"",
+      //       endTime:"",
+      //       bocaiTypeId:"",
+      //       userId:"",
+      //   },
+
+
+      // let res = await this.$get(`${window.url}/admin/report/reportList?type=`+this.option+`&reportType=`+this.q.reportType+`&cuserOrderStatus=`+this.q.cuserOrderStatus+`&startTime=`+this.q.startTime+`&endTime=`+this.q.endTime+`&currentPage=`+this.currentPage+`&pageSize=10`+`&userId=`+this.userInfo.id+`&bocaiTypeId=`+this.q.bocaiTypeId);
+
+      // if(res.code===200){
+      // }
 
 
 // GET

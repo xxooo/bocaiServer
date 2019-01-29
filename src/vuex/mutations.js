@@ -28,6 +28,9 @@ const mutations = {
   },
   updateupUserInfo(state,v) {
     state.upUserInfo = v;
+  },
+  updatebaobiaoQinfo(state,v) {
+    state.baobiaoQinfo = v;
   }
 }
 
