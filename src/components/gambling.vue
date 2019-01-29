@@ -50,7 +50,7 @@
           <el-menu-item index="7-4" @click="$router.push({name:''})">代理在线</el-menu-item>
         </el-submenu>
         <el-menu-item index="8" @click="$router.push({name:''})">IP设置</el-menu-item>
-        <el-menu-item index="9" @click="$router.push({name:''})">报表</el-menu-item>
+        <el-menu-item index="9" @click="$router.push({name:'baobiao'})">报表</el-menu-item>
       </el-menu>
       <!-- <el-dropdown class="lang" @command="menuAction">
           <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
