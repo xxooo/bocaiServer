@@ -32,25 +32,11 @@
 
     <div class="portlet">
 
-      <div class="tab">
+      <div class="tab" v-if="showList">
         <table>
           <caption style="text-align: left;">会员列表</caption> 
           <thead>
             <tr>
-              <!-- <th>股东名称</th> 
-              <th>下注金额</th> 
-              <th>有效金额</th> 
-              <th>注数</th> 
-              <th>会员结果</th> 
-              <th>上级退水</th> 
-              <th>上级退水金额</th> 
-              <th>退水差</th> 
-              <th>股东</th> 
-              <th>股东结果</th> 
-              <th>股东占成</th> 
-              <th>应收下级</th>
-              <th>公司结果</th> 
-              <th>公司占成</th> -->
                 <th v-if="ruleId == 3">股东名称</th>
                 <th v-if="ruleId == 4">总代理名称</th>
                 <th v-if="ruleId == 5">代理名称</th>
@@ -88,8 +74,8 @@
           </thead> 
           <tr v-for="aUserReport in aUserPage.list">
                 <td>{{aUserReport.userName}}</td>
-                <td v-if="ruleId == 6"><a style="cursor:pointer" v-on:click="cUserOrderList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
-                <td v-else><a style="cursor:pointer" v-on:click="reportList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
+                <td v-if="ruleId == 6"><a style="cursor:pointer;color: #eee;" v-on:click="cUserOrderList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
+                <td v-else><a style="cursor:pointer;color: #03A9F4;" v-on:click="reportList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
                 <td>{{aUserReport.effectiveMoney}}</td>
                 <td>{{aUserReport.orderNo}}</td>
                 <td v-if="ruleId != 6">{{aUserReport.cuserResult}}</td>
@@ -103,6 +89,120 @@
                 <td v-if="ruleId != 3">{{aUserReport.upLevelPay}}</td>
                 <td>{{aUserReport.upMoneyResult}}</td>
                 <td>{{aUserReport.upOccupied | hundredPercentage}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="tab" v-if="showList && (cUserPage.list && cUserPage.list.length !=0)">
+        <table>
+          <caption style="text-align: left;">直属会员</caption> 
+          <thead>
+            <tr>
+                <th>直属会员</th>
+                <th>下注金额</th>
+                <th>有效金额</th>
+                <th>注数</th>
+                <th v-if="ruleId != 6">会员结果</th>
+                <th>上级退水</th>
+                <th>退水金额</th>
+                <th v-if="ruleId != 6">退水差</th>
+                <th v-if="ruleId == 3">股东</th>
+                <th v-if="ruleId == 4">总代理</th>
+                <th v-if="ruleId == 5">代理</th>
+                <th v-if="ruleId == 6">会员</th>
+                <th v-if="ruleId == 3">股东结果</th>
+                <th v-if="ruleId == 4">总代理结果</th>
+                <th v-if="ruleId == 5">代理结果</th>
+                <th v-if="ruleId == 6">会员结果</th>
+                <th v-if="ruleId == 3">股东占成</th>
+                <th v-if="ruleId == 4">总代理占成</th>
+                <th v-if="ruleId == 5">代理占成</th>
+                <th v-if="ruleId == 6">会员占成</th>
+                <th>应收下级</th>
+                <th>应交上级</th>
+                <th v-if="ruleId == 3">股东结果</th>
+                <th v-if="ruleId == 4">总代理结果</th>
+                <th v-if="ruleId == 5">代理结果</th>
+                <th v-if="ruleId == 6">会员结果</th>
+                <th v-if="ruleId == 3">股东占成</th>
+                <th v-if="ruleId == 4">总代理占成</th>
+                <th v-if="ruleId == 5">代理占成</th>
+                <th v-if="ruleId == 6">会员占成</th>
+            </tr>
+          </thead> 
+          <tr v-for="cUserReport in cUserPage.list">
+                <td>{{cUserReport.userName}}</td>
+                <td>{{cUserReport.betMoney}}</td>
+                <td>{{cUserReport.effectiveMoney}}</td>
+                <td>{{cUserReport.orderNo}}</td>
+                <td v-if="ruleId != 6">{{cUserReport.cuserResult}}</td>
+                <td>{{cUserReport.dewater | hundredPercentage}}</td>
+                <td>{{cUserReport.upLevelDewaterMoney}}</td>
+                <td v-if="ruleId != 6">{{cUserReport.dewaterDiss}}</td>
+                <td>{{cUserReport.money}}</td>
+                <td>{{cUserReport.moneyResult}}</td>
+                <td>{{cUserReport.occupied | hundredPercentage}}</td>
+                <td>{{cUserReport.downLevelIncome}}</td>
+                <td>{{cUserReport.upLevelPay}}</td>
+                <td>{{cUserReport.upMoneyResult}}</td>
+                <td>{{cUserReport.upOccupied | hundredPercentage}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="tab" v-if="!showList">
+        <table>
+          <caption style="text-align: left;">直属会员</caption> 
+          <thead>
+            <tr>
+                <th>直属会员</th>
+                <th>下注金额</th>
+                <th>有效金额</th>
+                <th>注数</th>
+                <th v-if="ruleId != 6">会员结果</th>
+                <th>上级退水</th>
+                <th>退水金额</th>
+                <th v-if="ruleId != 6">退水差</th>
+                <th v-if="ruleId == 3">股东</th>
+                <th v-if="ruleId == 4">总代理</th>
+                <th v-if="ruleId == 5">代理</th>
+                <th v-if="ruleId == 6">会员</th>
+                <th v-if="ruleId == 3">股东结果</th>
+                <th v-if="ruleId == 4">总代理结果</th>
+                <th v-if="ruleId == 5">代理结果</th>
+                <th v-if="ruleId == 6">会员结果</th>
+                <th v-if="ruleId == 3">股东占成</th>
+                <th v-if="ruleId == 4">总代理占成</th>
+                <th v-if="ruleId == 5">代理占成</th>
+                <th v-if="ruleId == 6">会员占成</th>
+                <th>应收下级</th>
+                <th>应交上级</th>
+                <th v-if="ruleId == 3">股东结果</th>
+                <th v-if="ruleId == 4">总代理结果</th>
+                <th v-if="ruleId == 5">代理结果</th>
+                <th v-if="ruleId == 6">会员结果</th>
+                <th v-if="ruleId == 3">股东占成</th>
+                <th v-if="ruleId == 4">总代理占成</th>
+                <th v-if="ruleId == 5">代理占成</th>
+                <th v-if="ruleId == 6">会员占成</th>
+            </tr>
+          </thead> 
+          <tr v-for="cUserReport in cUserPage.list">
+                <td>{{cUserReport.userName}}</td>
+                <td>{{cUserReport.betMoney}}</td>
+                <td>{{cUserReport.effectiveMoney}}</td>
+                <td>{{cUserReport.orderNo}}</td>
+                <td v-if="ruleId != 6">{{cUserReport.cuserResult}}</td>
+                <td>{{cUserReport.dewater | hundredPercentage}}</td>
+                <td>{{cUserReport.upLevelDewaterMoney}}</td>
+                <td v-if="ruleId != 6">{{cUserReport.dewaterDiss}}</td>
+                <td>{{cUserReport.money}}</td>
+                <td>{{cUserReport.moneyResult}}</td>
+                <td>{{cUserReport.occupied | hundredPercentage}}</td>
+                <td>{{cUserReport.downLevelIncome}}</td>
+                <td>{{cUserReport.upLevelPay}}</td>
+                <td>{{cUserReport.upMoneyResult}}</td>
+                <td>{{cUserReport.upOccupied | hundredPercentage}}</td>
           </tr>
         </table>
       </div>
@@ -128,7 +228,8 @@ export default {
       ruleId: '',
       userId: '',
       userName: '',
-      currentPage: 1
+      currentPage: 1,
+      showList: true
     }
   },
   computed: {
@@ -163,13 +264,26 @@ export default {
         }
     },
   methods: {
-    reportList() {
+    reportList(userId,userName) {
+      console.log('reportList');
 
+      this.baobiaoQinfo.choiseUserName = userName;
+      this.baobiaoQinfo.userId = userId;
+      this.showList = true;
+      this.option = 1;
+      this.getbaobiaoList();
     },
-    cUserOrderList() {
+    cUserOrderList(userId,userName) {
 
+      console.log('cUserOrderList');
+
+      this.baobiaoQinfo.choiseUserName = userName;
+      this.baobiaoQinfo.userId = userId;
+      this.showList = false;
+      this.getbaobiaoList();
     },
     returnPage() {
+      this.showList = true;
       this.option = 2;
       this.getbaobiaoList();
     },
@@ -185,6 +299,8 @@ export default {
         this.userName = res.userName;
       }
     }
+
+
   }
 }
 
