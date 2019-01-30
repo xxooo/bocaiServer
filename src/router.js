@@ -328,11 +328,17 @@ const router = new Router({
         },
 
         // -----------------报表
-        { path: '/gambling/baobiao/index', name: 'baobiao',
+        { path: '/gambling/baobiao/baobiaoquery', name: 'baobiaoquery',
           meta: {
               requireAuth: true,
           },
-          component: r => require.ensure([], () => r(require('@/components/apps/baobiao/baobiao')), 'baobiao'), meta: { requiresAuth: true }
+          component: r => require.ensure([], () => r(require('@/components/apps/baobiao/baobiaoquery')), 'baobiaoquery'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/baobiao/baobiaolist', name: 'baobiaolist',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/baobiao/baobiaolist')), 'baobiaolist'), meta: { requiresAuth: true }
         }
 
 
