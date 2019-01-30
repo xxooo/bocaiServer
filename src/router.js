@@ -312,7 +312,6 @@ const router = new Router({
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatedaili')), 'updatedaili'), meta: { requiresAuth: true }
         },
 
-
         // -----------------系统管理
         { path: '/gambling/systemManager/huiyuangonggao', name: 'huiyuangonggao',
           meta: {
@@ -339,6 +338,14 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/baobiao/baobiaolist')), 'baobiaolist'), meta: { requiresAuth: true }
+        },
+
+        // -----------------注单查询
+        { path: '/gambling/betManager/betquery', name: 'betquery',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/betManager/betquery')), 'betquery'), meta: { requiresAuth: true }
         }
 
 
