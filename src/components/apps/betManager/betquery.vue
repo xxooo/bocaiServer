@@ -34,58 +34,31 @@
           placeholder="选择日期">
         </el-date-picker>
       </div>
-      <div class="btn-ground">
-        游戏类型 :
-        <el-select v-model="q.bocaiTypeId" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
-          <el-option :value="''" key="null" label="全部"></el-option>
-          <el-option v-for="(item,index) in bocaiMenu" :value="item.id" :key="item.id" :label="item.name"></el-option> 
+      <div class="btn-ground" style="margin-top: 10px;">
+        查询条件 :
+        <el-select v-model="q.searchType" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
+          <el-option :value="''" key="null" label="不指定"></el-option>
+          <el-option :value="'1'" key="1" label="公司"></el-option>
+          <el-option :value="'2'" key="2" label="股东"></el-option>
+          <el-option :value="'3'" key="3" label="总代理"></el-option>
+          <el-option :value="'4'" key="4" label="代理"></el-option>
+          <el-option :value="'5'" key="5" label="会员"></el-option>
+          <el-option :value="'6'" key="6" label="注单号"></el-option>
+          <el-option :value="'7'" key="7" label="注单ID"></el-option>
         </el-select>
-        游戏玩法 :
-        <el-select v-model="q.dewaterId" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
+
+        <el-select v-model="q.status" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
           <el-option :value="''" key="null" label="全部"></el-option>
-          <el-option v-for="(item,index) in dewaterList" :value="item.id" :key="item.id" :label="item.name"></el-option> 
+          <el-option :value="1" key="1" label="已结算"></el-option>
+          <el-option :value="0" key="0" label="未结算"></el-option>
         </el-select>
-        期数 :
-        <el-select v-model="q.periodsId" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
-          <el-option :value="''" key="null" label="全部"></el-option>
-          <el-option v-for="(item,index) in periodsList" :value="item.id" :key="item.id" :label="item.periods"></el-option> 
-        </el-select>
-        投注时间 :
-        <el-date-picker
-          style="width: 15%;"
-          size="mini"
-          v-model="q.dateStr"
-          type="date"
-          placeholder="选择日期">
-        </el-date-picker>
+
+        <el-input v-model="q.keyword" placeholder="请输入关键字" size="mini" style="width: 15%;"></el-input>
+
         <button class="btn btn-blue" @click="childUser()">查询</button>
         <button class="btn btn-blue" @click="addgudong()">新增</button>
 
 
-        <h3 class="form-cards-title">
-            注单查询　　
-            <div class="fcar-right-form">
-                查询条件：
-                <select v-model="q.searchType">
-                    <option value="1">公司</option>
-                    <option value="2">股东</option>
-                    <option value="3">总代理</option>
-                    <option value="4">代理</option>
-                    <option value="5">会员</option>
-                    <option value="6">注单号</option>
-                    <option value="7">注单ID</option>
-                </select> &nbsp;
-                <select v-model="q.status">
-                    <option>全部</option>
-                    <option value="1">已结算</option>
-                    <option value="0">未结算</option>
-                </select>　
-                <input type="text" v-model="q.keyword" placeholder="请输入关键字">
-                <input type="button" class="btn btn-primary" value="查询" @click="query"/>
-                <input type="button" class="btn btn-primary" value="刷新" @click="query"/>　　
-            </div>
-        </h3>
-        
       </div>
 
     </div>
