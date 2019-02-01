@@ -11,8 +11,8 @@
     <div class="nav">
       <div class="btn-ground">
         游戏类型 :
-        <el-select v-model="q.bocaiTypeId" @change="selectBocaiType" placeholder="请选择" size="mini" style="width: 15%;">
-          <el-option :value="''" key="null" label="全部"></el-option>
+        <el-select v-model="q.bocaiTypeId" @change="selectBocaiType" placeholder="请选择博彩类型" size="mini" style="width: 15%;">
+          <!-- <el-option :value="''" key="null" label="全部"></el-option> -->
           <el-option v-for="(item,index) in bocaiMenu" :value="item.id" :key="item.id" :label="item.name"></el-option> 
         </el-select>
         游戏玩法 :
@@ -55,76 +55,75 @@
 
         <el-input v-model="q.keyword" placeholder="请输入关键字" size="mini" style="width: 15%;"></el-input>
 
-        <button class="btn btn-blue" @click="childUser()">查询</button>
-        <button class="btn btn-blue" @click="addgudong()">新增</button>
+        <button class="btn btn-blue" @click="query()">查询</button>
+        <button class="btn btn-blue" @click="query()">刷新</button>
 
 
       </div>
 
     </div>
 
-    <!-- <div class="portlet">
+    <div class="portlet">
       <div class="tab">
+
         <table>
           <thead>
-            <tr class="trBar">
-              <th>在线</th> 
-              <th>体系</th> 
-              <th>代理帐号</th> 
-              <th>名称</th> 
-              <th>信用额度</th> 
-              <th>代理数</th> 
-              <th>会员数</th> 
-              <th>新增日期</th> 
-              <th>帐号</th> 
-              <th>冻结</th> 
-              <th>补货</th> 
-              <th>收单/停押</th> 
-              <th>功能</th>
+          <tr class="trBar">
+                <th>注单号</th>
+                <th>投注日期</th>
+                <th>用户名称</th>
+                <th>游戏类型</th>
+                <th>游戏内容</th>
+                <th>注单状态</th>
+                <th>下注 IP</th>
+                <th>金额</th>
+                <th>结果</th>
             </tr>
           </thead> 
           <tbody>
-            <tr v-for="(item,index) in childUserInfo.list">
-              <td><i class="iconfont" :class="item.isOnline == 1 ? 'icon-yonghu-copy bule' : 'icon-yonghu'"></i></td> 
-              <td>
-                <div class="accountLevel">
-                  <button class="btn-blue" @click="getUserzhangc(item)">查看</button> 
-                </div>
-              </td> 
-              <td>{{item.username}}</td>
-              <td><span>{{item.nickname}}</span></td> 
-              <td>{{item.quota}}</td> 
-              <td>{{item.agentNum}}</td> 
-              <td>{{item.memberNum}}</td> 
-              <td>{{$timestampToTime(item.createDate)}}</td> 
-              <td :class="item.status == '1' ? 'green': 'red'">{{item.status == '1' ? '启用' : '关闭'}}</td> 
-              <td :class="item.isFrozen == '0' ? 'green': 'red'">{{item.isFrozen == '1' ? '是' : '否'}}</td> 
-              <td :class="item.isReplenishment == '1' ? 'green': 'red'">{{item.isFrozen == '1' ? '开启' : '关闭'}}</td> 
-              <td :class="item.tingyaShouya == '1' ? 'green': 'red'">{{item.tingyaShouya == '1' ? '收单' : '停押'}}</td> 
-              <td class="btnFeatures">
-                <span>
-                  <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
-                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
-                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">查看密码</a>
-                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">信用记录</a>
-                </span>
-              </td>
+            <tr v-for="orderHis in orderHisList.list">
+                <td>{{orderHis.orderNum}}</td>
+                <td>{{orderHis.createDate | timeTurn}}</td>
+                <td>{{orderHis.username}}</td>
+                <td>
+                    {{orderHis.bocaiTypeName}}
+                    {{orderHis.periods}}期
+                </td>
+                <td>{{orderHis.bocaiCategory2Name}}&nbsp;&nbsp;{{orderHis.bocaiOddName}}@{{orderHis.odds}}</td>
+                <td v-if="orderHis.status == 0">未结算</td>
+                <td v-if="orderHis.status == 1">已结算</td>
+
+                <td class="text-error" v-if="orderHis.bindingIp != null">{{orderHis.bindingIp}}</td>
+                <td class="text-error" v-else>{{orderHis.loginIp}}</td>
+
+                <td>{{orderHis.betsMoney}}</td>
+                <td>{{orderHis.winnerMoney}}</td>
+            </tr>
+            <tr>
+                <td colspan=7 class="text-info" style="text-align: right; padding-right: 15px;">此页面统计：</td>
+                <td class="text-info">{{betsMoneyTotal}}</td>
+                <td class="text-info">{{jiangliMoneyTotal}}</td>
+            </tr>
+            <tr>
+                <td colspan=7 class="text-info" style="text-align: right; padding-right: 15px;">总计：</td>
+                <td class="text-info">{{betsMoneyAllTotal}}</td>
+                <td class="text-info">{{jiangliMoneyAllTotal}}</td>
             </tr>
           </tbody>
         </table>
 
-        <div class="block" v-if="childUserInfo.totalPage > 1">
+        <div class="block" v-if="orderHisList.totalPage > 1">
                   <el-pagination
                     @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage"
-                    :page-size="childUserInfo.pageSize"
+                    :current-page.sync="q.currentPage"
+                    :page-size="orderHisList.pageSize"
                     layout="total, prev, pager, next"
-                    :total="childUserInfo.totalCount*1">
+                    :total="orderHisList.totalCount*1">
                   </el-pagination>
         </div>
         
       </div>
-    </div> -->
+    </div>
 
   </div>
 </template>
@@ -178,6 +177,54 @@ export default {
   mounted(){
   },
   methods: {
+    handleCurrentChange(cpage) {
+      this.currentPage = cpage;
+      this.orderHisListQuery();
+      this.orderHisTotalMoneyQuery();
+    },
+    async orderHisTotalMoneyQuery() {
+      let that = this;
+            NProgress.start();
+            await that.$post(`${window.url}/admin/order/orderHisTotalMoney`,this.q).then((res) => {
+              that.$handelResponse(res, (result) => {
+                NProgress.done();
+                if(result.code===200){
+                  that.betsMoneyAllTotal = result.betsMoneyTotal;
+                  that.jiangliMoneyAllTotal = result.jiangliMoneyTotal;
+                }
+              })
+            });
+    },
+    async orderHisListQuery() {
+      let that = this;
+            NProgress.start();
+            await that.$post(`${window.url}/admin/order/hisOrderList`,this.q).then((res) => {
+              that.$handelResponse(res, (result) => {
+                NProgress.done();
+                if(result.code===200){
+                  that.orderHisList = result.page;
+                }
+              })
+            });
+    },
+    query() {
+      if (this.q.bocaiTypeId == "") {
+          this.$alertMessage('请选择博彩类型!', '温馨提示');
+                return false;
+            }
+            if (this.q.dateStr == "") {
+                this.q.startDateStr = null,
+                this.q.endDateStr = null
+            }else{
+                this.q.startDateStr = this.q.dateStr + " " + this.q.startDateStr;
+                this.q.endDateStr = this.q.dateStr + " " + this.q.endDateStr;
+            }
+            this.showList = true;
+            // this.q.bocaiTypeId = this.q.bocaiTypeId + '';
+            this.orderHisListQuery();
+            //获取订单合计
+            this.orderHisTotalMoneyQuery();
+    },
     async selectBocaiType() {
 
       let res = await this.$get(`${window.url}/admin/order/getSearchData?bocaiTypeId=`+this.q.bocaiTypeId);
@@ -187,9 +234,7 @@ export default {
         this.periodsList = res.periodsList;
 
       }
-    },
-
-
+    }
 
   }
 }
