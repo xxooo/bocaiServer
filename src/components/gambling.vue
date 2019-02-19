@@ -458,10 +458,14 @@ export default {
   float: right;
   line-height: 60px;
   padding-right:15px;
+  position: absolute;
+  left: 1450px;
  }
 
  .el-menu.el-menu--horizontal {
     border-bottom: solid 0px #e6e6e6;
+    float: left;
+    margin-left: 20px;
   }
 
   .el-menu {
