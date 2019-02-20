@@ -83,7 +83,7 @@
           <tbody>
             <tr v-for="orderHis in orderHisList.list">
                 <td>{{orderHis.orderNum}}</td>
-                <td>{{orderHis.createDate | timeTurn}}</td>
+                <td>{{$timestampToTime(orderHis.createDate)}}</td>
                 <td>{{orderHis.username}}</td>
                 <td>
                     {{orderHis.bocaiTypeName}}

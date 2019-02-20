@@ -7,96 +7,61 @@
       </div>
 
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="1" @click="$router.push({name:'home'})">我的首页</el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">盘势管理</template>
-          <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotokaipan(item)" :key="index">{{item.name}}</el-menu-item>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">账号管理</template>
-          <el-menu-item index="3-1" @click="$router.push({name:'subuser'})">子帐号</el-menu-item>
-          <el-menu-item index="3-2" @click="$router.push({name:'gudong'})">股东</el-menu-item>
-          <el-menu-item index="3-3" @click="$router.push({name:'zongdaili'})">总代理</el-menu-item>
-          <el-menu-item index="3-4" @click="$router.push({name:'daili'})">代理</el-menu-item>
-          <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
-          <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
-        </el-submenu>
-        <el-submenu index="4">
-          <template slot="title">注单管理</template>
-          <el-menu-item index="4-1" @click="$router.push({name:''})">流水注单</el-menu-item>
-          <el-menu-item index="4-2" @click="$router.push({name:''})">补货注单</el-menu-item>
-          <el-menu-item index="4-3" @click="$router.push({name:'betquery'})">注单查询</el-menu-item>
-        </el-submenu>
-        <el-submenu index="5">
-          <template slot="title">财务管理</template>
-          <el-menu-item index="5-1" @click="$router.push({name:''})">充值方式</el-menu-item>
-          <el-menu-item index="5-2" @click="$router.push({name:''})">充值审核</el-menu-item>
-          <el-menu-item index="5-3" @click="$router.push({name:''})">提现审核</el-menu-item>
-          <el-menu-item index="5-4" @click="$router.push({name:''})">推广</el-menu-item>
-        </el-submenu>
-        <el-submenu index="6">
-          <template slot="title">游戏管理</template>
-          <el-menu-item index="6-1" @click="$router.push({name:'youxishezhi'})">游戏设置</el-menu-item>
-          <el-menu-item index="6-2" @click="$router.push({name:'tuishuiset'})">退水设置</el-menu-item>  
-          <el-menu-item index="6-3" @click="$router.push({name:'kaipanshezhi'})">开盘设置</el-menu-item>
-          <el-menu-item index="6-4" @click="$router.push({name:'kaijiangjieguo'})">开奖结果</el-menu-item>
-          <el-menu-item index="6-5" @click="$router.push({name:'caidansetting'})">菜单设置</el-menu-item>
-        </el-submenu>
-        <el-submenu index="7">
-          <template slot="title">系统管理</template>
-          <el-menu-item index="7-1" @click="$router.push({name:''})">网站设置</el-menu-item>
-          <el-menu-item index="7-2" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
-          <el-menu-item index="7-3" @click="$router.push({name:'huiyuanzaixian'})">会员在线</el-menu-item>
-          <el-menu-item index="7-4" @click="$router.push({name:''})">代理在线</el-menu-item>
-        </el-submenu>
-        <el-menu-item index="8" @click="$router.push({name:''})">IP设置</el-menu-item>
-        <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
-      </el-menu>
-      <!-- <el-dropdown class="lang" @command="menuAction">
-          <span class="el-dropdown-link">{{'公司,徐瑶'}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="'修改密码'" key="1">{{'修改密码'}}</el-dropdown-item>
-            <el-dropdown-item :command="'退出'" key="2">{{'退出'}}</el-dropdown-item>
-          </el-dropdown-menu>
-
-
-
-          <el-menu-item index="1">处理中心</el-menu-item>
+      
+        <template v-if="ruleId == 3">
+          <el-menu-item index="1" @click="$router.push({name:'home'})">我的首页</el-menu-item>
           <el-submenu index="2">
-            <template slot="title">我的工作台</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-submenu index="2-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="2-4-1">选项1</el-menu-item>
-              <el-menu-item index="2-4-2">选项2</el-menu-item>
-              <el-menu-item index="2-4-3">选项3</el-menu-item>
-            </el-submenu>
+            <template slot="title">盘势管理</template>
+            <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotokaipan(item)" :key="index">{{item.name}}</el-menu-item>
           </el-submenu>
-          <el-menu-item index="3" disabled>消息中心</el-menu-item>
-          <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+          <el-submenu index="3">
+            <template slot="title">账号管理</template>
+            <el-menu-item index="3-1" @click="$router.push({name:'subuser'})">子帐号</el-menu-item>
+            <el-menu-item index="3-2" @click="$router.push({name:'gudong'})">股东</el-menu-item>
+            <el-menu-item index="3-3" @click="$router.push({name:'zongdaili'})">总代理</el-menu-item>
+            <el-menu-item index="3-4" @click="$router.push({name:'daili'})">代理</el-menu-item>
+            <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
+            <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
+          </el-submenu>
+          <el-submenu index="4">
+            <template slot="title">注单管理</template>
+            <el-menu-item index="4-1" @click="$router.push({name:''})">流水注单</el-menu-item>
+            <el-menu-item index="4-2" @click="$router.push({name:''})">补货注单</el-menu-item>
+            <el-menu-item index="4-3" @click="$router.push({name:'betquery'})">注单查询</el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">财务管理</template>
+            <el-menu-item index="5-1" @click="$router.push({name:''})">充值方式</el-menu-item>
+            <el-menu-item index="5-2" @click="$router.push({name:''})">充值审核</el-menu-item>
+            <el-menu-item index="5-3" @click="$router.push({name:''})">提现审核</el-menu-item>
+            <el-menu-item index="5-4" @click="$router.push({name:''})">推广</el-menu-item>
+          </el-submenu>
+          <el-submenu index="6">
+            <template slot="title">游戏管理</template>
+            <el-menu-item index="6-1" @click="$router.push({name:'youxishezhi'})">游戏设置</el-menu-item>
+            <el-menu-item index="6-2" @click="$router.push({name:'tuishuiset'})">退水设置</el-menu-item>  
+            <el-menu-item index="6-3" @click="$router.push({name:'kaipanshezhi'})">开盘设置</el-menu-item>
+            <el-menu-item index="6-4" @click="$router.push({name:'kaijiangjieguo'})">开奖结果</el-menu-item>
+            <el-menu-item index="6-5" @click="$router.push({name:'caidansetting'})">菜单设置</el-menu-item>
+          </el-submenu>
+          <el-submenu index="7">
+            <template slot="title">系统管理</template>
+            <el-menu-item index="7-1" @click="$router.push({name:''})">网站设置</el-menu-item>
+            <el-menu-item index="7-2" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
+            <el-menu-item index="7-3" @click="$router.push({name:'huiyuanzaixian'})">会员在线</el-menu-item>
+            <el-menu-item index="7-4" @click="$router.push({name:''})">代理在线</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="8" @click="$router.push({name:''})">IP设置</el-menu-item>
+          <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
+        </template>
 
-      </el-dropdown> -->
+        <template v-if="ruleId == 1">
+          <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
+        </template>
+        
+      </el-menu>
+
       <div class="float-right user">
-
-        <!-- <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-            background-color="#fff"
-            text-color="#ebcb80"
-            active-text-color="#f6e9c7">
-
-            <el-menu-item v-for="(item,index) in menuList" :key="index" :index="item"  @click="getOdds(item,index)" v-if="index*1 < 8">{{item}}</el-menu-item>
-            <el-submenu v-if="menuList.length*1 > 8" key="submenu" index="submenu">
-              <template slot="title">{{submenu}}</template>
-              <el-menu-item v-for="(item,index) in menuList" :key="index" :index="item"  @click="getOdds(item,index)" v-if="index*1 > 7">{{item}}</el-menu-item>
-            </el-submenu>
-
-        </el-menu> -->
-
 
         <el-dropdown class="lang" @command="menuAction">
           <span class="el-dropdown-link">{{roleName}},{{userInfo.nickname}}<i class="el-icon-arrow-down el-icon--right"></i></span>

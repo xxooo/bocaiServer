@@ -149,9 +149,7 @@ export default {
       isIndeterminate2: true,
 
       jine: '',
-      baocunuserid: ''
-
-      
+      baocunuserid: '',
 
     }
   },

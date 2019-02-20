@@ -346,6 +346,15 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/betManager/betquery')), 'betquery'), meta: { requiresAuth: true }
+        },
+
+
+        // -----------------注单查询------------------------管理员页面
+        { path: '/adminPage/bettingManage', name: 'bettingManage',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/bettingManage')), 'bettingManage'), meta: { requiresAuth: true }
         }
 
 
@@ -367,10 +376,10 @@ router.beforeEach((to, from, next) => {
             next();
         }
         else {
-            next();
-            // next({
-            //     path: '/login'
-            // })
+            //next();
+            next({
+                path: '/login'
+            })
             NProgress.done();
         }
     }

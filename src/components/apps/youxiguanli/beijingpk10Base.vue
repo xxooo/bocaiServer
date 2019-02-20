@@ -504,7 +504,6 @@ export default {
         this.updateList.push(item);
       }
 
-
     },
     gotobocaiSet(data) {
       console.log('data',data);

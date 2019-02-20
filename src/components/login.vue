@@ -137,7 +137,7 @@ export default {
 
           if (valid) {
 
-               let obj = {
+              let obj = {
                 username: this.ruleForm.username,
                 password: this.ruleForm.password
               };
