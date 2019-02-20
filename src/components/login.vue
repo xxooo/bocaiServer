@@ -102,8 +102,10 @@ export default {
 
                let obj = {
                 // username: 'gsceshi1',  ydwgongsi1
-                username: 'gsceshi1',
-                password: 'a111111'
+                // username: 'gsceshi1',
+                // password: 'a111111'
+                username: 'admin',
+                password: '123456'
               };
 
               let ret = await this.$post(`${window.url}/admin/login`, obj);
@@ -135,7 +137,7 @@ export default {
 
           if (valid) {
 
-               let obj = {
+              let obj = {
                 username: this.ruleForm.username,
                 password: this.ruleForm.password
               };
