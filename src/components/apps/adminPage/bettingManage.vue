@@ -101,7 +101,7 @@
     </div>
 
 
-    <el-dialog class="add-user-dialog" :title="'注单 '+cuserBocaiOrder.orderNum +'修改'" :visible.sync="dialogFormVisible" width="40%">
+    <el-dialog class="add-user-dialog" :title="'注单 '+cuserBocaiOrder.orderNum +' 修改'" :visible.sync="dialogvisible" width="40%">
       <div class="portlet">
         <div class="tab">
 
@@ -127,7 +127,15 @@
               </tr>
               <tr>
                   <th>投注时间</th>
-                  <td><input type="text" v-model="cuserBocaiOrder.createDateStr" ></td>
+                  <td>
+                    <el-date-picker
+                      size="mini"
+                      v-model="cuserBocaiOrder.createDateStr"
+                      type="datetime"
+                      placeholder="选择日期时间">
+                    </el-date-picker>
+                    <!-- <input type="text" v-model="cuserBocaiOrder.createDateStr" > -->
+                  </td>
               </tr>
               <tr>
                   <th>投注IP</th>
@@ -143,7 +151,7 @@
       </div>
       <div class="modal-footer">
           <button class="btn btn-primary" @click="reOrderSub">确认</button>
-          <button class="btn" @click="dialogFormVisible = false">取消</button>
+          <button class="btn" @click="dialogvisible = false">取消</button>
       </div>
     </el-dialog>
 
@@ -186,7 +194,7 @@ export default {
         betsMoneyAllTotal: 0,
         jiangliMoneyAllTotal: 0,
 
-        dialogFormVisible: false,
+        dialogvisible: false,
 
         cuserBocaiOrder: {//对象
             id: null,
@@ -220,14 +228,62 @@ export default {
   mounted(){
   },
   methods: {
-    reOrderSub() {
+    async reOrderSub() {
+      let that = this;
+      console.log('this.cuserBocaiOrder',this.cuserBocaiOrder);
+
+      this.cuserBocaiOrder.createDateStr = this.$timestampToTime(this.cuserBocaiOrder.createDateStr); 
+      // for(let n in this.bocaiOddsList) {
+      //   if(this.cuserBocaiOrder.bocaiOddId == this.bocaiOddsList[n].id) {
+      //     this.cuserBocaiOrder.bocaiOddName = this.bocaiOddsList[n].name;
+      //   }
+      // }
+      //this.cuserBocaiOrder.betsMoney = this.cuserBocaiOrder.betsMoney*1;
+
+      this.cuserBocaiOrder.bocaiCategory2Id = this.cuserBocaiOrder.bocaiCategory2Id+'';
+      this.cuserBocaiOrder.bocaiOddId = this.cuserBocaiOrder.bocaiOddId+'';
+      this.cuserBocaiOrder.cuserId = this.cuserBocaiOrder.cuserId+'';
+      this.cuserBocaiOrder.id = this.cuserBocaiOrder.id+'';
+      this.cuserBocaiOrder.periodsId = this.cuserBocaiOrder.periodsId+'';
+      this.cuserBocaiOrder.periodsId = this.cuserBocaiOrder.periodsId+'';
+      //this.cuserBocaiOrder.createDate = 1544952155000;
+
+
+            NProgress.start();
+            await that.$post(`${window.url}/admin/betting/bettingSub`,this.cuserBocaiOrder).then((res) => {
+              that.$handelResponse(res, (result) => {
+                NProgress.done();
+                if(result.code===200){
+                  that.$success('改单成功，系统将重新计算该订单结果!');
+                  that.query();
+                } else {
+                  that.$error(result.msg);
+                }
+              })
+            });
 
     },
     mustbe(id, isMustbe) {
     },
-    reOrder(id, orderNum) {
+    async reOrder(id, orderNum) {
 
-      this.dialogFormVisible = true;
+      let res = await this.$get(`${window.url}/admin/betting/betting?id=`+id);
+      if(+res.code===200) {
+
+        this.cuserBocaiOrder = res.data.cuserBocaiOrder;
+        this.cuserBocaiOrder.orderNum = orderNum;
+        //判断是否可以改单
+        this.bettingFlag = true;
+        isBetting(this.cuserBocaiOrder);
+        this.cuserBocaiOrder.createDateStr = this.$timestampToTime(res.data.cuserBocaiOrder.createDate); 
+       // fmtDate(res.data.cuserBocaiOrder.createDate, 2);
+        this.bocaiOddsList = res.data.bocaiOddsList;
+
+        console.log('this.cuserBocaiOrder',this.cuserBocaiOrder);
+
+        this.dialogvisible = true;
+
+      }
 
     },
     checkedAll() {
@@ -247,33 +303,7 @@ export default {
     },
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
-      this.orderHisListQuery();
-      this.orderHisTotalMoneyQuery();
-    },
-    async orderHisTotalMoneyQuery() {
-      let that = this;
-            NProgress.start();
-            await that.$post(`${window.url}/admin/order/orderHisTotalMoney`,this.q).then((res) => {
-              that.$handelResponse(res, (result) => {
-                NProgress.done();
-                if(result.code===200){
-                  that.betsMoneyAllTotal = result.betsMoneyTotal;
-                  that.jiangliMoneyAllTotal = result.jiangliMoneyTotal;
-                }
-              })
-            });
-    },
-    async orderHisListQuery() {
-      let that = this;
-            NProgress.start();
-            await that.$post(`${window.url}/admin/order/hisOrderList`,this.q).then((res) => {
-              that.$handelResponse(res, (result) => {
-                NProgress.done();
-                if(result.code===200){
-                  that.orderHisList = result.page;
-                }
-              })
-            });
+      this.query();
     },
     async query() {
             this.showList = true;
@@ -314,6 +344,78 @@ export default {
     }
 
   }
+}
+
+
+function isBetting(cuserBocaiOrder) {
+    switch (cuserBocaiOrder.bocaiTypeName) {
+        case "六合彩":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "合肖":
+                    this.bettingFlag = false;
+                    break;
+                case "自选不中":
+                    this.bettingFlag = false;
+                    break;
+                case "连肖":
+                    this.bettingFlag = false;
+                    break;
+                case "连尾":
+                    this.bettingFlag = false;
+                    break;
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+                case "过关":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+        case "山东11选5":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+                case "直选":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+        case "广东11选5":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+                case "直选":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+        case "广东快乐10分":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+        case "江西11选5":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+                case "直选":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+        case "重庆幸运农村":
+            switch (cuserBocaiOrder.bocaiCategory1Name) {
+                case "连码":
+                    this.bettingFlag = false;
+                    break;
+            }
+            break;
+    }
 }
 
 </script>
