@@ -424,7 +424,7 @@ export default {
   line-height: 60px;
   padding-right:15px;
   position: absolute;
-  left: 1450px;
+  left: 1140px;
  }
 
  .el-menu.el-menu--horizontal {
