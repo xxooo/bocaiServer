@@ -36,8 +36,8 @@
 
     <div class="nav">
         <div class="operate-btn">
-            <button class="btn btn-blue" @click="batchIsShow(1)" type="button">批量显示</button>
-            <button class="btn btn-blue" @click="batchIsShow(0)" type="button">批量隐藏</button>
+            <button class="btn btn-blue" @click="batchIsShow(0)" type="button">批量显示</button>
+            <button class="btn btn-blue" @click="batchIsShow(1)" type="button">批量隐藏</button>
             <button class="btn btn-blue" @click="batchDelete()" type="button">批量删除</button>
             <button class="btn btn-blue" @click="query()">刷新</button>
         </div>
@@ -302,7 +302,6 @@ export default {
       let that = this;
 
       this.$c_confirm(async () => {
-          console.log('进来没');
                   let ret = await that.$post(`${window.url}/admin/betting/batchDelete`,this.cuserBocaiOrder);
                   if(ret.code===200) {
                         that.$success('删除成功');
@@ -313,43 +312,47 @@ export default {
                   }
               });
 
-
-      // await that.$post(`${window.url}/admin/order/orderHisTotalMoney`,this.q).then((res) => {
-      //         that.$handelResponse(res, (result) => {
-      //           NProgress.done();
-      //           if(result.code===200){
-      //             that.betsMoneyAllTotal = result.betsMoneyTotal;
-      //             that.jiangliMoneyAllTotal = result.jiangliMoneyTotal;
-      //           }
-      //         })
-      //       });
-
-
-      // confirm("是否确认删除", function () {
-      //           $.ajax({
-      //               url: baseURL + 'admin/betting/batchDelete',
-      //               dataType: 'json',//服务器返回json格式数据
-      //               contentType: "application/json",
-      //               data: JSON.stringify(vm.cuserBocaiOrder),
-      //               type: 'post',//HTTP请求类型
-      //               success: function (data) {
-      //                   if (data.code == 200) {
-      //                       alert("删除成功");
-      //                       vm.cuserBocaiOrder.idList = [];
-      //                       vm.reload();
-      //                   }
-      //               }
-      //           });
-      //       });
+    },
+    async batchIsShow(isShow) {
+      let that = this;
+      this.cuserBocaiOrder.isShow = isShow;
+      let ret = await that.$post(`${window.url}/admin/betting/batchIsShow`,this.cuserBocaiOrder);
+                  if(ret.code===200) {
+                        that.query();
+                      } else {
+                        //that.$error(ret.msg);
+                  }
 
     },
-    batchIsShow(isShow) {
+    async isShow(id,isShow) {
+      let that = this;
+      this.cuserBocaiOrder.idList = [];
+            this.cuserBocaiOrder.idList.push(id);
+            this.cuserBocaiOrder.isShow = isShow;
+
+            let ret = await that.$post(`${window.url}/admin/betting/batchIsShow`,this.cuserBocaiOrder);
+                  if(ret.code===200) {
+                        that.query();
+                      } else {
+                        //that.$error(ret.msg);
+                  }
 
     },
-    isShow(id,isshow) {
+    async deleteBetting(id) {
+      let that = this;
+      this.cuserBocaiOrder.idList = [];
+            this.cuserBocaiOrder.idList.push(id);
 
-    },
-    deleteBetting(id) {
+            this.$c_confirm(async () => {
+                  let ret = await that.$post(`${window.url}/admin/betting/batchDelete`,this.cuserBocaiOrder);
+                  if(ret.code===200) {
+                        that.$success('删除成功');
+                        that.cuserBocaiOrder.idList = [];
+                        that.query();
+                      } else {
+                        //that.$error(ret.msg);
+                  }
+              });
 
     },
     handleCurrentChange(cpage) {
