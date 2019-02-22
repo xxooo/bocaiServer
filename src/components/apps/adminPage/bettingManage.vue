@@ -287,9 +287,60 @@ export default {
 
     },
     checkedAll() {
-
+      let _this = this;
+            if (!_this.checked) { //实现反选
+                _this.cuserBocaiOrder.idList = [];
+            } else { //实现全选
+                _this.cuserBocaiOrder.idList = [];
+                this.bettingManageList.forEach(function (item, index) {
+                    _this.cuserBocaiOrder.idList.push(item.id);
+                });
+            }
     },
     batchDelete() {
+
+      let that = this;
+
+      this.$c_confirm(async () => {
+          console.log('进来没');
+                  let ret = await that.$post(`${window.url}/admin/betting/batchDelete`,this.cuserBocaiOrder);
+                  if(ret.code===200) {
+                        that.$success('删除成功');
+                        that.cuserBocaiOrder.idList = [];
+                        that.query();
+                      } else {
+                        //that.$error(ret.msg);
+                  }
+              });
+
+
+      // await that.$post(`${window.url}/admin/order/orderHisTotalMoney`,this.q).then((res) => {
+      //         that.$handelResponse(res, (result) => {
+      //           NProgress.done();
+      //           if(result.code===200){
+      //             that.betsMoneyAllTotal = result.betsMoneyTotal;
+      //             that.jiangliMoneyAllTotal = result.jiangliMoneyTotal;
+      //           }
+      //         })
+      //       });
+
+
+      // confirm("是否确认删除", function () {
+      //           $.ajax({
+      //               url: baseURL + 'admin/betting/batchDelete',
+      //               dataType: 'json',//服务器返回json格式数据
+      //               contentType: "application/json",
+      //               data: JSON.stringify(vm.cuserBocaiOrder),
+      //               type: 'post',//HTTP请求类型
+      //               success: function (data) {
+      //                   if (data.code == 200) {
+      //                       alert("删除成功");
+      //                       vm.cuserBocaiOrder.idList = [];
+      //                       vm.reload();
+      //                   }
+      //               }
+      //           });
+      //       });
 
     },
     batchIsShow(isShow) {

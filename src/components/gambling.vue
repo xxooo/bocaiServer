@@ -297,7 +297,6 @@ export default {
   }
 
   .el-menu{
-    width: 1000px;
     display: inline-block;
   }
 
@@ -423,8 +422,6 @@ export default {
   float: right;
   line-height: 60px;
   padding-right:15px;
-  position: absolute;
-  left: 1140px;
  }
 
  .el-menu.el-menu--horizontal {
