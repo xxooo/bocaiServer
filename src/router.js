@@ -349,12 +349,18 @@ const router = new Router({
         },
 
 
-        // -----------------注单查询------------------------管理员页面
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -----------------注单查询------------------------管理员页面
         { path: '/adminPage/bettingManage', name: 'bettingManage',
           meta: {
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/bettingManage')), 'bettingManage'), meta: { requiresAuth: true }
+        },
+        { path: '/adminPage/caizhongsetting', name: 'caizhongsetting',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/caizhongsetting')), 'caizhongsetting'), meta: { requiresAuth: true }
         }
 
 

@@ -56,7 +56,9 @@
         </template>
 
         <template v-if="ruleId == 1">
+          <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
           <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
+          <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
         </template>
         
       </el-menu>
@@ -95,7 +97,7 @@ export default {
       max : 9, //生成的最大的数字，比如500
       imgUrl: 0,
       t: null, //轮询
-      activeIndex: '重庆时时彩',
+      activeIndex: '1',
       resultList: [],
       preBocaiPeriods: '',
       preResult: '',
