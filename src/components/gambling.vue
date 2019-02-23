@@ -59,6 +59,7 @@
           <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
           <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
           <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
+          <el-menu-item index="12" @click="$router.push({name:'kaipansetting'})">开盘设置</el-menu-item>
         </template>
         
       </el-menu>

@@ -47,6 +47,20 @@ export default {
             }).catch(() => {});
         };
 
+        Vue.prototype.$c_msgconfirm = function(
+            msg,
+            successHandler, 
+            title = '提示'
+            ){
+            let that = this;
+            that.$confirm(msg, title, {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消'
+            }).then(async () => {
+                await successHandler();
+            }).catch(() => {});
+        };
+
         Vue.prototype.$alertMessage = function(content,title){
             this.$alert(content, title, {
             confirmButtonText: '确定',
