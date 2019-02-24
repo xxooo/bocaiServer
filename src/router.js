@@ -368,7 +368,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/kaipansetting')), 'kaipansetting'), meta: { requiresAuth: true }
         },
-
+        { path: '/adminPage/kaijiangsetting', name: 'kaijiangsetting',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/kaijiangsetting')), 'kaijiangsetting'), meta: { requiresAuth: true }
+        },
 
       ]
     }
