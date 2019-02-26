@@ -455,6 +455,32 @@ export default {
   mounted(){
   },
   methods: {
+
+//     function bocaiTypeList() {
+//     var url = baseURL + 'admin/bocai/getOdds';
+
+//     $.ajax({
+//         url: url,
+//         async: true,
+//         dataType: 'json',//服务器返回json格式数据
+//         contentType: "application/x-www-form-urlencoded; charset=utf-8",
+//         type: 'get',//HTTP请求类型
+//         success: function (data) {
+//             if (data.code == 200) {
+//                 vm.bocaiTypeList = data.list;
+//             }
+//         }
+//     });
+// }
+    async bocaiTypeList() {
+      let res = await this.$get(`${window.url}/admin/bocai/getOdds`);
+
+      if(res.code===200){
+
+        this.baseBocaiInfo = res.data;
+        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+      }
+    },
     async baseSet() {
       let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
 
