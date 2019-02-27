@@ -473,6 +473,20 @@ export default {
   mounted(){
   },
   methods: {
+    async restartOpenPrize() {
+        let that = this;
+
+        this.$c_msgconfirm("重启开奖需要一些时间,请确认是否重启开奖",async () => {
+
+            await that.$get(`${window.url}/admin/prize/restartOpenPrize?bocaiTypeId=`+that.q.bocaiTypeId).then((res) => {
+                that.$handelResponse(res, (result) => {
+                })
+              });
+
+            that.$alertMessage('重启开奖成功,重启开奖需要一些时间,请稍后查看...!', '温馨提示');
+      });
+
+    },
     bocaiTypeSelect() {
         this.openPrizeSetList = [];
     },
