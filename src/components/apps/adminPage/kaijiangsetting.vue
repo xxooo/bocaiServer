@@ -8,7 +8,7 @@
     </div>
     <div class="nav">
       <span>游戏类型:
-        <el-select v-model="q.bocaiTypeId" @change="baseSet()" placeholder="请选择" size="mini">
+        <el-select v-model="q.bocaiTypeId" @change="bocaiTypeSelect()" placeholder="请选择" size="mini">
           <el-option
             v-for="item in bocaiMenu"
             :key="item.id"
@@ -25,7 +25,7 @@
           type="date"
           placeholder="选择日期">
         </el-date-picker>
-        <button class="btn btn-blue" @click="query()">查询</button>
+        <button class="btn btn-blue" @click="getkaijiangList()">查询</button>
     </div>
 
     <div class="nav">
@@ -53,7 +53,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="12">未开奖</td>
                 <template v-else>
                 <td >{{openPrize.num1}}</td>
@@ -90,7 +90,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="8">未开奖</td>
                 <template v-else>
                     <td >{{openPrize.num1}}</td>
@@ -120,7 +120,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="7">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.result}}</td>
@@ -151,7 +151,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="20">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.num1}}</td>
@@ -192,7 +192,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="5">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.num1}}</td>
@@ -219,7 +219,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="18">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.num1}}</td>
@@ -259,7 +259,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="18">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.num1}} @ {{openPrize.num1Shengxiao}}</td>
@@ -298,7 +298,7 @@
             </tr>
             <tr v-for="openPrize in openPrizeSetList">
                 <td>{{openPrize.periods}}</td>
-                <td>{{openPrize.openPrizetime | timeTurn}}</td>
+                <td>{{$timestampToTime(openPrize.openPrizetime)}}</td>
                 <td v-if="null == openPrize.result" colspan="16">未开奖</td>
                 <template v-else>
                     <td>{{openPrize.num1}}</td>
@@ -325,6 +325,16 @@
                 </td>
             </tr>
         </table>
+
+        <div class="block" v-if="page.totalPage > 1">
+                  <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="page.currentPage"
+                    :page-size="page.pageSize"
+                    layout="total, prev, pager, next"
+                    :total="page.totalCount*1">
+                  </el-pagination>
+        </div>
 
         <!-- <table>
           <thead>
@@ -389,7 +399,7 @@
       </div>
     </div>
 
-    <el-dialog class="add-user-dialog" :title="'注单 '+cuserBocaiOrder.orderNum +' 修改'" :visible.sync="dialogvisible" width="40%">
+    <!-- <el-dialog class="add-user-dialog" :title="'注单 '+cuserBocaiOrder.orderNum +' 修改'" :visible.sync="dialogvisible" width="40%">
       <div class="modal-body">
         <p>请在下方录入开奖结果</p>
         <div class="addLotyKj">
@@ -402,7 +412,7 @@
           <button class="btn btn-primary" @click="manualSetSub()">保存结算</button>
           <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
   </div>
 </template>
@@ -421,15 +431,22 @@ export default {
       baseBocaiInfo: {},
       routerName: this.$route.name,
 
+      page: {
+            totalPage: 1,
+            currentPage: 1,
+            pageSize: 10,
+            totalCount: 1
+        },
+
        showList: true,
         title: null,
         q: {//查询条件
             dayStr: "",
             bocaiTypeId: 1
         },
-        openPrizeSetList: {},//开奖设置列表
-        bocaiTypeList: {},//菠菜列表
-        ruleId: "",
+        openPrizeSetList: [],//开奖设置列表
+        bocaiTypeListArr: [],//菠菜列表
+        //ruleId: "",
         openPrize: {
             id: 0,
             resultArray: [],//输入答案框的个数
@@ -440,6 +457,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+        ruleId:'getruleId',
       userInfo: 'getuserInfo',
       bocaiMenu: 'getbocaiMenu'
     })
@@ -449,38 +467,59 @@ export default {
     this.baseSet();
 
     this.bocaiTypeList();
-    this.userList();
+    this.getkaijiangList();
 
   },
   mounted(){
   },
   methods: {
+    bocaiTypeSelect() {
+        this.openPrizeSetList = [];
+    },
+    handleCurrentChange(cpage) {
+      this.page.currentPage = cpage;
+      this.getkaijiangList();
+    },
+    async getkaijiangList() {
+        let url ='admin/prize/bocaiPeriodsList?1=1';
+        if (null != this.q && null != this.q.bocaiTypeId && '' != this.q.bocaiTypeId) {
+            url = url + "&bocaiTypeId=" + this.q.bocaiTypeId
+        }
+        if (null != this.q && null != this.q.dayStr && '' != this.q.dayStr) {
+            url = url + "&dayStr=" + this.q.dayStr
+        }
 
-//     function bocaiTypeList() {
-//     var url = baseURL + 'admin/bocai/getOdds';
 
-//     $.ajax({
-//         url: url,
-//         async: true,
-//         dataType: 'json',//服务器返回json格式数据
-//         contentType: "application/x-www-form-urlencoded; charset=utf-8",
-//         type: 'get',//HTTP请求类型
-//         success: function (data) {
-//             if (data.code == 200) {
-//                 vm.bocaiTypeList = data.list;
-//             }
-//         }
-//     });
-// }
+        let res = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);
+            if(+res.code===200) {
+
+                this.openPrizeSetList = res.list;
+                //this.ruleId = res.ruleId;  ````````问威，这个旧网站怎么有，新接口没有，接口一样，传参也一样
+
+                this.page.totalPage = res.totalPage/this.page.pageSize;
+                this.page.totalCount = res.totalPage;
+
+
+                    // if (res.page.totalPage == 0) {
+                    //     this.page.totalPage = 1;
+                    //     this.page.totalCount = 
+                    // } else {
+                    //     this.page.totalPage = res.page.totalPage/this.page.pageSize;
+                    // }
+
+            }
+    },
     async bocaiTypeList() {
       let res = await this.$get(`${window.url}/admin/bocai/getOdds`);
 
       if(res.code===200){
-
-        this.baseBocaiInfo = res.data;
-        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+        this.bocaiTypeListArr = res.list;
       }
     },
+
+
+
+
     async baseSet() {
       let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
 
