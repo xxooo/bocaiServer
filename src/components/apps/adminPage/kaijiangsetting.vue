@@ -336,70 +336,10 @@
                   </el-pagination>
         </div>
 
-        <!-- <table>
-          <thead>
-            <tr>
-              <th colspan="3">游戏设置</th>
-            </tr>
-          </thead> 
-          <tr>
-            <td width="20%" class="tar td-bg">最低下注金额:</td> 
-            <td width="40%" class="textleft">
-              <input v-model="baseBocaiInfo.minimumBet" type="text">
-            </td>  
-            <td width="40%">
-              <div><i class="icon-exclamation-sign"></i>金额仅可输入整数，并且不可小于0</div>
-            </td>
-          </tr> 
-          <tr>
-            <td class="tar td-bg">最高派彩:</td> 
-            <td class="textleft">
-              <input v-model="baseBocaiInfo.highestPayout" type="text">
-            </td> 
-            <td><div><i class="icon-exclamation-sign"></i>
-                   仅可输入整数，并且不可小于0
-                 </div>
-            </td>
-          </tr> 
-          <tr>
-            <td class="tar td-bg">开奖时间:</td> 
-            <td class="textleft"><input v-model="baseBocaiInfo.opentime" type="text"></td>
-            <td>
-              <div>
-              <i class="icon-exclamation-sign"></i>
-                   用于调整开盘时间，实际开奖时间以官方为准
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td class="tar td-bg">封盘时间:</td> 
-            <td class="textleft"><input v-model="baseBocaiInfo.closetime" type="text"> 秒 </td> 
-            <td>
-              <div><i class="icon-exclamation-sign"></i>
-                   提前多少秒封盘
-              </div>
-            </td>
-          </tr> 
-          <tr>                      
-            <td width="0%" class="tar">开关游戏:</td> 
-            <td class="textleft">
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="true"> 开启 </label> 
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="false"> 关闭</label>
-            </td> 
-            <td width="20%"><i class="icon-exclamation-sign"></i> 请选择开启或关闭
-            </td>
-          </tr>
-        </table> --> 
-
-        <!-- <div class="inner">
-          <button class="btn-submit" @click="saveoddInfo()">保存</button> 
-          <button class="btn-cancel" @click="baseSet()">取消</button>
-        </div> -->
-
       </div>
     </div>
 
-    <!-- <el-dialog class="add-user-dialog" :title="'注单 '+cuserBocaiOrder.orderNum +' 修改'" :visible.sync="dialogvisible" width="40%">
+    <el-dialog class="add-user-dialog" :title="'手动结算'" id="modifyLoty" :visible.sync="dialogvisible" width="40%">
       <div class="modal-body">
         <p>请在下方录入开奖结果</p>
         <div class="addLotyKj">
@@ -410,9 +350,9 @@
       </div>
       <div class="modal-footer">
           <button class="btn btn-primary" @click="manualSetSub()">保存结算</button>
-          <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+          <button class="btn" @click="dialogvisible = false">取消</button>
       </div>
-    </el-dialog> -->
+    </el-dialog>
 
   </div>
 </template>
@@ -430,6 +370,7 @@ export default {
       bocaiId: 1,
       baseBocaiInfo: {},
       routerName: this.$route.name,
+      dialogvisible: false,
 
       page: {
             totalPage: 1,
@@ -473,6 +414,81 @@ export default {
   mounted(){
   },
   methods: {
+    deleteId(id) {
+        let that = this;
+
+        this.$c_msgconfirm("是否确认删除",async () => {
+
+            await that.$get(`${window.url}/admin/prize/deleteId?id=`+id).then((res) => {
+                that.$handelResponse(res, (result) => {
+                    if (result.code == 200) {
+                            that.$success('删除成功');
+                            that.getkaijiangList();
+                        }
+                })
+              });
+
+      });
+
+    },
+    async manualSetSub() {
+        let that = this;
+
+            for(var index in this.openPrize.resultArray){
+                if(null == this.openPrize.resultArray[index] || '' == this.openPrize.resultArray[index]){
+                    this.$alertMessage('请输入正确的博彩结果!', '温馨提示');
+                    return false;
+                }
+            }
+            this.openPrize.result = this.openPrize.resultArray.join(",");
+
+            let ret = await that.$post(`${window.url}/admin/prize/manualSetSub`,this.openPrize);
+                  if(ret.code===200) {
+                        that.$success('保存成功');
+                        that.dialogvisible = false;
+                        that.getkaijiangList();
+                      } else {
+                        //that.$error(ret.msg);
+                  }
+    },
+    manualSet (id) {
+            this.openPrize.id = id;
+            var bocaiTypeId = this.q.bocaiTypeId;
+            //判断选择的是哪个菠菜判断输入框
+            if (bocaiTypeId == 1) {//重庆时时彩
+                this.openPrize.resultArray = ["", "", "", "", ""];
+            } else if (bocaiTypeId == 8223) {//PC蛋蛋
+                this.openPrize.resultArray = ["", "", ""];
+            } else if (bocaiTypeId == 8266) {//北京快乐8
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8374) {//广东11选5
+                this.openPrize.resultArray = ["", "", "", "", ""];
+            } else if (bocaiTypeId == 8498) {//江苏快3
+                this.openPrize.resultArray = ["", "", ""];
+            } else if (bocaiTypeId == 8555) {//幸运飞艇
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8806) {//北京PK拾
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8808) {//六合彩
+                this.openPrize.resultArray = ["", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8809) {//广东快乐十分
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8810) {//安徽快3
+                this.openPrize.resultArray = ["", "", ""];
+            } else if (bocaiTypeId == 8811) {//山东11选5
+                this.openPrize.resultArray = ["", "", "", "", ""];
+            } else if (bocaiTypeId == 8813) {//江西11选5
+                this.openPrize.resultArray = ["", "", "", "", ""];
+            } else if (bocaiTypeId == 8814) {//重庆幸运农场
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", ""];
+            } else if (bocaiTypeId == 8815) {//天津时时彩
+                this.openPrize.resultArray = ["", "", "", "", ""];
+            } else if (bocaiTypeId == 9057) {//极速赛车
+                this.openPrize.resultArray = ["", "", "", "", "", "", "", "", "", ""];
+            }
+
+        this.dialogvisible = true;
+    },
     async restartOpenPrize() {
         let that = this;
 
@@ -581,4 +597,12 @@ export default {
 </script>
 
 <style scoped>
+#modifyLoty .addLotyKj > input[type="text"] {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+.modal-body,.addLotyKj,.modal-footer {
+    margin: 5px 0px;
+}
 </style>
