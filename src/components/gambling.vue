@@ -61,7 +61,8 @@
           <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
           <el-menu-item index="12" @click="$router.push({name:'kaipansetting'})">开盘设置</el-menu-item>
           <el-menu-item index="13" @click="$router.push({name:'kaijiangsetting'})">开奖设置</el-menu-item>
-
+          <el-menu-item index="14" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
+          <el-menu-item index="15" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
         </template>
         
       </el-menu>
