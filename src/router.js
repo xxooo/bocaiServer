@@ -386,6 +386,18 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/setip')), 'setip'), meta: { requiresAuth: true }
         },
+        { path: '/adminPage/childUserManage', name: 'childUserManage',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/childUserManage')), 'childUserManage'), meta: { requiresAuth: true }
+        },
+        // { path: '/adminPage/company', name: 'company',
+        //   meta: {
+        //       requireAuth: true,
+        //   },
+        //   component: r => require.ensure([], () => r(require('@/components/apps/adminPage/company')), 'company'), meta: { requiresAuth: true }
+        // },
 
       ]
     }
