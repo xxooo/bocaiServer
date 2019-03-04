@@ -305,7 +305,7 @@ export default {
                 that.showList = true;
                 that.userList();
               } else {
-                that.$error('r.msg');
+                that.$error(data.msg);
               }
           }
 

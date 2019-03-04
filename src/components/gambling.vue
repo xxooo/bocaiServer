@@ -64,7 +64,7 @@
           <el-menu-item index="14" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
           <el-menu-item index="15" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
           <el-menu-item index="15" @click="$router.push({name:'childUserManage'})">帐号管理</el-menu-item>
-          <!-- <el-menu-item index="15" @click="$router.push({name:'company'})">公司管理</el-menu-item> -->
+          <el-menu-item index="15" @click="$router.push({name:'company'})">公司管理</el-menu-item>
         </template>
         
       </el-menu>

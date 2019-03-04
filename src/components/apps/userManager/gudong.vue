@@ -87,7 +87,7 @@
       </div>
     </div>
 
-    <el-dialog :visible.sync="dialogAddParmasM" width="40%">
+    <el-dialog :visible.sync="dialogAddParmasM" width="40%" :title="'体系查询'">
       <el-table
         :data="tixiinfo"
         style="width: 100%">
