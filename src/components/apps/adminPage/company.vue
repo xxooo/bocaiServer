@@ -28,9 +28,21 @@
         <button class="btn btn-blue" @click="add()">新增公司</button>
     </div>
 
+<el-upload
+          class="avatar-uploader"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+
     <div class="portlet portlet-add">
 
       <div class="tab" v-if="showList">
+
+
 
         <table class="main-tables">
             <tr>
@@ -96,106 +108,106 @@
             </tr>
             <tr>
                 <th>运营名称</th>
-                <td v-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
-                <td v-else>
+                <td class="tl" v-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
+                <td class="tl" v-else>
                     <select v-model="auser.pid">
                         <option :value="pAUser.id" v-for="pAUser in pAUserList">{{pAUser.username}}</option>
                     </select>
                 </td>
-                <td></td>
+                <td class="tl"></td>
             </tr>
             <tr>
                 <th>公司名称</th>
-                <td><input type="text" v-model="auser.nickname" placeholder="请输入名称"></td>
-                <td>请输入名称。</td>
+                <td class="tl"><input type="text" v-model="auser.nickname" placeholder="请输入名称"></td>
+                <td class="tl">请输入名称。</td>
             </tr>
             <tr>
                 <th>公司账号</th>
-                <td v-if="auser.id!=null && auser.id!=''">
+                <td class="tl" v-if="auser.id!=null && auser.id!=''">
                     <input type="text" v-model="auser.username" placeholder="请输入账号" disabled="disabled">
                     <input type="button" @click="checkUsername(auser.id)" :value="'检查账号是否可用'"/></td>
 
-                <td v-else>
+                <td class="tl" v-else>
                     <input type="text" v-model="auser.username" placeholder="请输入账号">
                     <input type="button"  @click="checkUsername(auser.id)"  :value="'检查账号是否可用'"/>
                 </td>
-                <td>帐号仅可接受英数字元, 长度限制4~12码</td>
+                <td class="tl">帐号仅可接受英数字元, 长度限制4~12码</td>
             </tr>
             <tr>
                 <th>设置密码</th>
-                <td><input type="password" v-model="auser.password" placeholder="请输入密码"></td>
-                <td>密码长度不小于6位,且需数字字母混用(不可接受!#$&*+.=@|等特殊字符)同组密码限用30天。</td>
+                <td class="tl"><input type="password" v-model="auser.password" placeholder="请输入密码"></td>
+                <td class="tl">密码长度不小于6位,且需数字字母混用(不可接受!#$&*+.=@|等特殊字符)同组密码限用30天。</td>
             </tr>
             <tr>
                 <th>重复密码</th>
-                <td><input type="password" v-model="auser.repassword" placeholder="请再次输入密码">
+                <td class="tl"><input type="password" v-model="auser.repassword" placeholder="请再次输入密码">
                 </td>
             </tr>
             <tr>
                 <th>账号状态</th>
-                <td>
+                <td class="tl">
                     <input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用　
                     <input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用
                 </td>
-                <td>是否选择启用/停用账号</td>
+                <td class="tl">是否选择启用/停用账号</td>
             </tr>
             <tr>
                 <th>冻结账号</th>
-                <td>
+                <td class="tl">
                     <input type="radio" name="isFrozen" value="1" v-model="auser.isFrozen" id="isFrozen1"> 是　
                     <input type="radio" name="isFrozen" value="0" v-model="auser.isFrozen" id="isFrozen2" checked> 否
                 </td>
-                <td>请选择是否冻结</td>
+                <td class="tl">请选择是否冻结</td>
             </tr>
             <tr>
                 <th>允许补货</th>
-                <td>
+                <td class="tl">
                     <input type="radio" name="isReplenishment" value="1" v-model="auser.isReplenishment"
                            id="isReplenishment1"> 开启　
                     <input type="radio" name="isReplenishment" value="0" v-model="auser.isReplenishment"
                            id="isReplenishment2" checked> 关闭
                 </td>
-                <td>请选择开启或关闭</td>
+                <td class="tl">请选择开启或关闭</td>
             </tr>
             <tr>
                 <th>停押/收单</th>
-                <td>
+                <td class="tl">
                     <input type="radio" name="tingyaShouya" value="1" v-model="auser.tingyaShouya" id="tingyaShouya1">
                     收单　
                     <input type="radio" name="tingyaShouya" value="0" v-model="auser.tingyaShouya" id="tingyaShouya2"
                            checked> 停押
                 </td>
-                <td>请选择收单或停押</td>
+                <td class="tl">请选择收单或停押</td>
             </tr>
             <tr>
                 <td colspan="3" class="coheader">基础功能设置</td>
             </tr>
             <tr>
                 <th>消费模式</th>
-                <td v-if="auser.id!=''">
+                <td class="tl" v-if="auser.id!=''">
                     <input type="radio" name="cashCredit" value="0" @click="isShow('0')" v-model="auser.cashCredit"
                            disabled="disabled"> 现金模式　
                     <input type="radio" name="cashCredit" value="1" @click="isShow('1')" v-model="auser.cashCredit"
                            disabled="disabled"> 信用模式
                 </td>
 
-                <td v-else>
+                <td class="tl" v-else>
                     <input type="radio" name="cashCredit" value="0" @click="isShow('0')" v-model="auser.cashCredit"
                            id="cashCredit0"> 现金模式　
                     <input type="radio" name="cashCredit" value="1" @click="isShow('1')" v-model="auser.cashCredit"
                            id="cashCredit1"> 信用模式
                 </td>
 
-                <td>请选择结算方式</td>
+                <td class="tl">请选择结算方式</td>
             </tr>
             <tr>
                 <th>功能显示</th>
-                <td>
+                <td class="tl">
                     <span v-for="functions in functionList">
                         <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
                     </span>
                 </td>
-                <td>请选择权限</td>
+                <td class="tl">请选择权限</td>
             </tr>
 
             <tbody v-model="xinyongShow" v-if="xinyongShow">
@@ -204,7 +216,7 @@
             </tr>
             <tr>
                 <th>额度类型</th>
-                <td>
+                <td class="tl">
                     <div class="btn-group">
                         <select v-model="auser.creditType">
                             <option value="1">第二天还原额度</option>
@@ -212,16 +224,16 @@
                         </select>
                     </div>
                 </td>
-                <td>请设定信用信息</td>
+                <td class="tl">请设定信用信息</td>
             </tr>
             <tr>
                 <th>信用额度</th>
-                <td>
+                <td class="tl">
                     {{auser.viewquota}}　
                     <input type="button" class="btn" data-toggle="modal" data-target="#modifyCredit" value="存取信用额度">　
                     <input type="button" class="btn" onclick="javascript:window.location.href='../../modules/user/quotaInfo.html?userId='+this.auser.id" value="查看信用记录">
                 </td>
-                <td>请设定信用额度</td>
+                <td class="tl">请设定信用额度</td>
             </tr>
             </tbody>
 
@@ -231,10 +243,10 @@
             </tr>
             <tr>
                 <th>现金</th>
-                <td>
+                <td class="tl">
                     {{auser.viewquota}}<input type="text" v-model="auser.quota" placeholder="请输入金额">
                 </td>
-                <td></td>
+                <td class="tl"></td>
             </tr>
             </tbody>
 
@@ -243,7 +255,7 @@
             </tr>
             <tr>
                 <th>公司占成</th>
-                <td>
+                <td class="tl">
                     <div class="btn-group">
                         <select class="form-control" v-model="auser.aUserOccupied.cChangeAllotOccupied">
                             <option value="100">100%</option>
@@ -286,17 +298,17 @@
                         </select>
                     </div>
                 </td>
-                <td></td>
+                <td class="tl"></td>
             </tr>
             <tr>
                 <th>占成回收</th>
-                <td>
-                    <input type="radio" name="optionsRadios" value="0" v-mode="auser.occupiedRecovery"
+                <td class="tl">
+                    <input type="radio" name="optionsRadios" value="0" v-model="auser.occupiedRecovery"
                            id="occupiedRecovery1"> 多余占成返回公司　
-                    <input type="radio" name="optionsRadios" value="1" v-mode="auser.occupiedRecovery"
+                    <input type="radio" name="optionsRadios" value="1" v-model="auser.occupiedRecovery"
                            id="occupiedRecovery2" checked="checked"> 多余占成返回直接上级
                 </td>
-                <td></td>
+                <td class="tl"></td>
             </tr>
 
             <tr>
@@ -304,7 +316,7 @@
             </tr>
             <tr>
                 <th>盘口设置</th>
-                <td>
+                <td class="tl">
                     <span class="checkbox-inline">
                         <input type="checkbox" v-model="auser.handicapA">盘口A
                     </span>
@@ -318,7 +330,7 @@
                         <input type="checkbox" v-model="auser.handicapD">盘口D
                     </span>
                 </td>
-                <td></td>
+                <td class="tl"></td>
             </tr>
         </table>
 
@@ -406,6 +418,9 @@ export default {
   },
   data () {
     return {
+        imageUrl: '',
+
+
       bocaiId: 1,
       baseBocaiInfo: {},
       routerName: this.$route.name,
@@ -468,6 +483,25 @@ export default {
   mounted(){
   },
   methods: {
+     handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw);
+
+        console.log('this.imageUrl',this.imageUrl);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      },
+
+
 
    reload() {
             this.showList = true;
@@ -580,11 +614,11 @@ export default {
         async validator() {
             //只能是数字+字母d
             let reg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{4,12})$/;
-            if (isBlank(this.auser.nickname)) {
+            if (!this.auser.nickname || this.auser.nickname == '') {
                 this.$alertMessage('公司名称不能为空!', '温馨提示');
                 return true;
             }
-            if (isBlank(this.auser.username)) {
+            if (this.auser.username == '') {
                 this.$alertMessage('公司账号不能为空!', '温馨提示');
                 return true;
             }
@@ -595,9 +629,9 @@ export default {
 
             let flag = false;
 
-            if (this.auser.id == "") {
+            if (!this.auser.id || this.auser.id == "") {
 
-                let data = await this.$get(`${window.url}/admin/auser/checkUsername?username=` + this.auser.username + "&id=" + userId);
+                let data = await this.$get(`${window.url}/admin/auser/checkUsername?username=` + this.auser.username + "&id=" + this.auser.id);
                 if(+data.code===200) {
                     //that.$success('账号可用');
                     flag = true;
@@ -606,12 +640,11 @@ export default {
                 }
             }
 
-
-            if (flag) {
+            if (!flag) {
                 this.$alertMessage('用户名存在!', '温馨提示');
                 return true;
             }
-            if (isBlank(this.auser.password)) {
+            if (this.auser.passwor == '') {
                 this.$alertMessage('密码不能为空!', '温馨提示');
                 return true;
             }
@@ -635,9 +668,10 @@ export default {
         }
         ,
         async checkUsername(userId) {
+            let that = this;
 
             let reg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{4,12})$/;
-            if (isBlank(this.auser.username)) {
+            if (this.auser.username == '') {
                 this.$alertMessage('公司账号不能为空!', '温馨提示');
                 return true;
             }
@@ -722,4 +756,31 @@ export default {
 .modal-body,.addLotyKj,.modal-footer {
     margin: 5px 0px;
 }
+
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+
 </style>
+
+
