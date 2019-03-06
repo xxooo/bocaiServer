@@ -363,4 +363,8 @@ export default {
 .modal-body,.addLotyKj,.modal-footer {
     margin: 5px 0px;
 }
+
+.table-btngroup {
+    margin-top: 20px;
+  }
 </style>

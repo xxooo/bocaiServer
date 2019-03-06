@@ -28,16 +28,6 @@
         <button class="btn btn-blue" @click="add()">新增公司</button>
     </div>
 
-<el-upload
-          class="avatar-uploader"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-
     <div class="portlet portlet-add">
 
       <div class="tab" v-if="showList">
@@ -79,7 +69,8 @@
                 <td v-if="auser.tingyaShouya==0">停押</td><td v-else>收押</td>
                 <td>
                     <button class="btn" @click="update(auser.id)" type="button">修改资料</button>
-                    <button class="btn" @click="" >退水设定</button>
+                    <button class="btn" @click="tuishuiset(auser)" >退水设定</button>
+                    <button class="btn" @click="" >查看信用记录</button>
                 </td>
             </tr>
         </table>
@@ -230,8 +221,7 @@
                 <th>信用额度</th>
                 <td class="tl">
                     {{auser.viewquota}}　
-                    <input type="button" class="btn" data-toggle="modal" data-target="#modifyCredit" value="存取信用额度">　
-                    <input type="button" class="btn" onclick="javascript:window.location.href='../../modules/user/quotaInfo.html?userId='+this.auser.id" value="查看信用记录">
+                    <input type="button" class="btn" @click="cunquxinyong()" value="存取信用额度">　
                 </td>
                 <td class="tl">请设定信用额度</td>
             </tr>
@@ -368,8 +358,43 @@
     </el-dialog>
 
     <el-dialog :visible.sync="modifyCreditLabel" width="40%" :title="'提现存取信用额度'">
-
-            <table BORDER=1>
+        <div class="portlet portlet-add">
+            <div class="tab">
+                <table class="main-tables">
+                    <tr>
+                    <th>类型</th>
+                    <td v-if="auser.id!=''">
+                        <input type="radio" name="optionsRadios3" v-model="auser.quotaInfo.quotaType" value="1" checked>
+                        充值　
+                    </td>
+                    <td v-else>
+                        <input type="radio" name="optionsRadios3" v-model="auser.quotaInfo.quotaType" value="1" checked>
+                        充值　
+                        </td>
+                </tr>
+                <tr >
+                    <th v-if="auser.cashCredit == 0">
+                        <select v-model="auser.quotaInfo.quotaAccount" style="width: 90%;">
+                            <option value="1">微信</option>
+                            <option value="2">支付宝</option>
+                            <option value="3">银行卡</option>
+                        </select>
+                    </th>
+                    <th v-else>
+                        默认方式金额
+                    </th>
+                    <td><input type="text" v-model="auser.quota" style="width: 90%;"
+                               placeholder="请输入金额"></td>
+                </tr>
+                <tr>
+                    <th>备注</th>
+                    <td><textarea rows="3" v-model="auser.quotaInfo.quotaRemark" style="width: 90%;"
+                                  placeholder="请输入备注"></textarea></td>
+                </tr>
+                </table>
+            </div>
+        </div>
+            <!-- <table BORDER=1>
                 <tr>
                     <th>类型</th>
                     <td v-if="auser.id!=''">
@@ -389,6 +414,9 @@
                             <option value="3">银行卡</option>
                         </select>
                     </th>
+                    <th v-else>
+                        默认方式金额
+                    </th>
                     <td><input type="text" v-model="auser.quota" style="width: 90%;"
                                placeholder="请输入金额"></td>
                 </tr>
@@ -397,9 +425,9 @@
                     <td><textarea rows="3" v-model="auser.quotaInfo.quotaRemark" style="width: 90%;"
                                   placeholder="请输入备注"></textarea></td>
                 </tr>
-            </table>
+            </table> -->
             <div class="layer-btngroup">
-                <button class="btn btn-danger">取消</button>
+                <button class="btn btn-danger" @click="modifyCreditLabel = true">取消</button>
                 　
                 <button class="btn btn-primary" @click="quotaSave()">保存</button>
             </div>
@@ -418,9 +446,6 @@ export default {
   },
   data () {
     return {
-        imageUrl: '',
-
-
       bocaiId: 1,
       baseBocaiInfo: {},
       routerName: this.$route.name,
@@ -483,25 +508,43 @@ export default {
   mounted(){
   },
   methods: {
-     handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+    async tuishuiset(item) {
+      store.commit('updateupUserInfo', item);
+      this.$router.push({name:'tuishuisetting'});
+    },
+    cunquxinyong() {
 
-        console.log('this.imageUrl',this.imageUrl);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        this.modifyCreditLabel = true;
+    },
+    qingkong() {
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
+            this.auser.id= "";
+            this.auser.functionIdList= [];
+            this.auser.cashCredit= 0;
+            this.auser.tingyaShouya= 0;
+            this.auser.isReplenishment= 0;
+            this.auser.isFrozen= 0;
+            this.auser.status= 0;
+            this.auser.occupied= 0;
+            this.auser.handicapA= 1;
+            this.auser.handicapB= 1;
+            this.auser.handicapC= 1;
+            this.auser.handicapD= 1;
+            this.auser.ruleId= 3;
+            this.auser.quota= "";
+            this.auser.viewquota= "";
+            this.auser.quotaInfo.quotaType= 1;
+            this.auser.quotaInfo.quotaAccount= 1;
+            this.auser.quotaInfo.quotaAmount= "";
+            this.auser.quotaInfo.quotaRemark= "";
+            this.auser.aUserOccupied.cChangeAllotOccupied= 0;
 
+            this.auser.nickname = '';
+            this.auser.username = '';
+            this.auser.password = '';
+            this.auser.repassword = '';
 
+    },
 
    reload() {
             this.showList = true;
@@ -514,6 +557,7 @@ export default {
             this.showList = false;
             this.title = "新增";
             this.pid = "";
+            this.qingkong();
 
             let data = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=3`);
                 if(+data.code===200) {
@@ -531,6 +575,7 @@ export default {
             this.getMenuList();
         },
         async update(userId) {
+
             this.showList = false;
             this.title = "修改";
 
@@ -558,10 +603,77 @@ export default {
             this.getMenuList();
         },
         async saveOrUpdate() {
-            if (this.validator()) {
-                return;
-            }
 
+             let that = this;
+
+               let flag = true;
+               let reg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{4,12})$/;
+
+              if (!this.auser.nickname || this.auser.nickname == '') {
+                    that.$alertMessage("公司名称不能为空");
+                    return;
+                }
+
+                if (that.auser.password == '') {
+                      that.$alertMessage('密码不能为空!', '温馨提示');
+                        return;
+                    }
+                if (!reg.test(that.auser.password)) {
+                      that.$alertMessage('密码只能是字母加数字!', '温馨提示');
+                        return;
+                    }
+                if (that.auser.password != that.auser.repassword) {
+                      that.$alertMessage('两次密码不一致!', '温馨提示');
+                        return;
+                }
+
+
+                let numMatch = /^[0-9]*$/;
+                if (!numMatch.test(this.auser.quota)) {
+                    this.$alertMessage('额度不正确!', '温馨提示');
+                    return;
+                }
+                if (!numMatch.test(this.auser.quotaInfo.quotaAmount)) {
+                    this.$alertMessage('额度不正确!', '温馨提示');
+                    return;
+                }
+
+
+              if(!this.auser.id || this.auser.id == "") {
+                console.log('new');
+
+                if (this.auser.username == '') {
+                    that.$alertMessage("公司账号不能为空");
+                    return;
+                }
+
+                if (!reg.test(that.auser.username)) {
+                      that.$alertMessage('帐号仅可接受英数字元, 长度限制4~12码!', '温馨提示');
+                        return;
+                    }
+
+                //帐户名已存在这个接口，有问题
+
+                let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ this.auser.username + "&id=");
+
+                  if(res.code===200){
+                    flag = true;
+
+                  } else {
+                    flag = false;
+                    that.$alertMessage('用户名存在!', '温馨提示');
+                    return;
+                  }
+
+
+
+
+              } else {
+                console.log('update');
+
+              }
+
+            
             if (this.auser.handicapA == true) {
                 this.auser.handicapA = 1;
             } else if (this.auser.handicapA == false) {
@@ -583,16 +695,20 @@ export default {
                 this.auser.handicapD = 0;
             }
 
-            let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
 
-            let data = await this.$post(`${window.url}/`+ url,this.auser);
-              if(+data.code===200) {
-                that.$success('操作成功');
-                that.showList = true;
-                that.userList('');
-              } else {
-                that.$error(data.msg);
+              if(flag) {
+                let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
+
+                let data = await this.$post(`${window.url}/`+ url,this.auser);
+                  if(+data.code===200) {
+                    that.$success('操作成功');
+                    that.showList = true;
+                    that.userList('');
+                  } else {
+                    that.$error(data.msg);
+                  }
               }
+
         },
         async getMenuList() {
 
@@ -611,62 +727,6 @@ export default {
                 this.xinyongShow = true;
             }
         }, 
-        async validator() {
-            //只能是数字+字母d
-            let reg = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{4,12})$/;
-            if (!this.auser.nickname || this.auser.nickname == '') {
-                this.$alertMessage('公司名称不能为空!', '温馨提示');
-                return true;
-            }
-            if (this.auser.username == '') {
-                this.$alertMessage('公司账号不能为空!', '温馨提示');
-                return true;
-            }
-            if (!reg.test(this.auser.username)) {
-                this.$alertMessage('帐号仅可接受英数字元, 长度限制4~12码!', '温馨提示');
-                return true;
-            }
-
-            let flag = false;
-
-            if (!this.auser.id || this.auser.id == "") {
-
-                let data = await this.$get(`${window.url}/admin/auser/checkUsername?username=` + this.auser.username + "&id=" + this.auser.id);
-                if(+data.code===200) {
-                    //that.$success('账号可用');
-                    flag = true;
-                } else {
-                    //that.$error('data.msg');
-                }
-            }
-
-            if (!flag) {
-                this.$alertMessage('用户名存在!', '温馨提示');
-                return true;
-            }
-            if (this.auser.passwor == '') {
-                this.$alertMessage('密码不能为空!', '温馨提示');
-                return true;
-            }
-            if (!reg.test(this.auser.password)) {
-                this.$alertMessage('密码只能是字母加数字!', '温馨提示');
-                return true;
-            }
-            if (this.auser.password != this.auser.repassword) {
-                this.$alertMessage('两次密码不一致!', '温馨提示');
-                return true;
-            }
-            let numMatch = /^[0-9]*$/;
-            if (!numMatch.test(this.auser.quota)) {
-                this.$alertMessage('额度不正确!', '温馨提示');
-                return true;
-            }
-            if (!numMatch.test(this.auser.quotaInfo.quotaAmount)) {
-                this.$alertMessage('额度不正确!', '温馨提示');
-                return true;
-            }
-        }
-        ,
         async checkUsername(userId) {
             let that = this;
 
@@ -703,6 +763,8 @@ export default {
         },
         quotaSave() {//重新修改信用额度显示
             this.auser.viewquota = Number(this.auser.viewquota) + Number(this.auser.quota);
+
+            this.modifyCreditLabel = false;
         },
 
 
@@ -779,6 +841,10 @@ export default {
     width: 178px;
     height: 178px;
     display: block;
+  }
+
+  .table-btngroup {
+    margin-top: 20px;
   }
 
 </style>

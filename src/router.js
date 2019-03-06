@@ -398,6 +398,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/company')), 'company'), meta: { requiresAuth: true }
         },
+        { path: '/adminPage/tuishuisetting', name: 'tuishuisetting',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/tuishuisetting')), 'tuishuisetting'), meta: { requiresAuth: true }
+        },
 
       ]
     }
