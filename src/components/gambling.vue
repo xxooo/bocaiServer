@@ -46,12 +46,12 @@
           </el-submenu>
           <el-submenu index="7">
             <template slot="title">系统管理</template>
-            <el-menu-item index="7-1" @click="$router.push({name:''})">网站设置</el-menu-item>
+            <el-menu-item index="7-1" @click="$router.push({name:'webSet'})">网站设置</el-menu-item>
             <el-menu-item index="7-2" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
             <el-menu-item index="7-3" @click="$router.push({name:'huiyuanzaixian'})">会员在线</el-menu-item>
             <el-menu-item index="7-4" @click="$router.push({name:''})">代理在线</el-menu-item>
           </el-submenu>
-          <el-menu-item index="8" @click="$router.push({name:''})">IP设置</el-menu-item>
+          <el-menu-item index="8" @click="$router.push({name:'settingIP'})">IP设置</el-menu-item>
           <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
         </template>
 

@@ -325,8 +325,14 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/systemManager/huiyuanzaixian')), 'huiyuanzaixian'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/systemManager/webSet', name: 'webSet',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/webSet')), 'webSet'), meta: { requiresAuth: true }
+        },
 
-        // -----------------报表
+        // -----------------报表  绑定IP 
         { path: '/gambling/baobiao/baobiaoquery', name: 'baobiaoquery',
           meta: {
               requireAuth: true,
@@ -338,6 +344,13 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/baobiao/baobiaolist')), 'baobiaolist'), meta: { requiresAuth: true }
+        },
+
+        { path: '/gambling/settingIP', name: 'settingIP',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/setip')), 'settingIP'), meta: { requiresAuth: true }
         },
 
         // -----------------注单查询
