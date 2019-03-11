@@ -428,7 +428,7 @@ export default {
                 })
               });
 
-      });
+        });
 
     },
     async manualSetSub() {

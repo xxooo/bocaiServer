@@ -339,10 +339,10 @@ export default {
 
               this.auserList = data.page.list;
                 if (data.page.totalPage == 0) {
-                    this.page.totalPage = 1;
+                    that.page.totalPage = 1;
                 } else {
-                    this.page.totalPage = data.page.totalPage;
-                    this.page.totalCount = data.page.totalCount;
+                    that.page.totalPage = data.page.totalPage;
+                    that.page.totalCount = data.page.totalCount;
                 }
 
 

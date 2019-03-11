@@ -361,6 +361,15 @@ const router = new Router({
           component: r => require.ensure([], () => r(require('@/components/apps/betManager/betquery')), 'betquery'), meta: { requiresAuth: true }
         },
 
+         // -----------------财务管理
+        { path: '/gambling/finance/rechargeAudit', name: 'rechargeAudit',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/finance/rechargeAudit')), 'rechargeAudit'), meta: { requiresAuth: true }
+        },
+
+
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -----------------注单查询------------------------管理员页面
         { path: '/adminPage/bettingManage', name: 'bettingManage',
