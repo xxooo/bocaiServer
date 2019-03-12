@@ -4,7 +4,7 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>财务管理</el-breadcrumb-item>
-        <el-breadcrumb-item>充值审核</el-breadcrumb-item>
+        <el-breadcrumb-item>提现审核</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="nav">
@@ -24,61 +24,40 @@
         <table class="main-tables">
             <tr>
               <th>会员帐号</th>
-                <th>充值方式</th>
-                <th>充值金额</th>
-                <th>备注</th>
-                <th>微信</th>
-                <th>支付宝</th>
-                <th>QQ钱包</th>
-                <th>银行类型</th>
-                <th>银行账号</th>
-                <th>卡主</th>
+                <th>提现方式</th>
+                <th>提现账号</th>
+                <th>提现金额</th>
+                <th>姓名</th>
+                <th>银行名称</th>
                 <th>申请时间</th>
                 <th>操作</th>
             </tr>
-            <tr v-for="rechargeAudit in rechargeAuditList">
-                <td>{{rechargeAudit.username}}</td>
-                <template v-if="q.status == 1">
-                <td v-if="rechargeAudit.type == 1">微信</td><td v-else-if="rechargeAudit.type == 2">支付宝</td><td v-else="rechargeAudit.type == 3">银行转账</td>
-                </template>
-                <td v-else>
-                    <select v-model="rechargeAudit.type">
-                        <option value="1">微信</option>
-                        <option value="2">支付宝</option>
-                        <option value="3">银行转账</option>
-                    </select>
+
+            <tr v-for="forwardAudit in forwardAuditList">
+                <td>{{forwardAudit.username}}</td>
+                <td v-if="forwardAudit.type == 1">微信</td><td v-else-if="forwardAudit.type == 2">支付宝</td><td v-else="forwardAudit.type == 3">银行转账</td>
+
+                <td v-if="forwardAudit.type == 1">{{forwardAudit.weixin}}</td>
+                <td v-else-if="forwardAudit.type == 2">{{forwardAudit.zhifubao}}</td>
+                <td v-else>{{forwardAudit.bankNum}}</td>
+                <td>{{forwardAudit.money}}</td>
+
+                <td v-if="forwardAudit.type == 3">{{forwardAudit.bankUserName}}</td>
+                <td v-else>--</td>
+
+                <td v-if="forwardAudit.type == 3">{{forwardAudit.bankNum}}</td>
+                <td v-else>--</td>
+
+                <td>{{$timestampToTime(forwardAudit.createDate)}}</td>
+                <td v-if="forwardAudit.status == 0">
+                    <button class="btn" @click="audit(forwardAudit.id,1,forwardAudit.type,forwardAudit.money,forwardAudit.remark,forwardAudit.userId)" data-target="#modifyIP" type="button">通过</button>
+                    <button class="btn" data-toggle="modal" @click="translateAudit(forwardAudit.id,2,forwardAudit.type,forwardAudit.money,forwardAudit.remark,forwardAudit.userId)" data-target="#modifyAudit" type="button">拒绝</button>
                 </td>
-
-                <template v-if="q.status == 1">
-                    <td>{{rechargeAudit.money}}</td>
-                </template>
-                <template v-else>
-                    <td><input type="text" v-model="rechargeAudit.money" /></td>
-                </template>
-
-                <template v-if="q.status == 1">
-                    <td>{{rechargeAudit.remark}}</td>
-                </template>
-                <template v-else>
-                    <td><input type="text" v-model="rechargeAudit.remark" /></td>
-                </template>
-
-                <td>{{rechargeAudit.weixin}}</td>
-                <td>{{rechargeAudit.zhifubao}}</td>
-                <td>--</td>
-                <td>{{rechargeAudit.bankName}}</td>
-                <td>{{rechargeAudit.bankNum}}</td>
-                <td>{{rechargeAudit.bankUserName}}</td>
-                <td>{{$timestampToTime(rechargeAudit.createDate)}}</td>
-                <td v-if="rechargeAudit.status == 0">
-                    <button class="btn" @click="audit(rechargeAudit.id,1,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" type="button">通过</button>
-                    <button class="btn" data-toggle="modal" @click="translateAudit(rechargeAudit.id,2,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" data-target="#modifyAudit" type="button">拒绝</button>
-                </td>
-                <td v-else-if="rechargeAudit.status == 1">
+                <td v-else-if="forwardAudit.status == 1">
                     已通过
                 </td>
                 <td v-else>
-                    已拒绝({{rechargeAudit.refuseReason}})
+                    已拒绝({{forwardAudit.refuseReason}})
                 </td>
             </tr>
 
@@ -100,7 +79,7 @@
 
     <el-dialog class="add-user-dialog" :title="'请输入拒绝原因'" id="modifyLoty" :visible.sync="dialogvisible" width="40%">
       <div class="modal-body">
-            <textarea placeholder="请输入拒绝原因"  rows="3" v-model="rechargeAudit.refuseReason" style="width: 90%;"></textarea>
+            <textarea placeholder="请输入拒绝原因"  rows="3" v-model="forwardAudit.refuseReason" style="width: 90%;"></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
@@ -137,10 +116,10 @@ export default {
             username: "",
             status:0,
         },
-        rechargeAudit: {//对象
+        forwardAudit: {//对象
             refuseReason:""//拒绝原因
         },
-        rechargeAuditList:{},//注单清理列表
+        forwardAuditList:{},//注单清理列表
     }
   },
   computed: {
@@ -151,7 +130,7 @@ export default {
     })
   },
   created() {
-    this.getrecharge();
+    this.getforwardAudit();
   },
   mounted(){
   },
@@ -159,40 +138,40 @@ export default {
 
     reload() {
             this.showList = true;
-            this.getrecharge();
+            this.getforwardAudit();
         },
         query() {
             this.reload();
         },
         changeStatus(){
-            this.rechargeAuditList = {};
+            this.forwardAuditList = {};
         },
         audit(id,status,type,money,remark,userId) {
             let that = this;
 
-            if(id!=""){
-                this.rechargeAudit.id = id;
+             if(id!=""){
+                this.forwardAudit.id = id;
             }
             if(status!=""){
-                this.rechargeAudit.status = status;
+                this.forwardAudit.status = status;
             }
             if(type!=""){
-                this.rechargeAudit.type = type;
+                this.forwardAudit.type = type;
             }
             if(money!=""){
-                this.rechargeAudit.money = money;
+                this.forwardAudit.money = money;
             }
             if(remark!=""){
-                this.rechargeAudit.remark = remark;
+                this.forwardAudit.remark = remark;
             }
             if(userId!=""){
-                this.rechargeAudit.userId = userId;
+                this.forwardAudit.userId = userId;
             }
 
 
             this.$c_msgconfirm("审核操作将立即生效且不可恢复,是否确定继续审核？",async () => {
 
-                await that.$post(`${window.url}/admin/finance/rechargeAudit`,this.rechargeAudit).then((res) => {
+                await that.$post(`${window.url}/admin/finance/forwardAudit`,this.forwardAudit).then((res) => {
                     that.$handelResponse(res, (result) => {
                         if (result.code == 200) {
                                 that.$success('操作成功');
@@ -208,32 +187,33 @@ export default {
 
         },
         translateAudit(id,status,type,money,remark,userId){
-            this.rechargeAudit.id = id;
-            this.rechargeAudit.status = status;
-            this.rechargeAudit.type = type;
-            this.rechargeAudit.money = money;
-            this.rechargeAudit.remark = remark;
-            this.rechargeAudit.userId = userId;
+            this.forwardAudit.id = id;
+            this.forwardAudit.status = status;
+            this.forwardAudit.type = type;
+            this.forwardAudit.money = money;
+            this.forwardAudit.remark = remark;
+            this.forwardAudit.userId = userId;
         },
 
 
     handleCurrentChange(cpage) {
       this.page.currentPage = cpage;
-      this.getrecharge();
+      this.getforwardAudit();
     },
-    async getrecharge() {
+    async getforwardAudit() {
         let that = this;
 
 
-        let url = 'admin/finance/rechargeAuditList?status='+this.q.status;
+        let url = 'admin/finance/forwardAuditList?status='+this.q.status;
         if (null != this.q.username && '' != this.q.username) {
             url = url + "&username=" + this.q.username
         }
 
+
         let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);
             if(+data.code===200) {
 
-              that.rechargeAuditList = data.page.list;
+              that.forwardAuditList = data.page.list;
                 if(data.page.totalPage == 0){
                     that.page.totalPage = 1;
                 }else{

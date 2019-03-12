@@ -368,6 +368,14 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/finance/rechargeAudit')), 'rechargeAudit'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/finance/forwardAudit', name: 'forwardAudit',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/finance/forwardAudit')), 'forwardAudit'), meta: { requiresAuth: true }
+        },
+
+
 
 
 
