@@ -311,6 +311,13 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatedaili')), 'updatedaili'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/userManager/hidemember', name: 'hidemember',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/hidemember')), 'hidemember'), meta: { requiresAuth: true }
+        },
+
 
         // -----------------系统管理
         { path: '/gambling/systemManager/huiyuangonggao', name: 'huiyuangonggao',

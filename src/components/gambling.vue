@@ -21,7 +21,7 @@
             <el-menu-item index="3-3" @click="$router.push({name:'zongdaili'})">总代理</el-menu-item>
             <el-menu-item index="3-4" @click="$router.push({name:'daili'})">代理</el-menu-item>
             <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
-            <el-menu-item index="3-6" @click="$router.push({name:''})">隐单账号</el-menu-item>
+            <el-menu-item index="3-6" @click="$router.push({name:'hidemember'})">隐单账号</el-menu-item>
           </el-submenu>
           <el-submenu index="4">
             <template slot="title">注单管理</template>
