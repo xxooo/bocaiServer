@@ -62,6 +62,14 @@
             </td>
           </tr>
           <tr>
+            <td class="tar">帐号状态:</td>
+            <td class="tl">
+                <label><input v-model="status" type="radio" value="1">启用</label>
+                <label><input v-model="status" type="radio" value="0">停用</label>
+            </td> 
+            <td class="tl">请选择是否冻结</td>
+          </tr> 
+          <tr>
             <td width="20%" class="tar">冻结:</td>
             <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>
@@ -142,7 +150,7 @@
           <tr>
             <td width="20%" class="tar">股东占成:</td> 
             <td class="tl">
-              <el-select v-model="pzhancheng" placeholder="请选择" size="mini">
+              <el-select v-model="czhancheng" placeholder="请选择" size="mini">
                 <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
               </el-select>
             </td> 
@@ -285,9 +293,10 @@ export default {
         {label: '5%',value: 5},
         {label: '不占成',value: 0},
       ],
-      pzhancheng: 0,
       mzhancheng: 0,
       yzhancheng: 0,
+      czhancheng: 0,
+      fzhancheng: 0,
       pquota: 0,
       pid: ''
 
@@ -307,8 +316,14 @@ export default {
       return this.cashCredit == '1' ? true : false;
     },
     futaitou() {
-      return this.fujiUserInfo.username ? this.fujiUserInfo.username.substring(0,3) : '';
+      return this.fujiUserInfo.username ? this.fujiUserInfo.username.substring(0,1) : '';
     },
+    pzhancheng() {
+
+      console.log('this.fzhancheng',this.fzhancheng);
+      console.log('this.czhancheng',this.czhancheng);
+      return this.fzhancheng*1 - this.czhancheng*1;
+    }
   },
   created() {
 
@@ -325,9 +340,7 @@ export default {
       if(+res.code===200) {
         if(res.auser) {
           this.fujiUserInfo = res.auser;
-
-          this.yzhancheng = res.auser.cChangeAllotOccupied;
-          this.pzhancheng = res.auser.cChangeAllotOccupied;
+          this.fzhancheng = res.auser.aUserOccupied.cChangeAllotOccupied;
           this.pquota = res.auser.quota;
           this.pid = res.auser.id;
 
@@ -395,8 +408,8 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(+this.pzhancheng > +this.yzhancheng) {
-        this.$alertMessage('总占成不能超过上级占成!', '温馨提示');
+      } else if(+this.czhancheng > +this.fzhancheng) {
+        this.$alertMessage('当前占成不能超过上级占成!', '温馨提示');
       } else if(this.ifxinyong && (this.quota > + this.pquota)) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else {
@@ -420,7 +433,7 @@ export default {
 
           let dataobj = {
             aUserOccupied:{//当前用户占成数据
-              cChangeAllotOccupied:this.mzhancheng,//当前设置占成
+              cChangeAllotOccupied:this.czhancheng,//当前设置占成
               pChangeAllotOccupied:this.pzhancheng,//当前父类设置占成
               pid:this.pid//父ID
             },  

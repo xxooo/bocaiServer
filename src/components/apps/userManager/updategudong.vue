@@ -283,9 +283,9 @@ export default {
       fuuserInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo'
     }),
-    username() {
-      return this.futaitou + this.duanusername;
-    },
+    // username() {
+    //   return this.futaitou + this.duanusername;
+    // },
     ifxinyong() {
       return this.cashCredit == '1' ? true : false;
     }

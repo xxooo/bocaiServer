@@ -91,7 +91,6 @@ export default {
         this.allotList = res.data.allotList;
         this.choiseList = res.data.choiseList;
 
-
         this.choiseList.forEach((item, index) => {
 
           this.value2.push(
@@ -130,10 +129,20 @@ export default {
               if(result.code===200){
                 that.$success(result.msg);
                 that.baseSet();
+                that.getbocaiMenu();
               }
             })
       });
-    }
+    },
+    async getbocaiMenu() {
+      console.log('userInfo',this.userInfo);
+
+      let res = await this.$get(`${window.url}/admin/bocai/getOdds?userId=`+this.userInfo.id);
+
+      if(res.code===200){
+        store.commit('updatebocaiMenu', res.list);
+      }
+    },
 
 
   }

@@ -55,7 +55,7 @@
           <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
         </template>
 
-        <template v-if="ruleId == 1">
+        <template v-if="ruleId == 1 || ruleId == 2">
           <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
           <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
           <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
@@ -65,6 +65,7 @@
           <el-menu-item index="15" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
           <el-menu-item index="16" @click="$router.push({name:'childUserManage'})">帐号管理</el-menu-item>
           <el-menu-item index="17" @click="$router.push({name:'company'})">公司管理</el-menu-item>
+          <el-menu-item index="18" @click="$router.push({name:'yunyingmanager'})">运营管理</el-menu-item>
         </template>
         
       </el-menu>
@@ -93,6 +94,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import cookieParser from './../assets/js/cookie';
 
 export default {
   components: {
@@ -124,15 +126,30 @@ export default {
             "createDate": null,
             "updateDate": null
         }],
-      roleName: ''
+      roleName: '',
+      ruleId22: ''
     }
   },
   async created() {
-    console.log('ruleId',this.ruleId);
+    //console.log('ruleId',this.ruleId);
 
-    if(this.ruleId == 3) {
-      this.menuList = this.gsMenu;
-    } else if(this.ruleId == '') {
+    
+    // else if(this.ruleId == '') {
+    //   this.$router.push({name:"login"});
+    // }
+
+    let token = cookieParser.getCookie("accesstoken");
+
+    // this.ruleId22 = cookieParser.getCookie("ruleId");
+
+
+    // console.log('token',token);
+
+    // console.log('ruleId22',this.ruleId22);
+
+    // console.log('ruleId',this.ruleId);
+
+   if (this.token == '') {
       this.$router.push({name:"login"});
     }
 

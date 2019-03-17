@@ -1,7 +1,7 @@
 <template>
   <div class="content-main" id="home">
     <div class="portlet">
-      <div class="tab tab1">
+      <div class="tab tab1" v-if="ruleId != 1 && ruleId != 2">
         <table>
           <thead>
             <tr><th colspan="2">账户概要</th></tr>
@@ -30,7 +30,7 @@
           </tbody>
         </table>
       </div> 
-      <div class="tab tab2">
+      <div class="tab tab2" v-if="ruleId != 1 && ruleId != 2">
         <table>
           <thead>
             <tr>
@@ -56,7 +56,7 @@
           </tbody>
         </table>
       </div> 
-      <div class="tab tab3">
+      <div class="tab tab3" v-if="ruleId != 1 && ruleId != 2">
         <table>
           <thead>
             <tr><th colspan="2">最新公告</th></tr>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex';
 export default {
   components: {
   },
@@ -104,14 +104,26 @@ export default {
     }
   },
   created() {
-    this.cUserdewater(this.bocaiTypeId);
 
-    this.gethomepage();
+    console.log('this.ruleId',this.ruleId);
 
-    this.getnoticeList(this.currentPage);
+    //this.cUserdewater(this.bocaiTypeId);
+
+    if(this.ruleId != 1 && this.ruleId != 2) {
+      this.gethomepage();
+
+      this.getnoticeList(this.currentPage);
+    }
+    
+
+    
 
   },
   computed: {
+    ...mapGetters({
+      ruleId:'getruleId',
+      userInfo: 'getuserInfo'
+    })
   },
   methods: {
     handleCurrentChange(cpage) {
@@ -144,23 +156,23 @@ export default {
 
       } 
     },
-    getcuserInfo(item) {
-      this.cbocai = item.bocaiName;
-      this.cUserdewater(item.bocaiId);
-      $('.bocai'+item.bocaiId).addClass('active').siblings().removeClass('active');
-    },
-    changeboType(data) {
-      this.cUserdewater(data);
-    },
-    async cUserdewater(id) {
+    // getcuserInfo(item) {
+    //   this.cbocai = item.bocaiName;
+    //   this.cUserdewater(item.bocaiId);
+    //   $('.bocai'+item.bocaiId).addClass('active').siblings().removeClass('active');
+    // },
+    // changeboType(data) {
+    //   this.cUserdewater(data);
+    // },
+    // async cUserdewater(id) {
 
-      let res = await this.$get(`${window.url}/api/cUserdewater?bocaiTypeId=`+id);
+    //   let res = await this.$get(`${window.url}/api/cUserdewater?bocaiTypeId=`+id);
 
-        if(res.code===200){
-            this.cUserdeList = res.data;
+    //     if(res.code===200){
+    //         this.cUserdeList = res.data;
 
-        } 
-    }
+    //     } 
+    // }
   },
   mounted() {
   },

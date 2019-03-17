@@ -106,11 +106,15 @@ export default {
                 password: 'a111111'
                 // username: 'admin',
                 // password: '123456'
+                // username: 'testyunying2',
+                // password: 'a111111'
               };
 
               let ret = await this.$post(`${window.url}/admin/login`, obj);
               if(ret.code === 200) {
                 cookieParser.setCookie("accesstoken", ret.token);
+
+                //cookieParser.setCookie('ruleId', ret.ruleId);
 
                 store.commit('updateruleId', ret.ruleId);
 

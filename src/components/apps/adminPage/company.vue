@@ -161,7 +161,7 @@
                 <td class="tl">请选择开启或关闭</td>
             </tr>
             <tr>
-                <th>停押/收单</th>
+                <th>停押/收单</th>    
                 <td class="tl">
                     <input type="radio" name="tingyaShouya" value="1" v-model="auser.tingyaShouya" id="tingyaShouya1">
                     收单　
@@ -697,6 +697,12 @@ export default {
 
 
               if(flag) {
+
+                this.auser.status = this.auser.status*1;
+                this.auser.isFrozen = this.auser.isFrozen*1;
+                this.auser.isReplenishment = this.auser.isReplenishment*1;
+                this.auser.tingyaShouya = this.auser.tingyaShouya*1;
+
                 let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
 
                 let data = await this.$post(`${window.url}/`+ url,this.auser);

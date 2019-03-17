@@ -5,8 +5,8 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'huiyuan' }">会员</el-breadcrumb-item>
-        <el-breadcrumb-item>{{isNew?'新增会员':'修改资料'}}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'hidemember' }">隐单帐号</el-breadcrumb-item>
+        <el-breadcrumb-item>{{isNew?'新增隐单':'修改资料'}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -240,7 +240,7 @@
         </table> 
           <p class="tac" style="margin-top: 8px;">
             <button class="tabBtn btn btn-blue mgr10" @click="addsubUser()">确定</button> 
-            <button class="tabBtn btn btn-red" @click="$router.push({name:'huiyuan'})">取消</button>
+            <button class="tabBtn btn btn-red" @click="$router.push({name:'hidemember'})">取消</button>
           </p>
       </div>
     </div>
@@ -258,7 +258,7 @@ export default {
   },
   data () {
     return {
-      isNew: this.$route.name == 'addhuiyuan' ? true : false,
+      isNew: this.$route.name == 'addhidemember' ? true : false,
       childUserInfo: {},
       currentPage: 1,
       functionIdList:[],//权限ID列表
@@ -485,16 +485,6 @@ export default {
     },
     async addsubUser() {
 
-      console.log('this.companyUser',this.companyUser);
-
-      let fujizhi = 0;
-
-      if(this.cashCredit == 0) {
-        fujizhi = this.companyUser.quota*1;
-      } else {
-        fujizhi = this.fujiUserInfo.quota*1;
-      }
-
 
       if(this.username == '') {
         this.$alertMessage('用户名不能为空!', '温馨提示');
@@ -504,12 +494,10 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(this.cashBalance > fujizhi) {
+      } else if(this.cashBalance > this.companyUser.quota) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else if(this.pid == '') {
         this.$alertMessage('上级不能为空!', '温馨提示');
-      } else if(this.handicap == '') {
-        this.$alertMessage('盘口不能为空!', '温馨提示');
       }  else {
 
           let dataobj = {
@@ -528,7 +516,7 @@ export default {
               status: this.status,//账号状态，0：停用，1：启用
               tingyaShouya: this.tingyaShouya,//停押/收押，0：停押，1：收押
               userType: this.userType,//会员类型,1:普通,2:直属
-              isHide: 1,
+              isHide: 2,
               username: this.pakoun + this.username,//用户名
               creditType: this.creditType,//信用模式才有,1,第二天还原额度。0，正常交易
               quotaInfo: {//充值数据
@@ -549,7 +537,7 @@ export default {
                 NProgress.done();
                 if(result.code===200){
                   that.$success('提交成功!');
-                  that.$router.push({name:'huiyuan'});
+                  that.$router.push({name:'hidemember'});
                   that.qingkong();
                 }
               })

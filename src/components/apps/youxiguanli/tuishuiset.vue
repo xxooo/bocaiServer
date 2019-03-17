@@ -126,7 +126,7 @@ export default {
       isSubTuishui: this.$route.name == 'tuishuisheding' ? true : false,
       childUserList: [],
       childUserInfo: {},
-      bocaiId: 1,
+      bocaiId: '',
       userId: '',
       currentPage: 1,
       shuaixuanNum: '1',
@@ -168,6 +168,13 @@ export default {
     this.baocunuserid = this.isSubTuishui ? this.upUserInfo.id : this.userInfo.id;
 
     this.childUser();
+
+    if(this.bocaiMenu.length != 0) {
+      this.bocaiId = this.bocaiMenu[0].id;
+    }
+
+    console.log('this.bocaiId',this.bocaiId);
+    
 
   },
   mounted(){

@@ -317,6 +317,18 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/hidemember')), 'hidemember'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/userManager/addhidemember', name: 'addhidemember',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/addhidemember')), 'addhidemember'), meta: { requiresAuth: true }
+        },
+        { path: '/gambling/userManager/updatehidemember', name: 'updatehidemember',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/userManager/updatehidemember')), 'updatehidemember'), meta: { requiresAuth: true }
+        },
 
 
         // -----------------系统管理
@@ -434,6 +446,12 @@ const router = new Router({
               requireAuth: true,
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/company')), 'company'), meta: { requiresAuth: true }
+        },
+        { path: '/adminPage/yunyingmanager', name: 'yunyingmanager',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/yunyingmanager')), 'yunyingmanager'), meta: { requiresAuth: true }
         },
         { path: '/adminPage/tuishuisetting', name: 'tuishuisetting',
           meta: {

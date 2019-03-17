@@ -5,8 +5,8 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'huiyuan' }">会员</el-breadcrumb-item>
-        <el-breadcrumb-item>{{isNew?'新增会员':'修改资料'}}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'hidemember' }">隐单帐号</el-breadcrumb-item>
+        <el-breadcrumb-item>{{isNew?'新增隐单':'修改资料'}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -21,66 +21,24 @@
           <tr>
             <td width="20%" class="tar">会员类型:</td> 
             <td class="tl">
-              <label><input v-model="userType" type="radio" :value="1" @click="getSessionAUser()"> 普通会员 </label> 
-              <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2" @click="zhishugongsi()"> 直属会员 </label>
+              <label v-if="userType == 1">普通会员 </label> 
+              <label v-if="userType == 2">直属会员 </label>
             </td> 
-            <td class="tl" width="20%">请选择会员类型</td>
+            <td class="tl" width="20%"></td>
           </tr> 
-          <tr v-if="userType == 1">
-            <td class="tar">上级代理:</td> 
+          <tr>
+            <td class="tar">上级直属:</td> 
             <td class="tl">
-              <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
-                <el-option v-for="(item,index) in allDailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-              </el-select>
+              <p>{{pusername}}</p>
             </td> 
-            <td class="tl"><p>请选择代理</p></td>
-          </tr>
-
-          <template v-if="userType == 2">
-            <tr>
-              <td class="tar">上级直属:</td> 
-              <td class="tl">
-                <label><input v-model="zhishuPji" type="radio" :value="1" @click="zhishugongsi()"> 直属公司 </label> 
-                <label><input v-model="zhishuPji" type="radio" :value="2" @click="zhishugudong()"> 直属股东 </label>
-                <label><input v-model="zhishuPji" type="radio" :value="3" @click="zhishuzongdaili()"> 直属总代理 </label>
-              </td> 
-              <td class="tl" width="20%">请选择直属上级</td>
-            </tr>
-            <tr v-if="zhishuPji == 1">
-              <td class="tar">上级公司:</td> 
-              <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
-                  <el-option v-for="(item,index) in zhishugongsiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-                </el-select>
-              </td> 
-              <td class="tl"><p>请选择上级公司</p></td>
-            </tr>
-            <tr v-if="zhishuPji == 2">
-              <td class="tar">上级股东:</td> 
-              <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
-                  <el-option v-for="(item,index) in zhishugudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-                </el-select>
-              </td> 
-              <td class="tl"><p>请选择上级股东</p></td>
-            </tr>
-            <tr v-if="zhishuPji == 3">
-              <td class="tar">上级总代理:</td> 
-              <td class="tl">
-                <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
-                  <el-option v-for="(item,index) in zhishuzongdailiList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-                </el-select>
-              </td> 
-              <td class="tl"><p>请选择上级总代理</p></td>
-            </tr>
-          </template> 
-          
+            <td class="tl"></td>
+          </tr> 
           <tr>
             <td class="tar">会员帐号:</td> 
             <td class="tl">
-              <p>{{pakoun}}<input type="text" v-model="username" placeholder="请输入帐号"> <button @click="checkRepte()">帐号是否可用</button></p>
+              <p>{{username}}</p>
             </td> 
-            <td class="tl"><p>帐号仅可接受英数字元, 长度限制4~12码</p></td>
+            <td class="tl"></td>
           </tr> 
           <tr>
             <td class="tar">会员名称:</td> 
@@ -138,11 +96,11 @@
               <label><input v-model="cashCredit" type="radio" :value="1" disabled="true"> 信用模式 </label>
             </td> 
             <td width="20%" class="tl">
-              <span>消费模式</span>
             </td>
           </tr>
         </table>
 
+        <!-- 信用模式 -->
         <table v-if="cashCredit == 1">
           <thead>
             <tr>
@@ -150,24 +108,29 @@
             </tr>
           </thead> 
           <tr>
-            <td width="20%" class="tar">信用类型:</td> 
+            <td class="tar" width="20%">已有信用额度:</td> 
+            <td class="tl"><input v-model="hascashBalance" type="text" placeholder="" disabled="true"></td> 
+            <td class="tl" width="20%"> </td>
+          </tr>
+          <tr>
+            <td width="20%" class="tar">额度类型:</td> 
             <td class="tl">
               <label><input v-model="creditType" type="radio" :value="1"> 第二天还原额度 </label> 
               <label><input v-model="creditType" type="radio" :value="0"> 正常交易 </label>
             </td> 
             <td width="20%" class="tl">
-              <span>请选择额度类型, 设定后不能修改</span>
+              <span>请选择充值额度类型</span>
             </td>
           </tr>
           <tr>
             <td class="tar" width="20%">充值信用额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
-            <td class="tl" width="20%"> 设定充值信用额度</td>
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
             <td class="tar">充值备注:</td> 
             <td class="tl"><input v-model="quotaInfo.quotaRemark" type="text" placeholder=""></td> 
-            <td class="tl"> 设定充值备注</td>
+            <td class="tl"> 设定信用备注</td>
           </tr>
         </table>
         <table v-else>
@@ -177,20 +140,27 @@
             </tr>
           </thead> 
           <tr>
-            <td width="20%" class="tar">现金类型:</td> 
+            <td class="tar" width="20%">已有现金额度:</td> 
+            <td class="tl"><input v-model="hascashBalance" type="text" placeholder="" disabled="true"></td> 
+            <td class="tl" width="20%"> </td>
+          </tr>
+          <tr>
+            <td width="20%" class="tar">充值现金类型:</td> 
             <td class="tl">
               <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="1"> 微信 </label> 
               <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="2"> 支付宝 </label>
               <label><input v-model="quotaInfo.quotaAccount" type="radio" :value="3"> 银行卡 </label>
             </td> 
             <td width="20%" class="tl">
-              <span>请选择额度类型, 设定后不能修改</span>
+              <span>请选择充值额度类型</span>
             </td>
           </tr>
           <tr>
             <td class="tar" width="20%">充值现金额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值现金额度</td>
+
+
           </tr>
           <tr>
             <td class="tar">充值备注:</td> 
@@ -205,7 +175,6 @@
               <th colspan="3">占成分配</th>
             </tr>
           </thead> 
-
           <tr>
             <td width="20%" class="tar">上级占成:</td> 
             <td class="tl">
@@ -226,21 +195,22 @@
           <tr>
             <td width="20%" class="tar">盘口:</td> 
             <td class="tl">
-              <label v-if="fujiUserInfo.handicapA == 1"><input type="radio" v-model="handicap" value="a">A</label> 
-              <label v-if="fujiUserInfo.handicapB == 1"><input type="radio" v-model="handicap" value="b">B</label> 
-              <label v-if="fujiUserInfo.handicapC == 1"><input type="radio" v-model="handicap" value="c">C</label>
-              <label v-if="fujiUserInfo.handicapD == 1"><input type="radio" v-model="handicap" value="d">D</label>
+
+              <label v-if="handicap == 'a'">A</label> 
+              <label v-if="handicap == 'b'">B</label> 
+              <label v-if="handicap == 'c'">C</label> 
+              <label v-if="handicap == 'd'">D</label> 
 
             </td> 
             <td class="tl" width="20%">
-              <span>请选择盘口</span>
+              <span>此项不允许修改</span>
             </td>
 
           </tr>
         </table> 
           <p class="tac" style="margin-top: 8px;">
-            <button class="tabBtn btn btn-blue mgr10" @click="addsubUser()">确定</button> 
-            <button class="tabBtn btn btn-red" @click="$router.push({name:'huiyuan'})">取消</button>
+            <button class="tabBtn btn btn-blue mgr10" @click="updatehuiyuan()">确定</button> 
+            <button class="tabBtn btn btn-red" @click="$router.push({name:'hidemember'})">取消</button>
           </p>
       </div>
     </div>
@@ -258,7 +228,7 @@ export default {
   },
   data () {
     return {
-      isNew: this.$route.name == 'addhuiyuan' ? true : false,
+      isNew: this.$route.name == 'addhidemember' ? true : false,
       childUserInfo: {},
       currentPage: 1,
       functionIdList:[],//权限ID列表
@@ -270,6 +240,7 @@ export default {
           pChangeAllotOccupied: 0//上级占成
       },
       cashBalance: 0,//现金余额，1，信用余额
+      hascashBalance: '',//已有额度
       cashCredit: 0,//0:现金模式，1：信用模式
       handicap: '',//盘口
       isFrozen: 0,//冻结状态，0：否，1：是
@@ -292,6 +263,7 @@ export default {
       zhishuPji: 1,
 
 
+      pusername: '',
       futaitou: '',
       cuser: {},
       companyUser: {},
@@ -342,10 +314,7 @@ export default {
 
       pzhancheng: 0,
       cselectPzhancheng: 0,
-      fuPankou: [],
-      sessionAUser: {},
-      isshangji: false,
-      companyUser: {}
+      fuPankou: []
 
     }
   },
@@ -355,9 +324,6 @@ export default {
       fuuserInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo'
     }),
-    ifxinyong() {
-      return this.cashCredit == '1' ? true : false;
-    },
     onlyzhanchengList() {
       let arr = [];
       for(let n in this.zhanchengList) {
@@ -366,17 +332,11 @@ export default {
         }
       }
       return arr;
-    },
-    pakoun() {
-      return this.handicap;
     }
   },
   created() {
-      this.cashCredit = this.fuuserInfo.cashCredit;
-
-      console.log('wwwww');
-
-      this.getSessionAUser();
+      console.log('this.fuuserInfo',this.fuuserInfo);
+      this.getupdatehuiyuan();
   },
   mounted(){
   },
@@ -391,73 +351,44 @@ export default {
       }
 
     },
-    async getSessionAUser() {
-      console.log('ttttt');
-      let res = await this.$get(`${window.url}/admin/getSessionAUser`);
+    async getupdatehuiyuan() {
+
+      let res = await this.$get(`${window.url}/admin/cuser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
+
       if(+res.code===200) {
 
-        this.sessionAUser = res.sessionAUser;
-                if (this.sessionAUser.ruleId == 6) {//如果是代理，则直接返回代理数据
-                    this.isshangji = true;
-                    this.allDailiList.push(res.sessionAUser);
-                } else {
-                    this.getAlldaili(6);//获取代理列表
-                }
+        this.cuser = res.cuser;
 
+        this.pusername = this.cuser.pusername;
 
-      }
-    },
-    async getshangjidaili(data) {
-      // let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
-      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data);
-      if(+res.code===200) {
-
-        if (res.auser != null) {
-
-          this.fujiUserInfo = res.auser;
-
-          this.companyUser = res.companyUser;
-
-          this.pzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
-
-          this.aUserOccupied.pChangeAllotOccupied = res.auser.aUserOccupied.pChangeAllotOccupied;
-
-          this.pid = res.auser.id;
-
+        if(this.cuser.aUserOccupied) {
+          this.aUserOccupied = {//当前用户占成数据
+            cChangeAllotOccupied:this.cuser.aUserOccupied.cChangeAllotOccupied,//当前设置占成
+            pChangeAllotOccupied:this.cuser.aUserOccupied.pChangeAllotOccupied//当前父类设置占成
+          }
         }
+
+        this.pzhancheng = this.cuser.aUserOccupied.pChangeAllotOccupied;
+
+        this.hascashBalance = this.cuser.cashBalance;
+        this.cashCredit = this.cuser.cashCredit;//0:现金模式，1：信用模式
+        this.handicap = this.cuser.handicap;
+        this.id = this.cuser.id;
+        this.isFrozen= this.cuser.isFrozen;//冻结状态，0：否，1：是
+        this.nickname = this.cuser.nickname;
+        this.occupied= this.cuser.aUserOccupied.cOccupied;//当前用户选择占成
+        this.password = this.cuser.password;
+        this.repassword = this.password;
+        this.pid= this.cuser.pid;//父类ID
+
+        this.ruleId = this.cuser.ruleId;//角色ID
+        this.status = this.cuser.status;//账号状态，0：停用，1：启用
+        this.tingyaShouya = this.cuser.tingyaShouya;//停押/收押，0：停押，1：收押
+        this.userType = this.cuser.userType;
+        this.username = this.cuser.username;
+
       }
 
-    },
-    async zhishuzongdaili() {
-      this.pid = '';
-      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=5&isUp=1`);
-      if(+res.code===200) {
-        this.zhishuzongdailiList = res.userList;
-      }
-    },
-    async zhishugudong() {
-      this.pid = '';
-
-      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=4&isUp=1`);
-      if(+res.code===200) {
-        this.zhishugudongList = res.userList;
-      }
-    },
-    async zhishugongsi() {
-      this.pid = '';
-
-      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=3&isUp=1`);
-      if(+res.code===200) {
-        this.zhishugongsiList = res.userList;
-      }
-    },
-    async getAlldaili() {
-      this.pid = '';
-
-      let res = await this.$get(`${window.url}/admin/auser/ruleList?ruleId=6&isUp=1`);
-      if(+res.code===200) {
-        this.allDailiList = res.userList;
-      }
     },
     qingkong() {
       this.id = ""; //id
@@ -465,35 +396,7 @@ export default {
       this.password= "";
       this.repassword= "";
     },
-    async checkRepte() {
-
-      if(this.username == '') {
-        this.$alertMessage('用户名不能为空!', '温馨提示');
-      } else {
-        this.id = '';
-
-        let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
-
-        if(+res.code===500){
-          this.$alertMessage(res.msg, '温馨提示');
-        } else if(+res.code===200) {
-          this.$alertMessage('此帐号可用', '温馨提示');
-        }
-      }
-      
-
-    },
-    async addsubUser() {
-
-      console.log('this.companyUser',this.companyUser);
-
-      let fujizhi = 0;
-
-      if(this.cashCredit == 0) {
-        fujizhi = this.companyUser.quota*1;
-      } else {
-        fujizhi = this.fujiUserInfo.quota*1;
-      }
+    async updatehuiyuan() {
 
 
       if(this.username == '') {
@@ -504,56 +407,53 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(this.cashBalance > fujizhi) {
+      } else if(this.cashBalance > this.cuser.pquota) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
-      } else if(this.pid == '') {
-        this.$alertMessage('上级不能为空!', '温馨提示');
-      } else if(this.handicap == '') {
-        this.$alertMessage('盘口不能为空!', '温馨提示');
-      }  else {
+      } else {
+
 
           let dataobj = {
-             aUserOccupied: {//占成对象
-                cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
-                pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
-              },
-              cashBalance: this.cashBalance,
-              cashCredit: this.cashCredit,
-              handicap: this.handicap,//盘口
-              isFrozen: this.isFrozen,//冻结状态，0：否，1：是
-              nickname: this.nickname,//昵称
-              password: this.password,//密码
-              pid: this.pid,//上级ID
-              ruleId: this.ruleId,//角色ID
-              status: this.status,//账号状态，0：停用，1：启用
-              tingyaShouya: this.tingyaShouya,//停押/收押，0：停押，1：收押
-              userType: this.userType,//会员类型,1:普通,2:直属
-              isHide: 1,
-              username: this.pakoun + this.username,//用户名
-              creditType: this.creditType,//信用模式才有,1,第二天还原额度。0，正常交易
-              quotaInfo: {//充值数据
-                  quotaAccount : this.quotaInfo.quotaAccount,
-                  quotaAmount : this.quotaInfo.quotaAmount,
-                  quotaRemark : this.quotaInfo.quotaRemark,
-                  quotaType : this.quotaInfo.quotaType,
-              }
-            }
-
-
-          console.log('dataobj',dataobj);
+            aUserOccupied: {
+              cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
+              pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
+            },
+            cashBalance: +this.cashBalance,
+            cashCredit: this.cashCredit,
+            handicap: this.handicap,
+            id: this.id,
+            isFrozen: this.isFrozen,
+            nickname: this.nickname,
+            occupied: this.occupied,
+            password: this.password,
+            pid: this.pid,
+            quotaInfo: {
+              quotaAccount : this.quotaInfo.quotaAccount,
+              quotaAmount : this.quotaInfo.quotaAmount,
+              quotaRemark : this.quotaInfo.quotaRemark,
+              quotaType : this.quotaInfo.quotaType,
+            },
+            ruleId: this.ruleId,
+            status: this.status,
+            tingyaShouya: this.tingyaShouya,
+            userType: this.userType,
+            username: this.username,
+            isHide: this.cuser.isHide,
+            userClass: this.cuser.userClass
+          }
 
           let that = this;
             NProgress.start();
-            await that.$post(`${window.url}/admin/cuser/addUser`,dataobj).then((res) => {
+            await that.$post(`${window.url}/admin/cuser/editUser`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
                 NProgress.done();
                 if(result.code===200){
                   that.$success('提交成功!');
-                  that.$router.push({name:'huiyuan'});
+                  that.$router.push({name:'hidemember'});
                   that.qingkong();
                 }
               })
             });
+
       }
     }
 
