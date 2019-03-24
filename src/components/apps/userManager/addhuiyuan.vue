@@ -161,7 +161,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值信用额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值信用额度</td>
           </tr>
           <tr>
@@ -420,7 +420,7 @@ export default {
 
           this.pzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
 
-          this.aUserOccupied.pChangeAllotOccupied = res.auser.aUserOccupied.pChangeAllotOccupied;
+          //this.aUserOccupied.pChangeAllotOccupied = res.auser.aUserOccupied.pChangeAllotOccupied;
 
           this.pid = res.auser.id;
 
@@ -504,7 +504,7 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(this.cashBalance > fujizhi) {
+      } else if(this.quotaInfo.quotaAmount > fujizhi) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else if(this.pid == '') {
         this.$alertMessage('上级不能为空!', '温馨提示');
@@ -517,7 +517,7 @@ export default {
                 cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
                 pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
               },
-              cashBalance: this.cashBalance,
+              cashBalance: this.quotaInfo.quotaAmount*1,
               cashCredit: this.cashCredit,
               handicap: this.handicap,//盘口
               isFrozen: this.isFrozen,//冻结状态，0：否，1：是
@@ -533,9 +533,9 @@ export default {
               creditType: this.creditType,//信用模式才有,1,第二天还原额度。0，正常交易
               quotaInfo: {//充值数据
                   quotaAccount : this.quotaInfo.quotaAccount,
-                  quotaAmount : this.quotaInfo.quotaAmount,
+                  quotaAmount : this.quotaInfo.quotaAmount*1,
                   quotaRemark : this.quotaInfo.quotaRemark,
-                  quotaType : this.quotaInfo.quotaType,
+                  quotaType : this.quotaInfo.quotaType
               }
             }
 

@@ -428,7 +428,7 @@ export default {
             pid: this.pid,
             quotaInfo: {
               quotaAccount : this.quotaInfo.quotaAccount,
-              quotaAmount : this.quotaInfo.quotaAmount,
+              quotaAmount : this.cashBalance,
               quotaRemark : this.quotaInfo.quotaRemark,
               quotaType : this.quotaInfo.quotaType,
             },
