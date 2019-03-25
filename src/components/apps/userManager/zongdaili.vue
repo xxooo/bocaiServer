@@ -70,8 +70,8 @@
                 <span>
                   <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
                   <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
-                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">查看密码</a>
-                  <a class="tabBtn btnPurple" @click="tuishuiset(item)">信用记录</a>
+                  <a class="tabBtn btnPurple" @click="">查看密码</a>
+                  <a class="tabBtn btnPurple" @click="">信用记录</a>
                 </span>
               </td>
             </tr>
@@ -195,7 +195,12 @@ export default {
     },
     async tuishuiset(item) {
       store.commit('updateupUserInfo', item);
-      this.$router.push({name:'tuishuisheding'});
+      this.$router.push({
+              name: 'tuishuisheding',
+              params: {
+                userlevel: 'zongdaili'
+              }
+            })
     },
     async getUserzhangc(item) {
       let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);

@@ -164,7 +164,15 @@ export default {
     },
     async tuishuiset(item) {
       store.commit('updateupUserInfo', item);
-      this.$router.push({name:'tuishuisheding'});
+      //this.$router.push({name:'tuishuisheding'});
+
+      this.$router.push({
+              name: 'tuishuisheding',
+              params: {
+                userlevel: 'gudong'
+              }
+            })
+
     },
     async getUserzhangc(item) {
       let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);

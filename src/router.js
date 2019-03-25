@@ -251,7 +251,7 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/userManager/updategudong')), 'updategudong'), meta: { requiresAuth: true }
         },
-        { path: '/gambling/userManager/tuishuisheding', name: 'tuishuisheding',
+        { path: '/gambling/userManager/:userlevel/tuishuisheding', name: 'tuishuisheding',
           meta: {
               requireAuth: true,
           },

@@ -5,7 +5,7 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'gudong' }">股东</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: paramsName }">{{pathName}}</el-breadcrumb-item>
         <el-breadcrumb-item>退水设置</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -125,6 +125,7 @@ export default {
   data () {
     return {
       isSubTuishui: this.$route.name == 'tuishuisheding' ? true : false,
+      paramsName: this.$route.params.userlevel,
       childUserList: [],
       childUserInfo: {},
       bocaiId: '',
@@ -162,9 +163,31 @@ export default {
       userInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo',
       bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    pathName() {
+      let path = '';
+
+      switch (this.paramsName) {
+          case 'gudong':
+            path = '股东';
+            break;
+          case 'zongdaili':
+            path = '总代理';
+            break;
+          case 'daili':
+            path = '代理';
+            break;
+          case 'huiyuan':
+            path = '会员';
+            break;
+      }
+
+      return path;
+    }
   },
   created() {
+
+    console.log('paramsName',this.paramsName);
 
     this.userId = this.isSubTuishui ? this.upUserInfo.id : '';
 

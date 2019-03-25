@@ -62,6 +62,14 @@
             </td>
           </tr>
           <tr>
+            <td class="tar">帐号状态:</td>
+            <td class="tl">
+                <label><input v-model="status" type="radio" value="1">启用</label>
+                <label><input v-model="status" type="radio" value="0">停用</label>
+            </td> 
+            <td class="tl">请选择是否冻结</td>
+          </tr> 
+          <tr>
             <td width="20%" class="tar">冻结:</td>
             <td class="tl">
                 <label><input v-model="isFrozen" type="radio" value="1">是</label>
@@ -407,6 +415,8 @@ export default {
         this.$alertMessage('总占成不能超过上级占成!', '温馨提示');
       } else if(this.ifxinyong && (this.quota > + this.pquota)) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+      } else if(this.functionIdList.length == 0) {
+        this.$alertMessage('盘口设置必须选择!', '温馨提示');
       } else {
 
         this.aUserOccupied.cChangeAllotOccupied = this.occupied;
@@ -444,7 +454,7 @@ export default {
             nickname:this.nickname,//昵称
             occupied:this.occupied,//当前用户选择占成
             password:this.password,//密码
-            pid:this.fuuserInfo.id,//父类ID
+            pid:this.pid,//父类ID
             quota:this.quota,//充值金额，股东/总代理/代理信用模式才传
             quotaInfo:{//股东/总代理/代理只有信用模式才有充值数据
                       quotaType: 1,//1,充值,2,提现，公司只有充值
