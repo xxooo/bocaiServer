@@ -62,9 +62,11 @@
             <tr><th colspan="2">最新公告</th></tr>
           </thead> 
           <tbody>
-            <tr v-if="this.gonggaoList.list && this.gonggaoList.list.length*1 != 0">
-              <td v-for="(item,index) in this.gonggaoList.list">{{item.content}}</td>
+
+            <tr v-if="gonggaoList.list && gonggaoList.list.length*1 != 0" v-for="(item,index) in gonggaoList.list">
+              <td>{{item.content}}</td>
             </tr>
+
             <tr v-else>
               <td>暂无数据</td>
             </tr>

@@ -131,14 +131,17 @@ export default {
     }
   },
   async created() {
-    //console.log('ruleId',this.ruleId);
 
+    let token = cookieParser.getCookie("accesstoken");
+
+    console.log('ruleId',this.ruleId);
+    console.log('token',token);
     
     // else if(this.ruleId == '') {
     //   this.$router.push({name:"login"});
     // }
 
-    let token = cookieParser.getCookie("accesstoken");
+    
 
     // this.ruleId22 = cookieParser.getCookie("ruleId");
 
@@ -149,11 +152,14 @@ export default {
 
     // console.log('ruleId',this.ruleId);
 
-   if (this.token == '') {
+    if (this.token == '') {
       this.$router.push({name:"login"});
+    } else if(this.ruleId == '') {
+      this.getUserInfo();
+      this.$router.push({name:"home"});
+    } else {
+      this.getUserInfo();
     }
-
-    this.getUserInfo();
 
   },
   computed: {
@@ -218,6 +224,8 @@ export default {
 
       if(res.code===200){
         store.commit('updateuserInfo', res.sessionAUser);
+
+        store.commit('updateruleId', res.sessionAUser.ruleId);
 
         this.getOdds(res.sessionAUser.id);
 
