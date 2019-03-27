@@ -115,33 +115,6 @@
               </el-form-item>
             </el-form>
 
-      <!-- <div class="popup-body">
-        <div class="default-list">
-
-          <table style="width:100%">
-            <thead>
-              <tr>
-                <th>银行类型</th> 
-                <th>银行账号</th> 
-                <th>收款人姓名</th> 
-              </tr>
-            </thead> 
-            <tbody>
-              <tr>
-                <td><input v-model="yinhangLeixing" type="text" placeholder="" class="mgr10"></td> 
-                <td><input v-model="yinhangLeixing" type="text" placeholder="" class="mgr10"></td> 
-                <td><input v-model="yinhangLeixing" type="text" placeholder="" class="mgr10"></td> 
-              </tr>
-            </tbody> 
-          </table>
-
-        </div>
-      </div> 
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="saveka" size="medium">确 认</el-button>
-        <el-button @click="dialogvisible = false" size="medium">取 消</el-button>
-      </span> -->
-
     </el-dialog>
 
 
@@ -229,8 +202,10 @@ export default {
                         if (result.code == 200) {
                                 that.$success('操作成功');
                                 that.getmethod();
+                                that.dialogvisible = false;
                             } else {
                               that.$error(result.msg);
+                              that.dialogvisible = false;
                             }
                     })
                   });
