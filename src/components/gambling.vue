@@ -31,7 +31,7 @@
           </el-submenu>
           <el-submenu index="5">
             <template slot="title">财务管理</template>
-            <el-menu-item index="5-1" @click="$router.push({name:''})">充值方式</el-menu-item>
+            <el-menu-item index="5-1" @click="$router.push({name:'prepaid'})">充值方式</el-menu-item>
             <el-menu-item index="5-2" @click="$router.push({name:'rechargeAudit'})">充值审核</el-menu-item>
             <el-menu-item index="5-3" @click="$router.push({name:'forwardAudit'})">提现审核</el-menu-item>
             <el-menu-item index="5-4" @click="$router.push({name:''})">推广</el-menu-item>

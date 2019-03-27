@@ -393,8 +393,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/finance/forwardAudit')), 'forwardAudit'), meta: { requiresAuth: true }
         },
-
-
+        { path: '/gambling/finance/prepaid', name: 'prepaid',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/finance/prepaid')), 'prepaid'), meta: { requiresAuth: true }
+        },
 
 
 
