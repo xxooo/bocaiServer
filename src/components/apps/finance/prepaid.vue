@@ -45,13 +45,13 @@
                                 <td>{{item.yinhangZhanghao}}</td> 
                                 <td>{{item.shoukuanXingming}}</td> 
                                 <td class="btnFeatures">
-                                    <span>
-                                      <a class="tabBtn btnPurple" @click="deleteka(item)">删除</a> 
-                                    </span>
+                                    <button class="tabBtn btn btn-blue" @click="deleteka(item)">删除</button>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="4" style="text-align: right;"><button class="tabBtn btn btn-blue" @click="dialogvisible = true">新增银行卡</button></td>
+                                <td colspan="4" style="text-align: right;">
+                                    <button class="tabBtn btn btn-blue" @click="dialogvisible = true">新增银行卡</button>
+                                </td>
                             </tr>
                         </table>
                     </td>
@@ -75,14 +75,6 @@
                         </div>
                     </td> 
                     <td>
-                        <!-- <form action="/api/upload/saveQR?id=upload_ali_1&amp;uuid=63c0cd6b-5249-4b35-8cc2-dc02f94ccddb&amp;index=0" target="uploader" method="POST" enctype="multipart/form-data">
-                            <ul class="logo">
-                                <li><img id="upload_ali_1" src="/static/img/onError.gif" org="/api/upload/QR/ali?uuid=63c0cd6b-5249-4b35-8cc2-dc02f94ccddb&amp;index=0" alt="" width="120" height="120" onerror="this.src='/static/img/onError.gif'"></li> 
-                                <li><input type="file" name="ali" disabled=""></li> 
-                                <li><input type="submit" value="上传" disabled=""></li> 
-                                <li><button disabled="">删除</button></li>
-                            </ul>
-                        </form> -->
                     </td>
                 </tr>
             </table> 
@@ -132,7 +124,7 @@ export default {
   data () {
     return {
       dialogvisible: false,
-
+        id: '',
         chongzhiXiane: 0,
         tixianXiane: 0,
         tixianCishu: 0,
@@ -172,6 +164,7 @@ export default {
   },
   methods: {
     async deleteka(item) {
+        let that = this;
         this.$c_msgconfirm("确认删除此银行卡吗？",async () => {
 
                 await that.$get(`${window.url}/admin/finance/deleteBankCard?caiwuYinhangzhuanzhangId=`+item.id).then((res) => {
@@ -230,9 +223,11 @@ export default {
             this.weixinEwmd= res.caiwuChongzhifangshi.weixinEwmd;
             this.weixinEwme= res.caiwuChongzhifangshi.weixinEwme;
             this.auserId= res.caiwuChongzhifangshi.auserId;
-            this.caiwuYinhangzhuanzhangList = res.caiwuChongzhifangshi.caiwuYinhangzhuanzhangList;
+            this.caiwuYinhangzhuanzhangList = res.caiwuYinhangzhuanzhangList;
 
             this.chongzhifangshiId = res.caiwuChongzhifangshi.id;
+            this.id = res.caiwuChongzhifangshi.id;
+
         } else {
             this.$error(res.msg);
         }
@@ -242,10 +237,11 @@ export default {
             let that = this;
 
             let obj = {
+                id: this.id,
                 auserId: this.auserId,
-                chongzhiXiane: this.chongzhiXiane,
-                tixianXiane: this.tixianXiane,
-                tixianCishu: this.tixianCishu,
+                chongzhiXiane: this.chongzhiXiane*1,
+                tixianXiane: this.tixianXiane*1,
+                tixianCishu: this.tixianCishu*1,
                 shouji: this.shouji,
                 qq: this.qq,
                 zhifubaoEwma: this.zhifubaoEwma,
