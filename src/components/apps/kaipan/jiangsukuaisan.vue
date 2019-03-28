@@ -62,9 +62,9 @@
                               <td class="tdRight" :class="'sanjundaxiao'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -76,9 +76,9 @@
                               <td class="tdRight" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','jian')"></i>
                                     <span class="odds-font betspan">{{sanjundaxiao.list[6].odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[6].oddsId" @click="orderTd(sanjundaxiao.list[6],'sanjundaxiao','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(sanjundaxiao.list[6].oddsId)">{{xushihuo == '1' ? sanjundaxiao.list[6].shBetMoneySum : sanjundaxiao.list[6].betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? sanjundaxiao.list[6].shWinnerMoneySum : sanjundaxiao.list[6].winnerMoneySum}}</span></li>
@@ -93,9 +93,9 @@
                               <td class="tdRight" :class="'sanjundaxiao'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'sanjundaxiao'+item.oddsId" @click="orderTd(item,'sanjundaxiao','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -107,9 +107,9 @@
                               <td class="tdRight" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','jian')"></i>
                                     <span class="odds-font betspan">{{sanjundaxiao.list[7].odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'sanjundaxiao'+sanjundaxiao.list[7].oddsId" @click="orderTd(sanjundaxiao.list[7],'sanjundaxiao','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(sanjundaxiao.list[7].oddsId)">{{xushihuo == '1' ? sanjundaxiao.list[7].shBetMoneySum : sanjundaxiao.list[7].betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? sanjundaxiao.list[7].shWinnerMoneySum : sanjundaxiao.list[7].winnerMoneySum}}</span></li>
@@ -133,9 +133,9 @@
                               <td class="tdRight w" :class="'weishaiquanshai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -153,9 +153,9 @@
                               <td class="tdRight w" :class="'weishaiquanshai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'weishaiquanshai'+item.oddsId" @click="orderTd(item,'weishaiquanshai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -169,9 +169,9 @@
                               <td class="tdRight" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','jian')"></i>
                                     <span class="odds-font betspan">{{weishaiquanshai.list[6].odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'weishaiquanshai'+weishaiquanshai.list[6].oddsId" @click="orderTd(weishaiquanshai.list[6],'weishaiquanshai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(weishaiquanshai.list[6].oddsId)">{{xushihuo == '1' ? weishaiquanshai.list[6].shBetMoneySum : weishaiquanshai.list[6].betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? weishaiquanshai.list[6].shWinnerMoneySum : weishaiquanshai.list[6].winnerMoneySum}}</span></li>
@@ -191,9 +191,9 @@
                               <td class="tdRight" :class="'dianshu'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -207,9 +207,9 @@
                               <td class="tdRight" :class="'dianshu'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -223,9 +223,9 @@
                               <td class="tdRight" :class="'dianshu'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -239,9 +239,9 @@
                               <td class="tdRight" :class="'dianshu'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'dianshu'+item.oddsId" @click="orderTd(item,'dianshu','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -266,9 +266,9 @@
                               <td class="tdRight" :class="'changpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -285,9 +285,9 @@
                               <td class="tdRight" :class="'changpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -304,9 +304,9 @@
                               <td class="tdRight" :class="'changpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -323,9 +323,9 @@
                               <td class="tdRight" :class="'changpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -342,9 +342,9 @@
                               <td class="tdRight" :class="'changpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'changpai'+item.oddsId" @click="orderTd(item,'changpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -367,9 +367,9 @@
                               <td class="tdRight" :class="'duanpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','jian')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jian" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','add')"></i>
+                                    <i v-if="isEdit" class="iconfont icon-jia1" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -386,9 +386,9 @@
                               <td class="tdRight" :class="'duanpai'+item.oddsId">
                                 <ul>
                                   <li>
-                                    <i class="iconfont icon-jian" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','jian')"></i>
+                                    <i v-if="isEdit"class="iconfont icon-jian" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','jian')"></i>
                                     <span class="odds-font betspan">{{item.odds}}</span>
-                                    <i class="iconfont icon-jia1" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','add')"></i>
+                                    <i v-if="isEdit"class="iconfont icon-jia1" :class="'duanpai'+item.oddsId" @click="orderTd(item,'duanpai','add')"></i>
                                   </li>
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
@@ -403,7 +403,7 @@
 
           </div>
 
-          <div class="tool">
+          <div class="tool" v-if="isEdit">
             <table>
               <tr>
                 <td><button class="btn btn-blue" @click="bocaiCategoryId(bocaiCategory)">还原赔率</button></td> 
@@ -545,7 +545,7 @@ export default {
       orderInfo: {},
       jiangliMoneyTotal: '',
       betsMoneyTotal: '',
-      isBase: '',
+      isBase: '2',
       curPageBetTotal: 0,
       curPageJangliTotal: 0,
       currentPage: 1,
@@ -556,14 +556,24 @@ export default {
     ...mapGetters({
       ruleId:'getruleId',
       userInfo: 'getuserInfo'
-    })
+    }),
+    isEdit() {
+      let bo = true;
+
+      if(this.ruleId == 3) {
+        bo = true;
+      } else {
+        bo = false;
+      }
+
+      return bo;
+    }
   },
   created() {
     this.getoddsCategory();
 
     this.getadminBocaiInfo();
 
-    this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
   },
   mounted(){
   },
@@ -659,8 +669,6 @@ export default {
     },
     async getoddsCategory() {
 
-      this.isBase = this.ruleId == 1 ? 1 : this.ruleId == 3 ? 2 : '';
-      
       let res = await this.$get(`${window.url}/admin/bocai/oddsCategory?bocaiTypeId=`+this.curBocaiTypeId+`&isBase=`+this.isBase);
 
       if(res.code===200){

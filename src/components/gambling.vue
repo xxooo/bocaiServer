@@ -8,7 +8,7 @@
 
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       
-        <template v-if="ruleId == 3">
+        <template v-if="[3,9].findIndex((n) => n==ruleId)>-1">
           <el-menu-item index="1" @click="$router.push({name:'home'})">我的首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title">盘势管理</template>
@@ -55,7 +55,34 @@
           <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
         </template>
 
-        <template v-if="ruleId == 1 || ruleId == 2">
+        <template v-if="[4,5,6,10,11,12].findIndex((n) => n==ruleId)>-1">
+          <el-menu-item index="1" @click="$router.push({name:'home'})">我的首页</el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">盘势管理</template>
+            <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotokaipan(item)" :key="index">{{item.name}}</el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">账号管理</template>
+            <el-menu-item index="3-1" @click="$router.push({name:'subuser'})">子帐号</el-menu-item>
+            <el-menu-item index="3-3" @click="$router.push({name:'zongdaili'})" v-if="[4,10].findIndex((n) => n==ruleId)>-1">总代理</el-menu-item>
+            <el-menu-item index="3-4" @click="$router.push({name:'daili'})" v-if="[4,5,10,11].findIndex((n) => n==ruleId)>-1">代理</el-menu-item>
+            <el-menu-item index="3-5" @click="$router.push({name:'huiyuan'})">会员</el-menu-item>
+          </el-submenu>
+          <el-submenu index="4">
+            <template slot="title">注单管理</template>
+            <el-menu-item index="4-1" @click="$router.push({name:''})">流水注单</el-menu-item>
+            <el-menu-item index="4-2" @click="$router.push({name:''})">补货注单</el-menu-item>
+          </el-submenu>
+          <el-submenu index="6">
+            <template slot="title">游戏管理</template>
+            <el-menu-item index="6-2" @click="$router.push({name:'tuishuiset'})">退水设置</el-menu-item>  
+            <el-menu-item index="6-3" @click="$router.push({name:''})">补货设置</el-menu-item>
+            <el-menu-item index="6-4" @click="$router.push({name:'kaijiangjieguo'})">开奖结果</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
+        </template>
+
+        <template v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
           <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
           <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
           <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
