@@ -76,7 +76,7 @@
           <el-submenu index="6">
             <template slot="title">游戏管理</template>
             <el-menu-item index="6-2" @click="$router.push({name:'tuishuiset'})">退水设置</el-menu-item>  
-            <el-menu-item index="6-3" @click="$router.push({name:''})">补货设置</el-menu-item>
+            <el-menu-item index="6-3" @click="$router.push({name:'buhuosetting'})">补货设置</el-menu-item>
             <el-menu-item index="6-4" @click="$router.push({name:'kaijiangjieguo'})">开奖结果</el-menu-item>
           </el-submenu>
           <el-menu-item index="9" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>

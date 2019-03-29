@@ -213,6 +213,13 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/caidansetting')), 'caidansetting'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/youxiguanli/buhuosetting', name: 'buhuosetting',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/buhuosetting')), 'buhuosetting'), meta: { requiresAuth: true }
+        },
+
 
         // -----------------帐户管理
         { path: '/gambling/userManager/subuser', name: 'subuser',

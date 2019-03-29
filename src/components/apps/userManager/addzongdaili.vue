@@ -390,13 +390,17 @@ export default {
           this.zhishugudongList.push(res.auser);
           this.fujiUserInfo = res.auser;
 
-          if(this.fujiUserInfo.aUserOccupied) {
-            this.yzhancheng = this.fujiUserInfo.aUserOccupied.pChangeAllotOccupied;
+          if(res.auser.aUserOccupied) {
+            this.yzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
           } else {
             this.yzhancheng = 0;
           }
 
+          this.pquota = res.auser.quota;
+          this.pid = res.auser.id;
+
           this.isshangji = true;
+
         } else {
           this.zhishugudongList = res.pAUserList;
           this.isshangji = false;

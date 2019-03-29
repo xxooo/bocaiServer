@@ -52,7 +52,8 @@
             </tr>
           </tbody>
         </table> 
-        <div class="func">
+
+        <div class="func" v-if="isEdit">
           <div class="tabs">
             <fieldset>
               <legend>勾选</legend> 
@@ -159,7 +160,18 @@ export default {
       userInfo: 'getuserInfo',
       upUserInfo: 'getupUserInfo',
       bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    isEdit() {
+      let bo = true;
+
+      if(this.ruleId == 3) {
+        bo = true;
+      } else {
+        bo = false;
+      }
+
+      return bo;
+    }
   },
   created() {
 
@@ -167,7 +179,7 @@ export default {
 
     this.baocunuserid = this.isSubTuishui ? this.upUserInfo.id : this.userInfo.id;
 
-    this.childUser();
+   
 
     if(this.bocaiMenu.length != 0) {
       this.bocaiId = this.bocaiMenu[0].id;
@@ -175,6 +187,7 @@ export default {
 
     console.log('this.bocaiId',this.bocaiId);
     
+    this.childUser();
 
   },
   mounted(){
