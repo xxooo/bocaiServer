@@ -11,37 +11,49 @@
     </div>
 
     <div class="portlet portlet-add">
-        <div class="tab"><table><thead><tr><th>PC蛋蛋</th> <th>补货类型</th> <th>
-            触发补货数值
-            <p>* 如果补货数值设置大于0，将开启自动补货 *</p></th> <th>
-            触发补货报警数值
-            <p>* 如果自动补货开启，报警将会失效 *</p></th></tr></thead> <tr><td class="row-th">大小</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">单双</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">色波</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">半波</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">半特</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">豹子</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr><tr><td class="row-th">特码</td> <td><label><input type="radio" value="3">盈亏</label> <label><input type="radio" value="0">注单数</label> <label><input type="radio" value="1">下注总额</label></td> <td><input type="text" class="odds-font"></td> <td><input type="text" class="odds-font"></td></tr></table> <div class="flyInput"><span>补货类型：</span> <select name="" id="" class="mgr10"><option value="-1">请选择类型</option> <option value="3">盈亏</option> <option value="0">注单数</option> <option value="1">下注总额</option></select> <span>批量设置：</span> <label><input type="radio" value="0"> 触发补货数值</label> <label><input type="radio" value="1"> 解发补货报警数值</label> <input type="text" placeholder="请输入数值"> <button class="tabBtn btn-blue mgr10">填入</button></div> <div class="inner"><button class="btn-submit">保存</button> <button class="btn-cancel">取消</button></div>
+        <div class="tab">
+          <table>
+            <thead>
+              <tr>
+                <th>PC蛋蛋</th> 
+                <th>补货类型</th> 
+                <th>触发补货数值<p>* 如果补货数值设置大于0，将开启自动补货 *</p></th> 
+                <th>触发补货报警数值<p>* 如果自动补货开启，报警将会失效 *</p></th>
+              </tr>
+            </thead> 
+            <tr>
+              <td class="row-th">大小</td> 
+              <td>
+                <label><input type="radio" value="3">盈亏</label> 
+                <label><input type="radio" value="0">注单数</label> 
+                <label><input type="radio" value="1">下注总额</label>
+              </td> 
+              <td><input type="text" class="odds-font"></td> 
+              <td><input type="text" class="odds-font"></td>
+            </tr>
+          </table> 
+
+          <div class="flyInput">
+            <span>补货类型：</span> 
+            <select name="" id="" class="mgr10">
+              <option value="-1">请选择类型</option> 
+              <option value="3">盈亏</option> 
+              <option value="0">注单数</option> 
+              <option value="1">下注总额</option>
+            </select> 
+            <span>批量设置：</span> 
+            <label><input type="radio" value="0"> 触发补货数值</label> 
+            <label><input type="radio" value="1"> 解发补货报警数值</label> 
+            <input type="text" placeholder="请输入数值"> 
+            <button class="tabBtn btn-blue mgr10">填入</button>
+          </div> 
+          <div class="inner">
+            <button class="btn-submit">保存</button> 
+            <button class="btn-cancel">取消</button>
+          </div>
         </div>
 
     </div>
-
-
-    <el-dialog
-      title="新增银行卡"
-      :visible.sync="dialogvisible"
-      center>
-      <el-form label-width="100px" class="demo-ruleForm" size="mini">
-              <el-form-item label="银行类型" prop="">
-                <el-input v-model="yinhangLeixing"></el-input>
-              </el-form-item>
-              <el-form-item label="银行账号" prop="">
-                <el-input v-model="yinhangZhanghao"></el-input>
-              </el-form-item>
-              <el-form-item label="收款人姓名" prop="">
-                <el-input v-model="shoukuanXingming"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button size="medium" type="primary" @click="saveka">提 交</el-button>
-                <el-button size="medium" @click="dialogvisible = false">取 消</el-button>
-              </el-form-item>
-            </el-form>
-
-    </el-dialog>
 
 
   </div>
@@ -57,30 +69,8 @@ export default {
   },
   data () {
     return {
-      dialogvisible: false,
-        id: '',
-        chongzhiXiane: 0,
-        tixianXiane: 0,
-        tixianCishu: 0,
-        shouji: '',
-        qq: '',
-        zhifubaoEwma: '',
-        zhifubaoEwmb: '',
-        zhifubaoEwmc: '',
-        zhifubaoEwmd: '',
-        zhifubaoEwme: '',
-        weixinEwma: '',
-        weixinEwmb: '',
-        weixinEwmc: '',
-        weixinEwmd: '',
-        weixinEwme: '',
-        auserId: '',
-        caiwuYinhangzhuanzhangList: [],
-
-        yinhangLeixing:"",//银行类型
-        yinhangZhanghao:"",//银行账号
-        shoukuanXingming:"",//收款姓名
-        chongzhifangshiId:''//充值方式ID
+      auserId: '',
+      bocaiTypeId: ''
 
     }
   },
@@ -90,7 +80,7 @@ export default {
     })
   },
   created() {
-    this.getmethod();
+    this.replenishment();
 
     console.log('userInfo',this.userInfo);
   },
@@ -137,8 +127,11 @@ export default {
                     })
                   });
     },
-    async getmethod() {
-        let res = await this.$get(`${window.url}/admin/finance/finance`);
+    async replenishment() {
+
+      //admin/gameManage/replenishment?auserId=163&bocaiTypeId=8223
+
+        let res = await this.$get(`${window.url}/admin/gameManage/replenishment?auserId=`);
 
         if (res.code == 200) {
             this.chongzhiXiane = res.caiwuChongzhifangshi.chongzhiXiane;
@@ -219,5 +212,14 @@ export default {
 }
 .modal-body,.addLotyKj,.modal-footer {
     margin: 5px 0px;
+}
+
+.portlet thead p {
+    font-size: 12px;
+    color: #ffd900;
+}
+.portlet tr input {
+    font-size: 14px;
+    text-align: center;
 }
 </style>
