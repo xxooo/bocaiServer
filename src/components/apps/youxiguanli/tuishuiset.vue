@@ -18,7 +18,6 @@
             :value="item.id">
           </el-option>
         </el-select>
-
       </span>
 
     </div>

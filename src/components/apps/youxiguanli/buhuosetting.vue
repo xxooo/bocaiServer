@@ -8,6 +8,18 @@
       </el-breadcrumb>
     </div>
     <div class="nav">
+      <span>游戏类型:
+        <el-select v-model="bocaiTypeId" @change="replenishment()" placeholder="请选择" size="mini">
+          <el-option
+            v-for="item in bocaiMenu"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+
+      </span>
+
     </div>
 
     <div class="portlet portlet-add">
@@ -21,35 +33,37 @@
                 <th>触发补货报警数值<p>* 如果自动补货开启，报警将会失效 *</p></th>
               </tr>
             </thead> 
-            <tr>
-              <td class="row-th">大小</td> 
+            <tr v-for="(item,index) in buhuoList">
+              <td class="row-th">{{item.dewaterName}}</td> 
               <td>
-                <label><input type="radio" value="3">盈亏</label> 
-                <label><input type="radio" value="0">注单数</label> 
-                <label><input type="radio" value="1">下注总额</label>
+                <label><input type="radio" v-model="item.replenishmentType" value="1">盈亏</label> 
+                <label><input type="radio" v-model="item.replenishmentType" value="2">注单数</label> 
+                <label><input type="radio" v-model="item.replenishmentType" value="3">下注总额</label>
               </td> 
-              <td><input type="text" class="odds-font"></td> 
-              <td><input type="text" class="odds-font"></td>
+              <td><input type="text" class="odds-font" v-model="item.triggerReplenishment"></td> 
+              <td><input type="text" class="odds-font" v-model="item.triggerCall"></td>
             </tr>
           </table> 
 
           <div class="flyInput">
             <span>补货类型：</span> 
-            <select name="" id="" class="mgr10">
-              <option value="-1">请选择类型</option> 
-              <option value="3">盈亏</option> 
-              <option value="0">注单数</option> 
-              <option value="1">下注总额</option>
-            </select> 
+
+            <el-select v-model="buhuotype" @change="chbuhuotype()" placeholder="请选择" size="mini">
+              <el-option key="0" label="请选择类型" value="0"></el-option>
+              <el-option key="1" label="盈亏" value="1"></el-option>
+              <el-option key="2" label="注单数" value="2"></el-option>
+              <el-option key="3" label="下注总额" value="3"></el-option>
+            </el-select>
+
             <span>批量设置：</span> 
-            <label><input type="radio" value="0"> 触发补货数值</label> 
-            <label><input type="radio" value="1"> 解发补货报警数值</label> 
-            <input type="text" placeholder="请输入数值"> 
-            <button class="tabBtn btn-blue mgr10">填入</button>
+            <label><input type="radio" value="0" v-model="tiantype"> 触发补货数值</label> 
+            <label><input type="radio" value="1" v-model="tiantype"> 解发补货报警数值</label> 
+            <input type="text" placeholder="请输入数值" v-model="tiannum"> 
+            <button class="tabBtn btn-blue mgr10" @click="tianru()">填入</button>
           </div> 
           <div class="inner">
-            <button class="btn-submit">保存</button> 
-            <button class="btn-cancel">取消</button>
+            <button class="btn-submit" @click="save">保存</button> 
+            <button class="btn-cancel" @click="replenishment()">取消</button>
           </div>
         </div>
 
@@ -70,91 +84,68 @@ export default {
   data () {
     return {
       auserId: '',
-      bocaiTypeId: ''
+      bocaiTypeId: '',
+      buhuoList: [],
+      tiannum: '',
+      tiantype: 0,
+      buhuotype: '0'
 
     }
   },
   computed: {
     ...mapGetters({
       userInfo: 'getuserInfo',
+      bocaiMenu: 'getbocaiMenu'
     })
   },
   created() {
-    this.replenishment();
+    if(this.bocaiMenu.length != 0) {
+      this.bocaiTypeId = this.bocaiMenu[0].id;
+    }
 
     console.log('userInfo',this.userInfo);
+
+    this.auserId = this.userInfo.id;
+
+    this.replenishment();
   },
   mounted(){
   },
   methods: {
-    async deleteka(item) {
-        let that = this;
-        this.$c_msgconfirm("确认删除此银行卡吗？",async () => {
+    chbuhuotype() {
+      console.log('buhuotype',this.buhuotype);
 
-                await that.$get(`${window.url}/admin/finance/deleteBankCard?caiwuYinhangzhuanzhangId=`+item.id).then((res) => {
-                    that.$handelResponse(res, (result) => {
-                        if (result.code == 200) {
-                                that.$success('删除成功');
-                                that.getmethod();
-                            } else {
-                              that.$error(result.msg);
-                            }
-                    })
-                  });
-
-            });
+      if(this.buhuotype == 1) {
+        for(let n in this.buhuoList) {
+          this.buhuoList[n].replenishmentType = 1;
+        }
+      } else if(this.buhuotype == 2) {
+        for(let n in this.buhuoList) {
+          this.buhuoList[n].replenishmentType = 2;
+        }
+      } else if(this.buhuotype == 3) {
+        for(let n in this.buhuoList) {
+          this.buhuoList[n].replenishmentType = 3;
+        }
+      }
     },
-    async saveka() {
-        let that = this;
-            let obj = {
-                yinhangLeixing: this.yinhangLeixing,
-                yinhangZhanghao: this.yinhangZhanghao,
-                shoukuanXingming: this.shoukuanXingming,
-                chongzhifangshiId: this.chongzhifangshiId,
-            }
-
-
-                await that.$post(`${window.url}/admin/finance/bankCardSub`,obj).then((res) => {
-                    that.$handelResponse(res, (result) => {
-                        if (result.code == 200) {
-                                that.$success('操作成功');
-                                that.getmethod();
-                                that.dialogvisible = false;
-                            } else {
-                              that.$error(result.msg);
-                              that.dialogvisible = false;
-                            }
-                    })
-                  });
+    tianru() {
+      if(this.tiantype == 0) {
+        for(let n in this.buhuoList) {
+          this.buhuoList[n].triggerReplenishment = this.tiannum*1;
+        }
+      } else if(this.tiantype == 1) {
+        for(let n in this.buhuoList) {
+          this.buhuoList[n].triggerCall = this.tiannum*1;
+        }
+      }
     },
     async replenishment() {
 
-      //admin/gameManage/replenishment?auserId=163&bocaiTypeId=8223
-
-        let res = await this.$get(`${window.url}/admin/gameManage/replenishment?auserId=`);
+        let res = await this.$get(`${window.url}/admin/gameManage/replenishment?auserId=`+this.auserId+`&bocaiTypeId=`+this.bocaiTypeId);
 
         if (res.code == 200) {
-            this.chongzhiXiane = res.caiwuChongzhifangshi.chongzhiXiane;
-            this.tixianXiane = res.caiwuChongzhifangshi.tixianXiane;
-            this.tixianCishu = res.caiwuChongzhifangshi.tixianCishu;
-            this.shouji = res.caiwuChongzhifangshi.shouji;
-            this.qq = res.caiwuChongzhifangshi.qq;
-            this.zhifubaoEwma= res.caiwuChongzhifangshi.zhifubaoEwma;
-            this.zhifubaoEwmb= res.caiwuChongzhifangshi.zhifubaoEwmb;
-            this.zhifubaoEwmc= res.caiwuChongzhifangshi.zhifubaoEwmc;
-            this.zhifubaoEwmd= res.caiwuChongzhifangshi.zhifubaoEwmd;
-            this.zhifubaoEwme= res.caiwuChongzhifangshi.zhifubaoEwme;
-            this.weixinEwma= res.caiwuChongzhifangshi.weixinEwma;
-            this.weixinEwmb= res.caiwuChongzhifangshi.weixinEwmb;
-            this.weixinEwmc= res.caiwuChongzhifangshi.weixinEwmc;
-            this.weixinEwmd= res.caiwuChongzhifangshi.weixinEwmd;
-            this.weixinEwme= res.caiwuChongzhifangshi.weixinEwme;
-            this.auserId= res.caiwuChongzhifangshi.auserId;
-            this.caiwuYinhangzhuanzhangList = res.caiwuYinhangzhuanzhangList;
-
-            this.chongzhifangshiId = res.caiwuChongzhifangshi.id;
-            this.id = res.caiwuChongzhifangshi.id;
-
+          this.buhuoList = res.list;
         } else {
             this.$error(res.msg);
         }
@@ -164,31 +155,14 @@ export default {
             let that = this;
 
             let obj = {
-                id: this.id,
-                auserId: this.auserId,
-                chongzhiXiane: this.chongzhiXiane*1,
-                tixianXiane: this.tixianXiane*1,
-                tixianCishu: this.tixianCishu*1,
-                shouji: this.shouji,
-                qq: this.qq,
-                zhifubaoEwma: this.zhifubaoEwma,
-                zhifubaoEwmb: this.zhifubaoEwmb,
-                zhifubaoEwmc: this.zhifubaoEwmc,
-                zhifubaoEwmd: this.zhifubaoEwmd,
-                zhifubaoEwme: this.zhifubaoEwme,
-                weixinEwma: this.weixinEwma,
-                weixinEwmb: this.weixinEwmb,
-                weixinEwmc: this.weixinEwmc,
-                weixinEwmd: this.weixinEwmd,
-                weixinEwme: this.weixinEwme
+              list: this.buhuoList
             }
 
-
-                await that.$post(`${window.url}/admin/finance/financeSub`,obj).then((res) => {
+                await that.$post(`${window.url}/admin/gameManage/replenishmentSub`,obj).then((res) => {
                     that.$handelResponse(res, (result) => {
                         if (result.code == 200) {
                                 that.$success('操作成功');
-                                that.getmethod();
+                                that.replenishment();
                             } else {
                               that.$error(result.msg);
                             }

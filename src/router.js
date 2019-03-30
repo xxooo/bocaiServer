@@ -219,6 +219,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/buhuosetting')), 'buhuosetting'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/youxiguanli/lotteryResults', name: 'lotteryResults',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/lotteryResults')), 'lotteryResults'), meta: { requiresAuth: true }
+        },
 
 
         // -----------------帐户管理
