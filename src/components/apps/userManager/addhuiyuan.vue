@@ -189,7 +189,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值现金额度:</td> 
-            <td class="tl"><input v-model="quotaInfo.quota" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值现金额度</td>
           </tr>
           <tr>
@@ -495,6 +495,7 @@ export default {
         fujizhi = this.fujiUserInfo.quota*1;
       }
 
+      console.log('fujizhi',fujizhi);
 
       if(this.username == '') {
         this.$alertMessage('用户名不能为空!', '温馨提示');

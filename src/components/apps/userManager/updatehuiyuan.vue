@@ -124,7 +124,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值信用额度:</td> 
-            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
@@ -133,6 +133,7 @@
             <td class="tl"> 设定信用备注</td>
           </tr>
         </table>
+
         <table v-else>
           <thead>
             <tr>
@@ -157,10 +158,8 @@
           </tr>
           <tr>
             <td class="tar" width="20%">充值现金额度:</td> 
-            <td class="tl"><input v-model="cashBalance" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="quotaInfo.quotaAmount" type="text" placeholder=""></td> 
             <td class="tl" width="20%"> 设定充值现金额度</td>
-
-
           </tr>
           <tr>
             <td class="tar">充值备注:</td> 
@@ -398,6 +397,14 @@ export default {
     },
     async updatehuiyuan() {
 
+      let fujizhi = 0;
+
+      if(this.cashCredit == 0) {
+        fujizhi = this.cuser.quota*1;
+      } else {
+        fujizhi = this.cuser.quota*1;
+      }
+
 
       if(this.username == '') {
         this.$alertMessage('用户名不能为空!', '温馨提示');
@@ -407,8 +414,10 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(this.cashBalance > this.cuser.pquota) {
+      } else if(this.quotaInfo.quotaAmount > fujizhi) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+      } else if(this.handicap == '') {
+        this.$alertMessage('盘口不能为空!', '温馨提示');
       } else {
 
 
@@ -428,7 +437,7 @@ export default {
             pid: this.pid,
             quotaInfo: {
               quotaAccount : this.quotaInfo.quotaAccount,
-              quotaAmount : this.cashBalance,
+              quotaAmount : this.quotaInfo.quotaAmount,
               quotaRemark : this.quotaInfo.quotaRemark,
               quotaType : this.quotaInfo.quotaType,
             },
