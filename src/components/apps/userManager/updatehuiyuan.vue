@@ -358,6 +358,8 @@ export default {
 
         this.cuser = res.cuser;
 
+        console.log('res',JSON.stringify(res));
+
         this.pusername = this.cuser.pusername;
 
         if(this.cuser.aUserOccupied) {
@@ -399,11 +401,7 @@ export default {
 
       let fujizhi = 0;
 
-      if(this.cashCredit == 0) {
-        fujizhi = this.cuser.quota*1;
-      } else {
-        fujizhi = this.cuser.quota*1;
-      }
+      fujizhi = this.cuser.pquota*1;
 
 
       if(this.username == '') {
