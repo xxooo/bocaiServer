@@ -363,6 +363,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/systemManager/webSet')), 'webSet'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/systemManager/dailiOnline', name: 'dailiOnline',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/dailiOnline')), 'dailiOnline'), meta: { requiresAuth: true }
+        },
 
         // -----------------报表  绑定IP 
         { path: '/gambling/baobiao/baobiaoquery', name: 'baobiaoquery',
