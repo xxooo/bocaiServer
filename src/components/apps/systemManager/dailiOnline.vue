@@ -242,7 +242,7 @@ export default {
     async dailiOnline() {
         let that = this;
 
-        let url = '/admin/system/dlOnline?ruleId=' + this.q.ruleId;
+        let url = 'admin/system/dlOnline?ruleId=' + this.q.ruleId;
 
 
         let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);
@@ -263,7 +263,7 @@ export default {
 
         let that = this;
 
-        let url = '/admin/system/auserSearchTimelyList?userId=' + this.optionid;
+        let url = 'admin/system/auserSearchTimelyList?userId=' + this.optionid;
 
 
         let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page2.currentPage+`&pageSize=`+this.page2.pageSize);
@@ -283,7 +283,7 @@ export default {
 
         let that = this;
 
-        let url = '/admin/system/auserSearchAllList?userId=' + this.optionid;
+        let url = 'admin/system/auserSearchAllList?userId=' + this.optionid;
 
 
         let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page3.currentPage+`&pageSize=`+this.page3.pageSize);

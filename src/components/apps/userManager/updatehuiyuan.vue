@@ -403,6 +403,8 @@ export default {
 
       fujizhi = this.cuser.pquota*1;
 
+      console.log('fujizhi',fujizhi);
+
 
       if(this.username == '') {
         this.$alertMessage('用户名不能为空!', '温馨提示');
@@ -412,7 +414,7 @@ export default {
         this.$alertMessage('密码不能为空!', '温馨提示');
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
-      } else if(this.quotaInfo.quotaAmount > fujizhi) {
+      } else if(+this.quotaInfo.quotaAmount > fujizhi) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else if(this.handicap == '') {
         this.$alertMessage('盘口不能为空!', '温馨提示');
@@ -424,7 +426,7 @@ export default {
               cChangeAllotOccupied : this.aUserOccupied.cChangeAllotOccupied,
               pChangeAllotOccupied : this.aUserOccupied.pChangeAllotOccupied
             },
-            cashBalance: +this.cashBalance,
+            cashBalance: +this.quotaInfo.quotaAmount,
             cashCredit: this.cashCredit,
             handicap: this.handicap,
             id: this.id,
@@ -435,7 +437,7 @@ export default {
             pid: this.pid,
             quotaInfo: {
               quotaAccount : this.quotaInfo.quotaAccount,
-              quotaAmount : this.quotaInfo.quotaAmount,
+              quotaAmount : this.quotaInfo.quotaAmount*1,
               quotaRemark : this.quotaInfo.quotaRemark,
               quotaType : this.quotaInfo.quotaType,
             },
