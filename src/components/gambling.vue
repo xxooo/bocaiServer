@@ -90,9 +90,21 @@
           <el-menu-item index="13" @click="$router.push({name:'kaijiangsetting'})">开奖设置</el-menu-item>
           <el-menu-item index="14" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
           <el-menu-item index="15" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
-          <el-menu-item index="16" @click="$router.push({name:'childUserManage'})">帐号管理</el-menu-item>
-          <el-menu-item index="17" @click="$router.push({name:'company'})">公司管理</el-menu-item>
-          <el-menu-item index="18" @click="$router.push({name:'yunyingmanager'})">运营管理</el-menu-item>
+
+
+          <el-submenu index="16">
+            <template slot="title">帐号管理</template>
+            <el-menu-item index="16-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
+            <el-menu-item index="16-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
+            <el-menu-item index="16-3" @click="$router.push({name:'yunyingmanager'})">运营管理</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="17">
+            <template slot="title">在线管理</template>
+            <el-menu-item index="17-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
+            <el-menu-item index="17-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
+          </el-submenu>
+
         </template>
         
       </el-menu>

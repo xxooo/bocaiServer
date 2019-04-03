@@ -482,7 +482,30 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/tuishuisetting')), 'tuishuisetting'), meta: { requiresAuth: true }
         },
-
+        { path: '/adminPage/mainDailiOnline', name: 'mainDailiOnline',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/mainDailiOnline')), 'mainDailiOnline'), meta: { requiresAuth: true }
+        },
+        { path: '/adminPage/mainUserOnline', name: 'mainUserOnline',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/mainUserOnline')), 'mainUserOnline'), meta: { requiresAuth: true }
+        },
+        { path: '/adminPage/userActive/:id', name: 'userActive',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/userActive')), 'userActive'), meta: { requiresAuth: true }
+        },
+        { path: '/adminPage/messageInfo/:id', name: 'messageInfo',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/messageInfo')), 'messageInfo'), meta: { requiresAuth: true }
+        },
       ]
     }
   ]

@@ -1,36 +1,36 @@
 <template>
   <div class="content-main" id="home">
     <div class="portlet">
-      <div class="tab tab1" v-if="ruleId != 1 && ruleId != 2">
+      <div class="tab tab1">
         <table>
           <thead>
             <tr><th colspan="2">账户概要</th></tr>
           </thead> 
           <tbody>
             <tr>
-              <td class="tar">{{this.homeInfo.cashCredit == 0 ? '现金余额' : '信用余额'}}</td> 
-              <td><span>{{this.homeInfo.quota}}</span></td>
+              <td class="tar">{{homeInfo.cashCredit == 0 ? '现金余额' : '信用余额'}}</td> 
+              <td><span>{{homeInfo.quota}}</span></td>
             </tr> 
             <tr>
               <td class="tar">线上会员</td> 
-              <td><a href="../../../../static/html/member.online.html?uuid=d49736f6-f7d7-4730-8ae1-11cdf3335acd" target="_blank">{{this.homeInfo.cUserOnlineCount}}</a></td>
+              <td><a href="../../../../static/html/member.online.html?uuid=d49736f6-f7d7-4730-8ae1-11cdf3335acd" target="_blank">{{homeInfo.cUserOnlineCount}}</a></td>
             </tr> 
             <tr>
               <td class="tar">今日新增会员</td> 
-              <td>{{this.homeInfo.todayNewCUserCount}}</td>
+              <td>{{homeInfo.todayNewCUserCount}}</td>
             </tr> 
             <tr>
               <td class="tar">最后登陆日期</td> 
-              <td>{{$timestampToTime(this.homeInfo.loginDate)}}</td>
+              <td>{{$timestampToTime(homeInfo.loginDate)}}</td>
             </tr> 
             <tr>
               <td width="160" class="tar">密码最后更新日期</td> 
-              <td>{{this.homeInfo.passwordFixDate ? $timestampToTime(this.homeInfo.passwordFixDate) : ''}}</td>
+              <td>{{homeInfo.passwordFixDate ? $timestampToTime(homeInfo.passwordFixDate) : ''}}</td>
             </tr>
           </tbody>
         </table>
       </div> 
-      <div class="tab tab2" v-if="ruleId != 1 && ruleId != 2">
+      <div class="tab tab2">
         <table>
           <thead>
             <tr>
@@ -41,7 +41,13 @@
             </tr>
           </thead> 
           <tbody>
-            <tr v-for="(item,index) in this.homeInfo.userList">
+            <tr v-if="ruleId == 1 || ruleId == 2" v-for="(item,index) in homeInfo.userListuserList">
+              <td>{{item.ruleName}}</td> 
+              <td>{{item.qiyong}}</td> 
+              <td>{{item.tingyong}}</td> 
+              <td>{{item.dongjie}}</td>
+            </tr>
+            <tr v-else v-for="(item,index) in homeInfo.userList">
               <td>{{item.ruleName}}</td> 
               <td>{{item.qiyong}}</td> 
               <td>{{item.tingyong}}</td> 
@@ -56,7 +62,7 @@
           </tbody>
         </table>
       </div> 
-      <div class="tab tab3" v-if="ruleId != 1 && ruleId != 2">
+      <div class="tab tab3">
         <table>
           <thead>
             <tr><th colspan="2">最新公告</th></tr>
@@ -111,11 +117,11 @@ export default {
 
     //this.cUserdewater(this.bocaiTypeId);
 
-    if(this.ruleId != 1 && this.ruleId != 2) {
+    //if(this.ruleId != 1 && this.ruleId != 2) {
       this.gethomepage();
 
       this.getnoticeList(this.currentPage);
-    }
+   // }
     
 
     
@@ -154,6 +160,7 @@ export default {
           this.qiyongAll = this.qiyongAll*1 + res.data.userList[n].qiyong*1;
           this.tingyongAll = this.tingyongAll*1 + res.data.userList[n].tingyong*1;
           this.dongjieAll = this.dongjieAll*1 + res.data.userList[n].dongjie*1;
+
         }
 
       } 

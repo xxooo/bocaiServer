@@ -3,6 +3,7 @@
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
+        <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
         <el-breadcrumb-item>运营管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

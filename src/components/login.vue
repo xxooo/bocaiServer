@@ -104,14 +104,14 @@ export default {
                 // username: 'gsceshi1',  ydwgongsi1
                 // username: 'gsceshi1',
                 // password: 'a111111'
-                // username: 'admin',
-                // password: '123456'
+                 username: 'admin',
+                password: '123456'
                 // username: 'testyunying2',
                 // password: 'a111111'
                 // username: 'gschaaa',
                 // password: 'a111111'
-                username: 'ydwgongsi1',
-                password: 'a111111'
+                // username: 'ydwgongsi1',
+                 //password: 'a111111'
               };
 
               let ret = await this.$post(`${window.url}/admin/login`, obj);
