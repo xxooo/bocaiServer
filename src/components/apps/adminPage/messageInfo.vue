@@ -13,7 +13,7 @@
     <div class="portlet portlet-add">
       <div class="nav">
           <div class="btn-ground">
-            会员消息　　 
+            发送会员消息　　 
           </div>
         </div>
       <div class="tab">
@@ -26,7 +26,7 @@
           </tr>
         </table> 
         <p class="tac" style="margin-top: 8px;">
-          <button class="tabBtn btn btn-blue" @click="sendMessage()">保存</button> 
+          <button class="tabBtn btn btn-blue" @click="sendMessage()">确认</button> 
           <button class="tabBtn btn btn-red" @click="message.content= ''">重填</button>
         </p>
       </div>
@@ -63,20 +63,14 @@
                   <span>
                     <a class="tabBtn btnPurple green" @click="deleteMessageId(message.id)">删除</a> 
                   </span>
+                  <span>
+                    <a class="tabBtn btnPurple green" @click="messageStatus(message.id,message.status)">{{message.status == 1 ?'隐藏':'显示'}}</a> 
+                  </span>
                 </td>
             </tr>
 
           </tbody>
         </table>
-        <div class="block" v-if="huiyuanInfo.totalPage > 1">
-                  <el-pagination
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage"
-                    :page-size="huiyuanInfo.pageSize"
-                    layout="total, prev, pager, next"
-                    :total="huiyuanInfo.totalCount*1">
-                  </el-pagination>
-        </div>
       </div>
 
     </div>
@@ -101,8 +95,7 @@ export default {
       currentPage: 1,
       huiyuanAccout: '',
       startDate: '3',
-      content: ''，
-
+      content: '',
 
       page: {
             totalPage: 1,
@@ -118,13 +111,13 @@ export default {
         totalCount: 0,//当前在线人数
         messageList: {},//短消息列表
         message: {
-            cuserId: "",
+            cuserId: this.$route.params.id,
             content: ""
         },
         messageAuthority: 0,//单对单信息权限
         bettingAuthority: 0,//投注权限
 
-        cUserId: this.$route.params.id,
+        cUserId: this.$route.params.id
     }
   },
   computed: {
@@ -137,107 +130,54 @@ export default {
   mounted(){
   },
   methods: {
-    messageInfo(id) {
-      this.$router.push({
-        name: 'messageInfo',
-        params: {
-          id: id
-        }
-      })
-    },
-    activiteInfo(id) {
-      this.$router.push({
-        name: 'userActive',
-        params: {
-          id: id
-        }
-      })
-    },
-    async downline(id) {
+    async messageStatus(id,status) {
 
-      let res = await this.$get(`${window.url}/admin/system/cuserDownline?cUserId=`+id);
+      let tems = status == 1? 0 : 1;
+      let res = await this.$get(`${window.url}/admin/system/messageStatus?id=`+ id+`&status=`+tems);
 
-      if(res.code===200){
-        this.$success('操作成功');
+      if(res.code===200) {
+        this.$success(res.msg);
+        this.getmessageList();
       }
     },
+    async deleteMessageId(id) {
 
-    handleCurrentChange(cpage) {
-      this.currentPage = cpage;
-      this.childUser();
+      let that = this;
+
+      this.$c_msgconfirm('是否确认删除此信息',async () => {
+
+            NProgress.start();
+            await that.$get(`${window.url}/admin/system/messageDelete?id=`+id).then((res) => {
+            that.$handelResponse(res, (result) => {
+              NProgress.done();
+              if(result.code===200) {
+                        this.$success('操作成功');
+                        this.getmessageList();
+                      } else {
+                  }
+            })
+          });
+
+      });
+
+    },
+    async sendMessage() {
+      let res = await this.$post(`${window.url}/admin/system/sendMessage`,this.message);
+
+      if(res.code===200) {
+        this.$success('发送成功')
+        this.getmessageList();
+      } else {
+      }
+
     },
     async getmessageList() {
 
-      let res = await this.$get(`${window.url}/admin/system/messageList?cuserId=`+ );
+      let res = await this.$get(`${window.url}/admin/system/messageList?cuserId=`+ this.cUserId);
 
-      if(res.code===200){
-        this.$success('操作成功');
+      if(res.code===200) {
+        this.messageList = res.page.list;
       }
-
-/admin/system/messageList?cuserId=4
-
-vm.showList = false;
-            vm.message.cuserId = id;
-            $.ajax({
-                url: baseURL + '/admin/system/messageList',
-                async: true,
-                dataType: 'json',//服务器返回json格式数据
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                type: 'get',//HTTP请求类型
-                success: function (data) {
-                    if (data.code == 200) {
-                        vm.messageList = data.page.list;
-                    }
-                }
-            });
-
-
-
-
-      let res = await this.$get(`${window.url}/admin/system/hyOnline?currentPage=`+this.currentPage+`&username=`+this.huiyuanAccout+`&pageSize=10`);
-
-      if(res.code===200){
-        this.huiyuanInfo = res.page;
-      }
-
-
-
-
-
-
-
-
-       $.get("../../admin/menu/userMenu", function (data) {
-        data.auser.functionIdList.forEach(function (ele, index) {
-            if (data.auser.functionIdList[index] == 3) {//单对单信息
-                vm.messageAuthority = 1;
-            }
-            if (data.auser.functionIdList[index] == 4) {//投注功能
-                vm.bettingAuthority = 1;
-            }
-        });
-    });
-
-    var url = baseURL + '/admin/system/hyOnline?1=1';
-    if (null != vm.q.username && '' != vm.q.username) {
-        url += "&username=" + vm.q.username
-    }
-    $.ajax({
-        url: url + "&currentPage=" + vm.page.currentPage + "&pageSize=" + vm.page.pageSize,
-        async: true,
-        dataType: 'json',//服务器返回json格式数据
-        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        type: 'get',//HTTP请求类型
-        success: function (data) {
-            if (data.code == 200) {
-                vm.hyOnlineList = data.page.list;
-                if (data.page.totalPage == 0) {
-                    vm.page.totalPage = 1;
-                } else {
-                    vm.page.totalPage = data.page.totalPage;
-                }
-
-
     }
 
   }

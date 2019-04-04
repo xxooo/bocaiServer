@@ -45,7 +45,7 @@
                   <a class="tabBtn btnPurple green" @click="activiteInfo(item.id)">活动情况</a> 
                 </span>
                 <span>
-                  <a class="tabBtn btnPurple red" @click="downline(item.id)">踢线</a> 
+                  <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
                 </span>
                 <span>
                   <a class="tabBtn btnPurple green" @click="messageInfo(item.id)">消息</a> 
@@ -119,13 +119,26 @@ export default {
         }
       })
     },
-    async downline(id) {
+    async downline(item) {
 
-      let res = await this.$get(`${window.url}/admin/system/cuserDownline?cUserId=`+id);
+      let that = this;
 
-      if(res.code===200){
-        this.$success('操作成功');
-      }
+      this.$c_msgconfirm('是否确认将 '+item.username+' 踢线',async () => {
+
+            NProgress.start();
+            await that.$get(`${window.url}/admin/system/cuserDownline?cUserId=`+item.id).then((res) => {
+            that.$handelResponse(res, (result) => {
+              NProgress.done();
+              if(result.code===200) {
+                        that.$success('操作成功');
+                        that.childUser();
+                      } else {
+                  }
+            })
+          });
+
+      });
+
     },
 
     handleCurrentChange(cpage) {

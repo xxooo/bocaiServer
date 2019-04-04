@@ -41,7 +41,7 @@
                 <td>
                     <button class="btn" type="button" @click="searchTimely(dailiOnline.id)">查即</button>
                     <button class="btn" type="button" @click="searchAll(dailiOnline.id)">查全</button>
-                    <button class="btn" type="button" @click="downline(dailiOnline.id)">踢线</button>
+                    <button class="btn" type="button" @click="downline(dailiOnline)">踢线</button>
                 </td>
             </tr>
 
@@ -230,13 +230,25 @@ export default {
            this.optionid = id;
            this.dailiOnline3();
         }, 
-        async downline(id) {
+        async downline(item) {
 
-            let res = await this.$get(`${window.url}/admin/system/auserDownline?aUserId=` + id);
+          let that = this;
 
-            if(res.code===200){
-                this.$success('操作成功');
-            }
+          this.$c_msgconfirm('是否确认将 '+item.username+' 踢线',async () => {
+
+                NProgress.start();
+                await that.$get(`${window.url}/admin/system/auserDownline?aUserId=`+item.id).then((res) => {
+                that.$handelResponse(res, (result) => {
+                  NProgress.done();
+                  if(result.code===200) {
+                            that.$success('操作成功');
+                            that.reload();
+                          } else {
+                      }
+                })
+              });
+
+          });
 
         },
 
