@@ -98,19 +98,27 @@
             <tr>
                 <th>账号状态</th>
                 <td class="tl">
-                    <input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用　
-                    <input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用
+                    <label> <input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用</label> 　
+                    <label> <input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用</label> 
                 </td>
                 <td class="tl">是否选择启用/停用账号</td>
             </tr>
-
+            <tr>
+                <th>功能显示</th>
+                <td class="tl">
+                    <label v-for="functions in functionList">
+                        <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
+                    </label> 
+                </td>
+                <td class="tl">请选择权限</td>
+            </tr>
 
         </table>
 
         <p class="table-btngroup">
-            <button class="btn btn-common btn-primary" @click="saveOrUpdate" type="button">保存修改</button>
+            <button class="btn btn-common btn-primary" @click="saveOrUpdate" type="button">保存</button>
             　　　　　
-            <button class="btn btn-common btn-danger" @click="reload" type="button">取消修改</button>
+            <button class="btn btn-common btn-danger" @click="reload" type="button">取消</button>
         </p>
 
       </div>

@@ -138,36 +138,42 @@
             <tr>
                 <th>账号状态</th>
                 <td class="tl">
-                    <input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用　
-                    <input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用
+                    <label><input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用　</label> 
+                    <label><input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用</label> 
                 </td>
                 <td class="tl">是否选择启用/停用账号</td>
             </tr>
             <tr>
                 <th>冻结账号</th>
                 <td class="tl">
-                    <input type="radio" name="isFrozen" value="1" v-model="auser.isFrozen" id="isFrozen1"> 是　
-                    <input type="radio" name="isFrozen" value="0" v-model="auser.isFrozen" id="isFrozen2" checked> 否
+                    <label> 
+                    <input type="radio" name="isFrozen" value="1" v-model="auser.isFrozen" id="isFrozen1"> 是　</label> 
+                    <label> 
+                    <input type="radio" name="isFrozen" value="0" v-model="auser.isFrozen" id="isFrozen2" checked> 否</label> 
                 </td>
                 <td class="tl">请选择是否冻结</td>
             </tr>
             <tr>
                 <th>允许补货</th>
                 <td class="tl">
+                    <label> 
                     <input type="radio" name="isReplenishment" value="1" v-model="auser.isReplenishment"
-                           id="isReplenishment1"> 开启　
+                           id="isReplenishment1"> 开启　</label> 
+                    <label> 
                     <input type="radio" name="isReplenishment" value="0" v-model="auser.isReplenishment"
-                           id="isReplenishment2" checked> 关闭
+                           id="isReplenishment2" checked> 关闭</label> 
                 </td>
                 <td class="tl">请选择开启或关闭</td>
             </tr>
             <tr>
                 <th>停押/收单</th>    
                 <td class="tl">
+                    <label> 
                     <input type="radio" name="tingyaShouya" value="1" v-model="auser.tingyaShouya" id="tingyaShouya1">
-                    收单　
+                    收单　</label> 
+                    <label> 
                     <input type="radio" name="tingyaShouya" value="0" v-model="auser.tingyaShouya" id="tingyaShouya2"
-                           checked> 停押
+                           checked> 停押</label> 
                 </td>
                 <td class="tl">请选择收单或停押</td>
             </tr>
@@ -177,17 +183,21 @@
             <tr>
                 <th>消费模式</th>
                 <td class="tl" v-if="auser.id!=''">
+                    <label> 
                     <input type="radio" name="cashCredit" value="0" @click="isShow('0')" v-model="auser.cashCredit"
-                           disabled="disabled"> 现金模式　
+                           disabled="disabled"> 现金模式　</label> 
+                    <label> 
                     <input type="radio" name="cashCredit" value="1" @click="isShow('1')" v-model="auser.cashCredit"
-                           disabled="disabled"> 信用模式
+                           disabled="disabled"> 信用模式</label> 
                 </td>
 
                 <td class="tl" v-else>
+                    <label> 
                     <input type="radio" name="cashCredit" value="0" @click="isShow('0')" v-model="auser.cashCredit"
-                           id="cashCredit0"> 现金模式　
+                           id="cashCredit0"> 现金模式　</label> 
+                    <label> 
                     <input type="radio" name="cashCredit" value="1" @click="isShow('1')" v-model="auser.cashCredit"
-                           id="cashCredit1"> 信用模式
+                           id="cashCredit1"> 信用模式</label> 
                 </td>
 
                 <td class="tl">请选择结算方式</td>
@@ -195,9 +205,9 @@
             <tr>
                 <th>功能显示</th>
                 <td class="tl">
-                    <span v-for="functions in functionList">
+                    <label v-for="functions in functionList">
                         <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
-                    </span>
+                    </label> 
                 </td>
                 <td class="tl">请选择权限</td>
             </tr>
@@ -218,6 +228,7 @@
                 </td>
                 <td class="tl">请设定信用信息</td>
             </tr>
+
             <tr>
                 <th>信用额度</th>
                 <td class="tl">
@@ -294,32 +305,29 @@
             <tr>
                 <th>占成回收</th>
                 <td class="tl">
-                    <input type="radio" name="optionsRadios" value="0" v-model="auser.occupiedRecovery"
-                           id="occupiedRecovery1"> 多余占成返回公司　
-                    <input type="radio" name="optionsRadios" value="1" v-model="auser.occupiedRecovery"
-                           id="occupiedRecovery2" checked="checked"> 多余占成返回直接上级
+                    <label><input v-model="auser.occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
+                    <label><input v-model="auser.occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
                 </td>
                 <td class="tl"></td>
             </tr>
-
             <tr>
                 <td colspan="3" class="coheader">游戏设置</td>
             </tr>
             <tr>
                 <th>盘口设置</th>
                 <td class="tl">
-                    <span class="checkbox-inline">
+                    <label>
                         <input type="checkbox" v-model="auser.handicapA">盘口A
-                    </span>
-                    <span class="checkbox-inline">
+                    </label> 
+                    <label>
                         <input type="checkbox" v-model="auser.handicapB">盘口B
-                    </span>
-                    <span class="checkbox-inline">
+                    </label> 
+                    <label>
                         <input type="checkbox" v-model="auser.handicapC">盘口C
-                    </span>
-                    <span class="checkbox-inline">
+                    </label> 
+                    <label>
                         <input type="checkbox" v-model="auser.handicapD">盘口D
-                    </span>
+                    </label> 
                 </td>
                 <td class="tl"></td>
             </tr>
