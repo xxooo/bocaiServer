@@ -102,9 +102,9 @@
                 <th>运营名称</th>
                 <td class="tl" v-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
                 <td class="tl" v-else>
-                    <select v-model="auser.pid">
-                        <option :value="pAUser.id" v-for="pAUser in pAUserList">{{pAUser.username}}</option>
-                    </select>
+                    <el-select v-model="auser.pid" placeholder="请选择" size="mini" @change="getshangjidaili">
+                      <el-option v-for="(item,index) in pAUserList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+                    </el-select>
                 </td>
                 <td class="tl"></td>
             </tr>
@@ -204,8 +204,14 @@
             </tr>
             <tr>
                 <th>功能显示</th>
+
+                <!-- <td class="tl" v-if="auser.id!=null && auser.id!='' ">
+                    {{auser.pusername}}
+                </td>
+                <td class="tl" v-else> -->
+
                 <td class="tl">
-                    <label v-for="functions in functionList">
+                    <label v-for="functions in fujiFunctionList">
                         <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
                     </label> 
                 </td>
@@ -334,9 +340,9 @@
         </table>
 
         <p class="table-btngroup">
-            <button class="btn btn-common btn-primary" @click="saveOrUpdate" type="button">保存修改</button>
+            <button class="btn btn-common btn-primary" @click="saveOrUpdate" type="button">保存</button>
             　　　　　
-            <button class="btn btn-common btn-danger" @click="reload" type="button">取消修改</button>
+            <button class="btn btn-common btn-danger" @click="reload" type="button">取消</button>
         </p>
 
       </div>
@@ -473,6 +479,7 @@ export default {
         title: null,
         auser: {//对象
             id: "",
+            pid: '',
             functionIdList: [],
             cashCredit: 0,
             tingyaShouya: 0,
@@ -504,6 +511,9 @@ export default {
         xinyongShow: false,
         auserList: {},//当前数据列表
         companyList: {},//公司列表
+
+        fujiUserInfo: {},
+        fujiFunctionList: []
     }
   },
   computed: {
@@ -517,6 +527,30 @@ export default {
   mounted(){
   },
   methods: {
+    async getshangjidaili(data) {
+      // let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data+`&ruleId=6`);
+      let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+data);
+      if(+res.code===200) {
+
+        if (res.auser != null) {
+
+          this.fujiUserInfo = res.auser;
+
+          for(let n in this.functionList) {
+
+            for(let x in this.fujiUserInfo.functionIdList) {
+                if(this.fujiUserInfo.functionIdList[x] == this.functionList[n].id) {
+                    this.fujiFunctionList.push(this.functionList[n]);
+                }
+            }
+
+          }
+
+        }
+      }
+
+    },
+
     async tuishuiset(item) {
       store.commit('updateupUserInfo', item);
       this.$router.push({name:'tuishuisetting'});
