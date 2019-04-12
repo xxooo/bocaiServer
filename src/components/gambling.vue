@@ -96,7 +96,7 @@
             <template slot="title">帐号管理</template>
             <el-menu-item index="16-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
             <el-menu-item index="16-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
-            <el-menu-item index="16-3" @click="$router.push({name:'yunyingmanager'})">运营管理</el-menu-item>
+            <el-menu-item index="16-3" @click="$router.push({name:'yunyingmanager'})" v-if="[1,7].findIndex((n) => n==ruleId)>-1">运营管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="17">

@@ -100,7 +100,8 @@
             </tr>
             <tr>
                 <th>运营名称</th>
-                <td class="tl" v-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
+                <td class="tl" v-if="ruleId == 2">{{yunyingFuji.username}}</td>
+                <td class="tl" v-else-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
                 <td class="tl" v-else>
                     <el-select v-model="auser.pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                       <el-option v-for="(item,index) in pAUserList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
@@ -513,11 +514,14 @@ export default {
         companyList: {},//公司列表
 
         fujiUserInfo: {},
-        fujiFunctionList: []
+        fujiFunctionList: [],
+
+        yunyingFuji:{}
     }
   },
   computed: {
     ...mapGetters({
+        ruleId:'getruleId'
     })
   },
   created() {
@@ -562,6 +566,7 @@ export default {
     qingkong() {
 
             this.auser.id= "";
+            this.auser.pid = '';
             this.auser.functionIdList= [];
             this.auser.cashCredit= 0;
             this.auser.tingyaShouya= 0;
@@ -605,12 +610,25 @@ export default {
             let data = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=3`);
                 if(+data.code===200) {
                     if (data.auser != null) {
-                        this.auser.pid = data.auser.id;
-                        this, auser.pusername = data.auser.username;
+
+                        console.log('this.ruleId',this.ruleId);
+                        
+
+                        if(this.ruleId == 2) {
+                            this.yunyingFuji = data.auser;
+                            this.auser.pid = data.auser.id;
+                        } else {
+                            this.auser.pid = data.auser.id;
+                            this.auser.pusername = data.auser.username;
+                        }
+                        
                     } else {
                         this.auser.pid = "";
                         this.pAUserList = data.pAUserList;
                     }
+
+                    console.log('this.auser',this.auser);
+
                 } else {
                     //that.$error('data.msg');
                 }

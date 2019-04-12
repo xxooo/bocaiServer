@@ -20,18 +20,18 @@
                     <th>会员账号</th>
                     <th>登陆网址</th>
                     <th>登陆 IP</th>
-                    <th>绑定 IP</th>
+                    <th v-if="ruleId == 1 || ruleId == 2">绑定 IP</th>
                     <th>最后活动时间</th>
-                    <th>功能</th>
+                    <th v-if="ruleId == 1 || ruleId == 2">功能</th>
             </tr>
             <tr v-for="ipCUser in ipCUserList">
                     <td>{{ipCUser.systemStr}}</td>
                     <td>{{ipCUser.username}}</td>
                     <td>{{ipCUser.loginWebsite}}</td>
                     <td>{{ipCUser.loginIp}}</td>
-                    <td>{{ipCUser.bindingIp}}</td>
+                    <td v-if="ruleId == 1 || ruleId == 2">{{ipCUser.bindingIp}}</td>
                     <td>{{$timestampToTime(ipCUser.updateDate)}}</td>
-                    <td><button v-if="bindIpAuthority == 1" class="btn" type="button" @click="updateIp(ipCUser.id,ipCUser.bindingIp)">修改 IP</button></td>
+                    <td v-if="ruleId == 1 || ruleId == 2"><button v-if="bindIpAuthority == 1" class="btn" type="button" @click="updateIp(ipCUser.id,ipCUser.bindingIp)">修改 IP</button></td>
                 </tr>
 
         </table>
@@ -105,6 +105,8 @@ export default {
   },
   created() {
     this.userList();
+
+    console.log('ruleId',this.ruleId);
   },
   mounted(){
   },
