@@ -111,14 +111,11 @@ export default {
                 // username: 'gschaaa',
                 // password: 'a111111'
                 // username: 'ydwgongsi1',
-                //password: 'a111111'
+                // password: 'a111111'
                 // username: 'xuyunying718',
                 // password: 'a111111'
-<<<<<<< HEAD
                 // username: 'xugongsi718',
                 // password: 'a111111'
-=======
->>>>>>> 5b340539b17f17e2ae499fac3c3dfe4565ca5b92
 
               };
 
