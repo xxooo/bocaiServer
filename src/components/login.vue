@@ -102,10 +102,10 @@ export default {
 
                let obj = {
                 // username: 'gsceshi1',  ydwgongsi1
-                // username: 'gsceshi1',
-                // password: 'a111111'
-                username: 'admin',
-                password: '123456'
+                username: 'gsceshi1',
+                password: 'a111111'
+                // username: 'admin',
+                // password: '123456'
                 // username: 'testyunying2',
                 // password: 'a111111'
                 // username: 'gschaaa',
