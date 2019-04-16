@@ -318,8 +318,10 @@ export default {
         let res = await this.$get(`${window.url}/admin/exitLogin`);
 
         if(res.code===200){
-          this.$router.push({name:"login"});
+          //this.$router.push({name:"login"});
         }
+
+        this.$router.push({name:"login"});
       }
 
     },

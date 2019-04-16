@@ -42,16 +42,10 @@
               <td>{{$timestampToTime(item.loginTime)}}</td>
               <td class="btnFeatures">
                 <span>
-                  <a class="tabBtn btnPurple green" @click="updateNotice(item,1)">活动情况</a> 
+                  <a class="tabBtn btnPurple green" @click="activiteInfo(item.id)">活动情况</a> 
                 </span>
                 <span>
-                  <a class="tabBtn btnPurple red" @click="updateNotice(item,1)">踢线</a> 
-                </span>
-                <span>
-                  <a class="tabBtn btnPurple green" @click="updateNotice(item,1)">消息</a> 
-                </span>
-                <span>
-                  <a class="tabBtn btnPurple green" @click="updateNotice(item,1)">投注</a> 
+                  <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
                 </span>
               </td>
             </tr>
@@ -103,18 +97,47 @@ export default {
   mounted(){
   },
   methods: {
-    async updateNotice(item,st) {
-      let obj = {
-        id: item.id,
-        status: st
-      }
+    async downline(item) {
 
-      let res = await this.$post(`${window.url}/admin/system/updateNotice`,obj);
+      let that = this;
 
-      if(res.code===200){
-        this.childUser();
-      }
+      this.$c_msgconfirm('是否确认将 '+item.username+' 踢线',async () => {
+
+            NProgress.start();
+            await that.$get(`${window.url}/admin/system/cuserDownline?cUserId=`+item.id).then((res) => {
+            that.$handelResponse(res, (result) => {
+              NProgress.done();
+              if(result.code===200) {
+                        that.$success('操作成功');
+                        that.childUser();
+                      } else {
+                  }
+            })
+          });
+
+      });
+
     },
+    activiteInfo(id) {
+      this.$router.push({
+        name: 'userActive',
+        params: {
+          id: id
+        }
+      })
+    },
+    // async updateNotice(item,st) {
+    //   let obj = {
+    //     id: item.id,
+    //     status: st
+    //   }
+
+    //   let res = await this.$post(`${window.url}/admin/system/updateNotice`,obj);
+
+    //   if(res.code===200){
+    //     this.childUser();
+    //   }
+    // },
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
       this.childUser();

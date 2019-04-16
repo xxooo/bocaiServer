@@ -369,6 +369,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/systemManager/dailiOnline')), 'dailiOnline'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/systemManager/userActive', name: 'userActive2',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/userActive')), 'userActive2'), meta: { requiresAuth: true }
+        },
 
         // -----------------报表  绑定IP 
         { path: '/gambling/baobiao/baobiaoquery', name: 'baobiaoquery',
@@ -398,7 +404,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/betManager/betquery')), 'betquery'), meta: { requiresAuth: true }
         },
-
+        { path: '/gambling/betManager/lineBet', name: 'lineBet',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/betManager/lineBet')), 'lineBet'), meta: { requiresAuth: true }
+        },
          // -----------------财务管理
         { path: '/gambling/finance/rechargeAudit', name: 'rechargeAudit',
           meta: {
