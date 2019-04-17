@@ -410,6 +410,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/betManager/lineBet')), 'lineBet'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/betManager/replenishBet', name: 'replenishBet',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/betManager/replenishBet')), 'replenishBet'), meta: { requiresAuth: true }
+        },
          // -----------------财务管理
         { path: '/gambling/finance/rechargeAudit', name: 'rechargeAudit',
           meta: {

@@ -94,6 +94,7 @@
                 <th>重复密码</th>
                 <td class="tl"><input type="password" v-model="auser.repassword" placeholder="请再次输入密码">
                 </td>
+                <td class="tl">再次输入密码</td>
             </tr>
             <tr>
                 <th>账号状态</th>

@@ -139,8 +139,8 @@
             <tr>
                 <th>账号状态</th>
                 <td class="tl">
-                    <label><input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用　</label> 
-                    <label><input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用</label> 
+                    <label><input type="radio" name="status" value="1" v-model="auser.status" checked id="status1"> 启用　</label> 
+                    <label><input type="radio" name="status" value="0" v-model="auser.status" id="status2"> 停用</label> 
                 </td>
                 <td class="tl">是否选择启用/停用账号</td>
             </tr>
@@ -410,40 +410,8 @@
                 </table>
             </div>
         </div>
-            <!-- <table BORDER=1>
-                <tr>
-                    <th>类型</th>
-                    <td v-if="auser.id!=''">
-                        <input type="radio" name="optionsRadios3" v-model="auser.quotaInfo.quotaType" value="1" checked>
-                        充值　
-                    </td>
-                    <td v-else>
-                        <input type="radio" name="optionsRadios3" v-model="auser.quotaInfo.quotaType" value="1" checked>
-                        充值　
-                        </td>
-                </tr>
-                <tr >
-                    <th v-if="auser.cashCredit == 0">
-                        <select v-model="auser.quotaInfo.quotaAccount" style="width: 90%;">
-                            <option value="1">微信</option>
-                            <option value="2">支付宝</option>
-                            <option value="3">银行卡</option>
-                        </select>
-                    </th>
-                    <th v-else>
-                        默认方式金额
-                    </th>
-                    <td><input type="text" v-model="auser.quota" style="width: 90%;"
-                               placeholder="请输入金额"></td>
-                </tr>
-                <tr>
-                    <th>备注</th>
-                    <td><textarea rows="3" v-model="auser.quotaInfo.quotaRemark" style="width: 90%;"
-                                  placeholder="请输入备注"></textarea></td>
-                </tr>
-            </table> -->
             <div class="layer-btngroup">
-                <button class="btn btn-danger" @click="modifyCreditLabel = true">取消</button>
+                <button class="btn btn-danger" @click="modifyCreditLabel = false">取消</button>
                 　
                 <button class="btn btn-primary" @click="quotaSave()">保存</button>
             </div>

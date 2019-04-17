@@ -11,7 +11,7 @@
     <div class="nav">
       <div class="btn-ground">
         游戏类型 :
-        <el-select v-model="q.bocaiTypeId" @change="selectBocaiType" placeholder="请选择博彩类型" size="mini" style="width: 15%;">
+        <el-select v-model="q.bocaiTypeId" placeholder="请选择博彩类型" size="mini" style="width: 60%;">
           <!-- <el-option :value="''" key="null" label="全部"></el-option> -->
           <el-option v-for="(item,index) in bocaiMenu" :value="item.id" :key="item.id" :label="item.name"></el-option> 
         </el-select>
@@ -54,7 +54,7 @@
                     {{order.bocaiCategory2Name}}&nbsp;{{order.bocaiOddName}}@{{order.odds}}
                 </td>
                 <td>{{order.betsMoney}}</td>
-                <td>{{(order.betsMoney * order.odds - order.betsMoney) | price}}</td>
+                <td>{{(order.betsMoney * order.odds - order.betsMoney)}}</td>
             </tr>
             <tr>
                 <td colspan=6 class="text-info" style="text-align: right; padding-right: 15px;">此页面统计：</td>
@@ -119,6 +119,8 @@ export default {
   computed: {
     ...mapGetters({
       ruleId:'getruleId',
+      userInfo: 'getuserInfo',
+      bocaiMenu: 'getbocaiMenu'
     })
   },
   created() {
@@ -127,7 +129,7 @@ export default {
   },
   methods: {
     reload() {
-      this.orderList();
+      this.getorderList();
       //获取订单合计
       this.orderTotalMoney();
     },
@@ -139,11 +141,12 @@ export default {
       let res = await this.$get(`${window.url}/admin/order/orderTotalMoney?bocaiTypeId=`+this.q.bocaiTypeId);
       if(+res.code===200) {
 
-        this.betsMoneyAllTotal = data.betsMoneyTotal;
-        this.jiangliMoneyAllTotal = data.jiangliMoneyTotal;
+        this.betsMoneyAllTotal = res.betsMoneyTotal;
+        this.jiangliMoneyAllTotal = res.jiangliMoneyTotal;
 
       }
     },
+    //可赢这里有点问题，周末问
     calTotal(){
         var totalJLPrice = 0;
         this.orderList.forEach(function (data) {
@@ -157,7 +160,7 @@ export default {
         })
         this.betsMoneyTotal = totalPrice.toFixed(2);;
     },
-    async orderList() {
+    async getorderList() {
         let url ='admin/order/nowOrder?bocaiTypeId=' + this.q.bocaiTypeId;
 
 
@@ -178,7 +181,7 @@ export default {
     },
     handleCurrentChange(cpage) {
       this.page.currentPage = cpage;
-      this.reload();
+      this.query();
     }
   }
 }

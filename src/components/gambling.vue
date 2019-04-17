@@ -26,7 +26,7 @@
           <el-submenu index="4">
             <template slot="title">注单管理</template>
             <el-menu-item index="4-1" @click="$router.push({name:'lineBet'})">流水注单</el-menu-item>
-            <el-menu-item index="4-2" @click="$router.push({name:''})">补货注单</el-menu-item>
+            <el-menu-item index="4-2" @click="$router.push({name:'replenishBet'})">补货注单</el-menu-item>
             <el-menu-item index="4-3" @click="$router.push({name:'betquery'})">注单查询</el-menu-item>
           </el-submenu>
           <el-submenu index="5">
