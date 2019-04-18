@@ -75,6 +75,19 @@
                         </div>
                     </td> 
                     <td>
+                        <div class="imgdiv">
+                            <img  src="http://47.106.13.12:8014/img/5/20190418160022537.jpg" org="" alt="" width="148" height="148" onerror="">
+                        </div>
+                        <el-upload
+                            class="upload-demo"
+                            :action="uploadUrl"
+                            :headers="customHeader"
+                            :before-upload="beforeUpload"
+                            :on-success="handleAvatarSuccess"
+                            :show-file-list="false">
+                            <el-button class="tabBtn btn btn-blue" size="small" type="primary">{{'上传'}}</el-button>
+                            <span>{{imgname}}</span>  
+                        </el-upload>
                     </td>
                 </tr>
             </table> 
@@ -117,6 +130,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import cookieParser from './../../../assets/js/cookie';
 
 export default {
   components: {
@@ -142,6 +156,8 @@ export default {
         weixinEwme: '',
         auserId: '',
         caiwuYinhangzhuanzhangList: [],
+        imgname: '',
+        token: '',
 
         yinhangLeixing:"",//银行类型
         yinhangZhanghao:"",//银行账号
@@ -153,16 +169,52 @@ export default {
   computed: {
     ...mapGetters({
       userInfo: 'getuserInfo',
-    })
+    }),
+    customHeader(){
+          return {
+            'token': this.token
+          }
+    },
+    uploadUrl: function () {
+        return `${window.url}/admin/system/updateFile`;
+    }
   },
   created() {
     this.getmethod();
+
+    this.token = cookieParser.getCookie("accesstoken");
+
+    console.log('token',this.token);
 
     console.log('userInfo',this.userInfo);
   },
   mounted(){
   },
   methods: {
+    handleAvatarSuccess(res, file) {
+
+        console.log('res',res);
+        console.log('file',file);
+
+                 let name = `${file.name}`;
+                 this.imgname =  name.match(/[^-]+$/)[0];
+                // this.form.attachment = name;
+                // this.form.oid = res.result.oid;
+      },
+    beforeUpload(file){
+                let {size,name} = file;
+
+
+                if(!/\.png?|\.jpf?|\.bmp?|\.gif|\.svg|\.psd$/.test(name)){
+                    this.$error('文档类型错误');
+                    this.loading = false;
+                    return false
+                }else if(size>5*1024*1024){
+                    this.$error('超出大小');
+                    this.loading = false;
+                    return false
+                }
+      },
     async deleteka(item) {
         let that = this;
         this.$c_msgconfirm("确认删除此银行卡吗？",async () => {
@@ -286,4 +338,17 @@ export default {
 .modal-body,.addLotyKj,.modal-footer {
     margin: 5px 0px;
 }
+.upload-demo {
+    display: inline-block;
+    padding-top: 5%;
+}
+.imgdiv {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    float: left;
+}
 </style>
+
+
