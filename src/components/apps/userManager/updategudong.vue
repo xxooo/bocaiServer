@@ -4,10 +4,6 @@
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
-        <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-        <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-        <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->
         <el-breadcrumb-item>帐号管理</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'gudong' }">股东</el-breadcrumb-item>
         <el-breadcrumb-item>{{isNew?'新增股东':'修改资料'}}</el-breadcrumb-item>
@@ -228,11 +224,10 @@ export default {
       ruleId:4,//角色ID
       status:1,//账号状态，0：停用，1：启用
       tingyaShouya:'1',//停押/收押，0：停押，1：收押
-      //username:"",//昵称
+      username:"",
       occupiedRecovery: '0',
 
       fuusername: '',
-      futaitou: '',
       auser: {},
       companyUser: {},
 
@@ -294,10 +289,7 @@ export default {
       console.log('this.upUserInfo',this.upUserInfo);
 
       this.fuusername = this.fuuserInfo.username;
-      this.futaitou = this.fuusername.substring(0,1);
       this.cashCredit = this.fuuserInfo.cashCredit;
-
-
 
       this.getupdategudong();
 
@@ -306,6 +298,16 @@ export default {
   mounted(){
   },
   methods: {
+    async getCzhangcheng(data) {
+      console.log('zhangc',data);
+
+      if(data > this.pzhancheng) {
+        this.$alertMessage('不可超过上级占成!', '温馨提示');
+      } else {
+        this.aUserOccupied.cChangeAllotOccupied = +this.pzhancheng - (+data);
+      }
+
+    },
     async getupdategudong() {
 
       let res = await this.$get(`${window.url}/admin/auser/userInfo?userId=`+this.upUserInfo.id+`&ruleId=`+this.upUserInfo.ruleId);
