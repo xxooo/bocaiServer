@@ -154,7 +154,7 @@
                 </td>
                 <td class="tl">请选择是否冻结</td>
             </tr>
-            <tr>
+            <!-- <tr>
                 <th>允许补货</th>
                 <td class="tl">
                     <label> 
@@ -165,7 +165,7 @@
                            id="isReplenishment2" checked> 关闭</label> 
                 </td>
                 <td class="tl">请选择开启或关闭</td>
-            </tr>
+            </tr> -->
             <tr>
                 <th>停押/收单</th>    
                 <td class="tl">

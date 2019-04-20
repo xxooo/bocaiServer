@@ -155,7 +155,7 @@ export default {
             currentPage:1,
             pageSize:10
         },
-        orderHisList: {},//历史订单列表
+        orderHisList: [],//历史订单列表
         dewaterList: [],//退水玩法列表
         periodsList: [],//期数列表
         betsMoneyTotal: 0,
@@ -177,6 +177,21 @@ export default {
   mounted(){
   },
   methods: {
+    calTotal(){
+      console.log('orderHisList',this.orderHisList);
+
+        var totalJLPrice = 0;
+        this.orderHisList.list.forEach(function (data) {
+            totalJLPrice += data.winnerMoneyResult;
+        })
+        this.jiangliMoneyTotal = totalJLPrice;
+
+        var totalPrice = 0;
+        this.orderHisList.list.forEach(function (data) {
+            totalPrice += data.betsMoney;
+        })
+        this.betsMoneyTotal = totalPrice;
+    },
     handleCurrentChange(cpage) {
       this.currentPage = cpage;
       this.orderHisListQuery();
@@ -206,6 +221,8 @@ export default {
                 NProgress.done();
                 if(result.code===200){
                   that.orderHisList = result.page;
+                  that.calTotal();
+                  console.log('orderHisList',this.orderHisList);
                 }
               })
             });
