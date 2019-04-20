@@ -496,6 +496,7 @@ export default {
   created() {
     this.getgongsi();
     this.userList('');
+    this.getMenuList();
   },
   mounted(){
   },
@@ -587,6 +588,20 @@ export default {
                         if(this.ruleId == 2) {
                             this.yunyingFuji = data.auser;
                             this.auser.pid = data.auser.id;
+
+                            console.log('this.yunyingFuji',this.yunyingFuji);
+                            console.log('this.functionList',this.functionList);
+
+                            for(let n in this.functionList) {
+
+                                for(let x in this.yunyingFuji.functionIdList) {
+                                    if(this.yunyingFuji.functionIdList[x] == this.functionList[n].id) {
+                                        this.fujiFunctionList.push(this.functionList[n]);
+                                    }
+                                }
+
+                              }
+
                         } else {
                             this.auser.pid = data.auser.id;
                             this.auser.pusername = data.auser.username;
@@ -604,7 +619,6 @@ export default {
                     //that.$error('data.msg');
                 }
 
-            this.getMenuList();
         },
         async update(userId) {
             this.isshowpidlist = false;
@@ -632,7 +646,6 @@ export default {
                     //that.$error('data.msg');
                 }
 
-            this.getMenuList();
         },
         async saveOrUpdate() {
 
