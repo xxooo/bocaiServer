@@ -98,11 +98,11 @@
             <tr>
                 <td colspan="3" class="coheader">基本资料设定</td>
             </tr>
-            <tr>
+            <tr v-if="isshowpidlist">
                 <th>运营名称</th>
-                <td class="tl" v-if="ruleId == 2">{{yunyingFuji.username}}</td>
-                <td class="tl" v-else-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td>
-                <td class="tl" v-else>
+               <!--  <td class="tl" v-if="ruleId == 2">{{yunyingFuji.username}}</td>
+                <td class="tl" v-else-if="auser.id!=null && auser.id!='' ">{{auser.pusername}}</td> -->
+                <td class="tl">
                     <el-select v-model="auser.pid" placeholder="请选择" size="mini" @change="getshangjidaili">
                       <el-option v-for="(item,index) in pAUserList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
                     </el-select>
@@ -483,6 +483,7 @@ export default {
 
         fujiUserInfo: {},
         fujiFunctionList: [],
+        isshowpidlist: false,
 
         yunyingFuji:{}
     }
@@ -571,6 +572,7 @@ export default {
         },
         async add() {
             this.showList = false;
+            this.isshowpidlist = false;
             this.title = "新增";
             this.pid = "";
             this.qingkong();
@@ -593,6 +595,7 @@ export default {
                     } else {
                         this.auser.pid = "";
                         this.pAUserList = data.pAUserList;
+                        this.isshowpidlist = true;
                     }
 
                     console.log('this.auser',this.auser);
@@ -604,7 +607,7 @@ export default {
             this.getMenuList();
         },
         async update(userId) {
-
+            this.isshowpidlist = false;
             this.showList = false;
             this.title = "修改";
 
@@ -615,7 +618,7 @@ export default {
                         quotaType: 1,
                         quotaAccount: 1,
                         quotaAmount: "",
-                        quotaRemark: "",
+                        quotaRemark: ""
                     };
                     this.auser.viewquota = data.auser.quota;
                     this.auser.repassword = data.auser.password;
@@ -733,6 +736,8 @@ export default {
                 this.auser.tingyaShouya = this.auser.tingyaShouya*1;
 
                 let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
+
+                console.log('this.auser',JSON.stringify(this.auser));
 
                 let data = await this.$post(`${window.url}/`+ url,this.auser);
                   if(+data.code===200) {

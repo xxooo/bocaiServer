@@ -102,8 +102,8 @@ export default {
 
                let obj = {
                 // username: 'gsceshi1',  ydwgongsi1
-                username: 'gsceshi1',
-                password: 'a111111'
+                // username: 'gsceshi1',
+                // password: 'a111111'
                 // username: 'admin',
                 // password: '123456'
                 // username: 'testyunying2',
@@ -112,12 +112,15 @@ export default {
                 // password: 'a111111'
                 // username: 'ydwgongsi1',
                 // password: 'a111111'
-                // username: 'xuyunying718',
-                // password: 'a111111'
+                username: 'xuyunying718',
+                password: 'a111111'
                 // username: 'xugongsi718',
                 // password: 'a111111'
                 // username: 'yaoyuny1',
                 // password: 'a111111'
+                // username: 'hih0759',
+                // password: 'aaa888'
+
 
               };
 
