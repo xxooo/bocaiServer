@@ -364,9 +364,10 @@ export default {
         if(res.auser) {
           this.zhishugudongList.push(res.auser);
           this.fujiUserInfo = res.auser;
+          this.pid = res.auser.id;
 
           if(this.fujiUserInfo.aUserOccupied) {
-            this.yzhancheng = this.fujiUserInfo.aUserOccupied.pChangeAllotOccupied;
+            this.yzhancheng = this.fujiUserInfo.aUserOccupied.cChangeAllotOccupied;
           } else {
             this.yzhancheng = 0;
           }

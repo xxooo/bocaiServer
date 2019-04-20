@@ -20,13 +20,14 @@
           </thead> 
           <tr>
             <td width="20%" class="tar">会员类型:</td> 
-            <td class="tl">
-              <label><input v-model="userType" type="radio" :value="1" @click="getSessionAUser()"> 普通会员 </label> 
+            <td class="tl" v-if="!isshangji">
+            <!-- 这里判断直属会员还有问题 -->
+              <label v-if="!isshangji"><input v-model="userType" type="radio" :value="1" @click="getSessionAUser()"> 普通会员 </label> 
               <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2" @click="zhishugongsi()"> 直属会员 </label>
             </td> 
             <td class="tl" width="20%">请选择会员类型</td>
           </tr> 
-          <tr v-if="userType == 1">
+          <tr v-if="userType == 1 && !isshangji">
             <td class="tar">上级代理:</td> 
             <td class="tl">
               <el-select v-model="pid" placeholder="请选择" size="mini" @change="getshangjidaili">
@@ -377,10 +378,34 @@ export default {
       console.log('wwwww');
 
       this.getSessionAUser();
+
+      //this.ifshangji(this.ruleId);
   },
   mounted(){
   },
   methods: {
+    // async ifshangji(ruleid) {
+    //   let res = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=`+ruleid);
+    //   if(+res.code===200) {
+    //     if(res.auser) {
+    //       // this.zhishugudongList.push(res.auser);
+    //       // this.fujiUserInfo = res.auser;
+    //       // this.pid = res.auser.id;
+
+    //       // if(this.fujiUserInfo.aUserOccupied) {
+    //       //   this.yzhancheng = this.fujiUserInfo.aUserOccupied.cChangeAllotOccupied;
+    //       // } else {
+    //       //   this.yzhancheng = 0;
+    //       // }
+
+    //       this.isshangji = true;
+    //     } else {
+    //       // this.zhishugudongList = res.pAUserList;
+    //       this.isshangji = false;
+    //     }
+        
+    //   }
+    // },
     async getCzhangcheng(data) {
       console.log('zhangc',data);
 
@@ -400,6 +425,20 @@ export default {
                 if (this.sessionAUser.ruleId == 6) {//如果是代理，则直接返回代理数据
                     this.isshangji = true;
                     this.allDailiList.push(res.sessionAUser);
+
+
+                    this.getshangjidaili(res.sessionAUser.id);
+
+
+                    // this.fujiUserInfo = res.sessionAUser;
+
+                    // //this.companyUser = res.companyUser;
+
+                    // this.pzhancheng = res.sessionAUser.allotOccupied;
+
+                    // this.pid = res.sessionAUser.id;
+
+
                 } else {
                     this.getAlldaili(6);//获取代理列表
                 }
@@ -418,7 +457,7 @@ export default {
 
           this.companyUser = res.companyUser;
 
-          this.pzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
+          this.pzhancheng = res.auser.aUserOccupied.cChangeAllotOccupied;
 
           //this.aUserOccupied.pChangeAllotOccupied = res.auser.aUserOccupied.pChangeAllotOccupied;
 

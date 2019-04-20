@@ -642,6 +642,18 @@ export default {
                     } else {
                         this.xinyongShow = true;
                     }
+
+                    for(let n in this.functionList) {
+
+                                for(let x in this.auser.functionIdList) {
+                                    if(this.auser.functionIdList[x] == this.functionList[n].id) {
+                                        this.fujiFunctionList.push(this.functionList[n]);
+                                    }
+                                }
+
+                              }
+
+                              
                 } else {
                     //that.$error('data.msg');
                 }

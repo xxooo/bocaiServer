@@ -391,7 +391,7 @@ export default {
           this.fujiUserInfo = res.auser;
 
           if(res.auser.aUserOccupied) {
-            this.yzhancheng = res.auser.aUserOccupied.pChangeAllotOccupied;
+            this.yzhancheng = res.auser.aUserOccupied.cChangeAllotOccupied;
           } else {
             this.yzhancheng = 0;
           }

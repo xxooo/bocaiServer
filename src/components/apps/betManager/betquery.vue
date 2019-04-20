@@ -97,7 +97,7 @@
                 <td class="text-error" v-else>{{orderHis.loginIp}}</td>
 
                 <td>{{orderHis.betsMoney}}</td>
-                <td>{{orderHis.winnerMoney}}</td>
+                <td>{{orderHis.winnerMoneyResult}}</td>
             </tr>
             <tr>
                 <td colspan=7 class="text-info" style="text-align: right; padding-right: 15px;">此页面统计：</td>
@@ -196,6 +196,9 @@ export default {
             });
     },
     async orderHisListQuery() {
+
+      console.log('JSON',JSON.stringify(this.q));
+
       let that = this;
             NProgress.start();
             await that.$post(`${window.url}/admin/order/hisOrderList`,this.q).then((res) => {
