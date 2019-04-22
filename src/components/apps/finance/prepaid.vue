@@ -64,7 +64,35 @@
                     <td width="20%" class="tar">QQ</td> 
                     <td class="tl"><input v-model="qq" type="text"></td>
                 </tr> 
-                <tr>
+
+                <tr v-for="(item,index) in zhifubaoList">
+                    <td width="20%" class="tar">
+                        支付宝二维码 1
+                        <br> <span class="red">上传多个二维码时随机显示一个</span> 
+                        <div class="gray">
+                            尺寸: 120 x 120
+                            <br>
+                            大小: 200K
+                        </div>
+                    </td> 
+                    <td>
+                        <div class="imgdiv">
+                            <img  :class="index" :src="item" org="" alt="" width="148" height="148" onerror="">
+                        </div>
+                        <el-upload
+                            class="upload-demo"
+                            :action="uploadUrl"
+                            :headers="customHeader"
+                            :before-upload="beforeUpload"
+                            :on-success="handleAvatarSuccess"
+                            :show-file-list="false">
+                            <el-button class="tabBtn btn btn-blue" size="small" type="primary" @click="shangchuan(item,index)">{{'上传'}}</el-button>
+                            <!-- <span>{{imgname}}</span> -->
+                            <span :class="'img'+index"></span>
+                        </el-upload>
+                    </td>
+                </tr>
+                <!-- <tr>
                     <td width="20%" class="tar">
                         支付宝二维码 1
                         <br> <span class="red">上传多个二维码时随机显示一个</span> 
@@ -89,7 +117,9 @@
                             <span>{{imgname}}</span>  
                         </el-upload>
                     </td>
-                </tr>
+                </tr> -->
+
+
             </table> 
 
             <p class="tac" style="margin-top: 8px;">
@@ -144,6 +174,21 @@ export default {
         tixianCishu: 0,
         shouji: '',
         qq: '',
+
+        zhifubaoList: {
+            zhifubaoEwma: '',
+            zhifubaoEwmb: '',
+            zhifubaoEwmc: '',
+            zhifubaoEwmd: '',
+            zhifubaoEwme: ''
+        },
+        weixinList: {
+            weixinEwma: '',
+            weixinEwmb: '',
+            weixinEwmc: '',
+            weixinEwmd: '',
+            weixinEwme: ''
+        },
         zhifubaoEwma: '',
         zhifubaoEwmb: '',
         zhifubaoEwmc: '',
@@ -158,6 +203,7 @@ export default {
         caiwuYinhangzhuanzhangList: [],
         imgname: '',
         token: '',
+        templtStr: '',
 
         yinhangLeixing:"",//银行类型
         yinhangZhanghao:"",//银行账号
@@ -191,6 +237,12 @@ export default {
   mounted(){
   },
   methods: {
+    shangchuan(item,index) {
+        console.log('item',item);
+        console.log('index',index);
+
+        this.templtStr = 'img' + index;
+    },
     handleAvatarSuccess(res, file) {
 
         console.log('res',res);
@@ -198,8 +250,14 @@ export default {
 
                  let name = `${file.name}`;
                  this.imgname =  name.match(/[^-]+$/)[0];
-                // this.form.attachment = name;
-                // this.form.oid = res.result.oid;
+                 $('.'+this.templtStr).html(this.imgname);
+
+                 for(let n in this.zhifubaoList) {
+                    if('img'+ n == this.templtStr) {
+                        this.zhifubaoList[n] = res.imgUrl;
+                    }
+                 }
+
       },
     beforeUpload(file){
                 let {size,name} = file;
@@ -264,16 +322,16 @@ export default {
             this.tixianCishu = res.caiwuChongzhifangshi.tixianCishu;
             this.shouji = res.caiwuChongzhifangshi.shouji;
             this.qq = res.caiwuChongzhifangshi.qq;
-            this.zhifubaoEwma= res.caiwuChongzhifangshi.zhifubaoEwma;
-            this.zhifubaoEwmb= res.caiwuChongzhifangshi.zhifubaoEwmb;
-            this.zhifubaoEwmc= res.caiwuChongzhifangshi.zhifubaoEwmc;
-            this.zhifubaoEwmd= res.caiwuChongzhifangshi.zhifubaoEwmd;
-            this.zhifubaoEwme= res.caiwuChongzhifangshi.zhifubaoEwme;
-            this.weixinEwma= res.caiwuChongzhifangshi.weixinEwma;
-            this.weixinEwmb= res.caiwuChongzhifangshi.weixinEwmb;
-            this.weixinEwmc= res.caiwuChongzhifangshi.weixinEwmc;
-            this.weixinEwmd= res.caiwuChongzhifangshi.weixinEwmd;
-            this.weixinEwme= res.caiwuChongzhifangshi.weixinEwme;
+            this.zhifubaoList.zhifubaoEwma= res.caiwuChongzhifangshi.zhifubaoEwma;
+            this.zhifubaoList.zhifubaoEwmb= res.caiwuChongzhifangshi.zhifubaoEwmb;
+            this.zhifubaoList.zhifubaoEwmc= res.caiwuChongzhifangshi.zhifubaoEwmc;
+            this.zhifubaoList.zhifubaoEwmd= res.caiwuChongzhifangshi.zhifubaoEwmd;
+            this.zhifubaoList.zhifubaoEwme= res.caiwuChongzhifangshi.zhifubaoEwme;
+            this.weixinList.weixinEwma= res.caiwuChongzhifangshi.weixinEwma;
+            this.weixinList.weixinEwmb= res.caiwuChongzhifangshi.weixinEwmb;
+            this.weixinList.weixinEwmc= res.caiwuChongzhifangshi.weixinEwmc;
+            this.weixinList.weixinEwmd= res.caiwuChongzhifangshi.weixinEwmd;
+            this.weixinList.weixinEwme= res.caiwuChongzhifangshi.weixinEwme;
             this.auserId= res.caiwuChongzhifangshi.auserId;
             this.caiwuYinhangzhuanzhangList = res.caiwuYinhangzhuanzhangList;
 
@@ -296,16 +354,16 @@ export default {
                 tixianCishu: this.tixianCishu*1,
                 shouji: this.shouji,
                 qq: this.qq,
-                zhifubaoEwma: this.zhifubaoEwma,
-                zhifubaoEwmb: this.zhifubaoEwmb,
-                zhifubaoEwmc: this.zhifubaoEwmc,
-                zhifubaoEwmd: this.zhifubaoEwmd,
-                zhifubaoEwme: this.zhifubaoEwme,
-                weixinEwma: this.weixinEwma,
-                weixinEwmb: this.weixinEwmb,
-                weixinEwmc: this.weixinEwmc,
-                weixinEwmd: this.weixinEwmd,
-                weixinEwme: this.weixinEwme
+                zhifubaoEwma: this.zhifubaoList.zhifubaoEwma,
+                zhifubaoEwmb: this.zhifubaoList.zhifubaoEwmb,
+                zhifubaoEwmc: this.zhifubaoList.zhifubaoEwmc,
+                zhifubaoEwmd: this.zhifubaoList.zhifubaoEwmd,
+                zhifubaoEwme: this.zhifubaoList.zhifubaoEwme,
+                weixinEwma: this.weixinList.weixinEwma,
+                weixinEwmb: this.weixinList.weixinEwmb,
+                weixinEwmc: this.weixinList.weixinEwmc,
+                weixinEwmd: this.weixinList.weixinEwmd,
+                weixinEwme: this.weixinList.weixinEwme
             }
 
 

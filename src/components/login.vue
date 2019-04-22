@@ -118,18 +118,18 @@ export default {
                 // password: 'aaa888'
 
 
-                username: 'xuyunying718',
-                password: 'a111111'
+                // username: 'xuyunying718',
+                // password: 'a111111'
                 username: 'xugongsi718',
                 password: 'a111111'
-                username: 'xgudong1',
-                password: 'a111111'
-                username: 'xgzdaili1',
-                password: 'a111111'
-                username: 'xgzdl11',
-                password: 'a111111'
-                username: 'dxuhuiiyuan1',
-                password: 'a111111'
+                // username: 'xgudong1',
+                // password: 'a111111'
+                // username: 'xgzdaili1',
+                // password: 'a111111'
+                // username: 'xgzdl11',
+                // password: 'a111111'
+                // username: 'dxuhuiiyuan1',
+                // password: 'a111111'
 
 
 
