@@ -193,6 +193,9 @@ export default {
     },
     async getchanglong() {
 
+        this.openPrizeList = [];
+        this.noOpenPrizeList = [];
+
           let that = this;
           NProgress.start();
           await that.$get(`${window.url}/api/changlong?bocaiTypeId=`+this.bocaiTypeId+'&showNum=10').then((res) => {
@@ -204,14 +207,14 @@ export default {
                   let obj = {};
                   obj.content = n;
                   obj.num = result.openPrizeMap[n];
-                  this.openPrizeList.push(obj);
+                  that.openPrizeList.push(obj);
                 }
 
                 for(let n in result.noOpenPrizeMap) {
                   let obj = {};
                   obj.content = n;
                   obj.num = result.noOpenPrizeMap[n];
-                  this.noOpenPrizeList.push(obj);
+                  that.noOpenPrizeList.push(obj);
                 }
 
                 //console.log('this.openPrizeMap',this.openPrizeMap);
@@ -223,6 +226,8 @@ export default {
               }
             })
           });
+
+          console.log('that.openPrizeList',that.openPrizeList);
     },
     async updatePassWord(formName) {
         let that = this;
