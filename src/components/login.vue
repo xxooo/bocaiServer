@@ -133,8 +133,8 @@ export default {
 
                 // username: '4m30d',
                 // password: 'a123'
-                username: '4m30dgs2',
-                password: 'a123'
+                // username: '4m30dgs2',
+                // password: 'a123'
 
 
                 // username: '4m30gd1',
@@ -146,6 +146,10 @@ export default {
 
                 // username: 'a4m3huiyuan1',
                 // password: 'a123'
+
+
+                username: 'ff88',
+                password: 'aaa888'
 
 
               };

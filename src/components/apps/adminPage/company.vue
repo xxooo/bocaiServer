@@ -139,8 +139,8 @@
             <tr>
                 <th>账号状态</th>
                 <td class="tl">
-                    <label><input type="radio" name="status" value="1" v-model="auser.status" checked id="status1"> 启用　</label> 
-                    <label><input type="radio" name="status" value="0" v-model="auser.status" id="status2"> 停用</label> 
+                    <label><input type="radio" name="status" value="1" v-model="auser.status" checked> 启用　</label> 
+                    <label><input type="radio" name="status" value="0" v-model="auser.status" > 停用</label> 
                 </td>
                 <td class="tl">是否选择启用/停用账号</td>
             </tr>
@@ -268,7 +268,7 @@
                     <div class="btn-group">
                         <select class="form-control" v-model="auser.aUserOccupied.cChangeAllotOccupied">
                             <option value="100">100%</option>
-                            <option value="99">99%</option>
+                            <!-- <option value="99">99%</option>
                             <option value="98">98%</option>
                             <option value="97">97%</option>
                             <option value="96">96%</option>
@@ -303,7 +303,7 @@
                             <option value="15">15%</option>
                             <option value="10">10%</option>
                             <option value="5">5%</option>
-                            <option value="0">不占成</option>
+                            <option value="0">不占成</option> -->
                         </select>
                     </div>
                 </td>
@@ -454,7 +454,7 @@ export default {
             tingyaShouya: 0,
             isReplenishment: 0,
             isFrozen: 0,
-            status: 0,
+            status: 1,
             occupied: 0,
             handicapA: 1,
             handicapB: 1,
@@ -470,8 +470,9 @@ export default {
                 quotaRemark: "",
             },
             aUserOccupied: {//占成
-                cChangeAllotOccupied: 0,
+                cChangeAllotOccupied: 100,
             },
+            occupiedRecovery: 0
 
         },
         systemList: {},//体系列表
@@ -542,7 +543,7 @@ export default {
             this.auser.tingyaShouya= 0;
             this.auser.isReplenishment= 0;
             this.auser.isFrozen= 0;
-            this.auser.status= 0;
+            this.auser.status= 1;
             this.auser.occupied= 0;
             this.auser.handicapA= 1;
             this.auser.handicapB= 1;
@@ -555,7 +556,8 @@ export default {
             this.auser.quotaInfo.quotaAccount= 1;
             this.auser.quotaInfo.quotaAmount= "";
             this.auser.quotaInfo.quotaRemark= "";
-            this.auser.aUserOccupied.cChangeAllotOccupied= 0;
+            this.auser.aUserOccupied.cChangeAllotOccupied= 100;
+            this.auser.occupiedRecovery= 0;
 
             this.auser.nickname = '';
             this.auser.username = '';
@@ -576,6 +578,7 @@ export default {
             this.isshowpidlist = false;
             this.title = "新增";
             this.pid = "";
+            this.fujiFunctionList = [];
             this.qingkong();
 
             let data = await this.$get(`${window.url}/admin/auser/userInfo?ruleId=3`);
@@ -623,6 +626,7 @@ export default {
         async update(userId) {
             this.isshowpidlist = false;
             this.showList = false;
+            this.fujiFunctionList = [];
             this.title = "修改";
 
             let data = await this.$get(`${window.url}/admin/auser/userInfo?userId=` + userId + "&ruleId=3");
@@ -760,18 +764,40 @@ export default {
                 this.auser.isReplenishment = this.auser.isReplenishment*1;
                 this.auser.tingyaShouya = this.auser.tingyaShouya*1;
 
+
                 let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
 
                 console.log('this.auser',JSON.stringify(this.auser));
 
-                let data = await this.$post(`${window.url}/`+ url,this.auser);
-                  if(+data.code===200) {
-                    that.$success('操作成功');
-                    that.showList = true;
-                    that.userList('');
-                  } else {
-                    that.$error(data.msg);
-                  }
+
+                    const loading = this.$loading({
+                        lock: true,
+                        text: 'Loading',
+                        background: 'rgba(0, 0, 0, 0.7)'
+                      });
+                    await that.$post(`${window.url}/`+ url,this.auser).then((res) => {
+                      that.$handelResponse(res, (result) => {
+                        console.log('?????');
+                        loading.close();
+
+                        if(result.code===200){
+                            that.$success('操作成功');
+                            that.showList = true;
+                            that.userList('');
+                        } else {
+                            that.$error(result.msg);
+                        }
+                      })
+                    });
+
+                // let data = await this.$post(`${window.url}/`+ url,this.auser);
+                //   if(+data.code===200) {
+                //     that.$success('操作成功');
+                //     that.showList = true;
+                //     that.userList('');
+                //   } else {
+                //     that.$error(data.msg);
+                //   }
               }
 
         },
