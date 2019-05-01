@@ -62,7 +62,7 @@
           </tbody>
         </table>
       </div> 
-      <div class="tab tab3">
+      <div class="tab tab3" v-if="ruleId != 1">
         <table>
           <thead>
             <tr><th colspan="2">最新公告</th></tr>

@@ -120,8 +120,8 @@ export default {
 
                 // username: 'xuyunying718',
                 // password: 'a111111'
-                username: 'xugongsi718',
-                password: 'a111111'
+                // username: 'xugongsi718',
+                // password: 'a111111'
                 // username: 'xgudong1',
                 // password: 'a111111'
                 // username: 'xgzdaili1',
@@ -131,6 +131,21 @@ export default {
                 // username: 'dxuhuiiyuan1',
                 // password: 'a111111'
 
+                // username: '4m30d',
+                // password: 'a123'
+                username: '4m30dgs2',
+                password: 'a123'
+
+
+                // username: '4m30gd1',
+                // password: 'a123'
+                // username: '4m30zdl1',
+                // password: 'a123'
+                // username: '4m3dl1',
+                // password: 'a123'
+
+                // username: 'a4m3huiyuan1',
+                // password: 'a123'
 
 
               };

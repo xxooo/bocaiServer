@@ -11,13 +11,20 @@
     </div>
 
     <div class="nav">
-      <a class="mgr10" v-if="ruleId != 3" @click="returnPage()">返回</a> 
-      <span class="mgr10">公司：{{userName}}</span> 
+      <!-- <a class="mgr10" v-if="ruleId != 3" @click="returnPage()">返回</a>  -->
+      <button class="tabBtn btn btn-blue mgr10" v-if="ruleId != 3" @click="returnPage">返回</button> 
+
+      <span class="mgr10" v-if="ruleId == 3">公司：{{baobiaoQinfo.choiseUserName}}</span> 
+      <span class="mgr10" v-if="ruleId == 4">股东：{{baobiaoQinfo.choiseUserName}}</span> 
+      <span class="mgr10" v-if="ruleId == 5">总代理：{{baobiaoQinfo.choiseUserName}}</span> 
+      <span class="mgr10" v-if="ruleId == 6">代理：{{baobiaoQinfo.choiseUserName}}</span> 
+      <span class="mgr10" v-if="ruleId == 13">会员：{{baobiaoQinfo.choiseUserName}}</span> 
+
       <span class="mgr10">
         日期：{{baobiaoQinfo.startTime}} 至 {{baobiaoQinfo.endTime}}
       </span> 
       <span class="mgr10">
-        游戏类型：{{baobiaoQinfo.bocai.name == '' ? '全部' : baobiaoQinfo.bocai.name}}
+        游戏类型：{{baobiaoQinfo.bocai ? '' : baobiaoQinfo.bocai.name == '' ? '全部' : baobiaoQinfo.bocai.name}}
       </span> 
       <!-- <span class="mgr10">
         结算方式：信用额度
@@ -241,6 +248,7 @@ export default {
   created() {
 
     this.getbaobiaoList();
+    this.baobiaoQinfo.bocai.name = '';
   },
   mounted(){
   },
@@ -297,6 +305,13 @@ export default {
         this.ruleId = res.ruleId;
         this.userId = res.userId;
         this.userName = res.userName;
+
+        console.log('this.ruleIdllll',this.ruleId);
+        console.log('this.userInfo.userName',this.userInfo.username);
+
+        if(this.ruleId == 3) {
+          this.baobiaoQinfo.choiseUserName = this.userInfo.username;
+        }
       }
     }
 
