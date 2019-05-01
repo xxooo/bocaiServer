@@ -236,10 +236,14 @@ export default {
 
           this.$c_msgconfirm('是否确认将 '+item.username+' 踢线',async () => {
 
-                NProgress.start();
+                const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
                 await that.$get(`${window.url}/admin/system/auserDownline?aUserId=`+item.id).then((res) => {
                 that.$handelResponse(res, (result) => {
-                  NProgress.done();
+          loading.close();
                   if(result.code===200) {
                             that.$success('操作成功');
                             that.reload();

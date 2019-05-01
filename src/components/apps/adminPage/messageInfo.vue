@@ -146,10 +146,14 @@ export default {
 
       this.$c_msgconfirm('是否确认删除此信息',async () => {
 
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$get(`${window.url}/admin/system/messageDelete?id=`+id).then((res) => {
             that.$handelResponse(res, (result) => {
-              NProgress.done();
+          loading.close();
               if(result.code===200) {
                         this.$success('操作成功');
                         this.getmessageList();

@@ -207,10 +207,14 @@ export default {
       let listdata = {};
       listdata.list = this.selectList;
 
-      NProgress.start();
+      const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
           await that.$post(`${window.url}/admin/gameManage/oddsFloatSub`,listdata).then((res) => {
             that.$handelResponse(res, (result) => {
-              NProgress.done();
+          loading.close();
               if(result.code===200){
                 that.$success(result.msg);
                 that.selectList = [];

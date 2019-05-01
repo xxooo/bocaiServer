@@ -583,10 +583,14 @@ export default {
           console.log('dataobj',dataobj);
 
           let that = this;
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/cuser/addUser`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   that.$success('提交成功!');
                   that.$router.push({name:'huiyuan'});

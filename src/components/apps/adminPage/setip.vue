@@ -114,10 +114,14 @@ export default {
     async save() {
       let that = this;
 
-      NProgress.start();
+      const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/cuser/updateCUser`,this.cuser).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   that.$success('绑定成功!');
                   that.userList();

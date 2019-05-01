@@ -423,10 +423,14 @@ export default {
 
       let that = this;
 
-          NProgress.start();
+          const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
           await that.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+this.bocaiCategory.id+`&isBase=`+this.isBase+`&bocaiTypeId=`+this.curBocaiTypeId).then((res) => {
             that.$handelResponse(res, (result) => {
-              NProgress.done();
+          loading.close();
               that.showOdds = this.bocaiCategory.name;
               that.bocaiCategory = this.bocaiCategory;
               if(result.code===200){
@@ -598,10 +602,14 @@ export default {
         list: arr
       }
 
-      NProgress.start();
+      const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
           await that.$post(`${window.url}/admin/bocai/oddsSub`,objdata).then((res) => {
             that.$handelResponse(res, (result) => {
-              NProgress.done();
+          loading.close();
               if(result.code===200){
 
                 this.bocaiCategoryIdSub();

@@ -382,10 +382,14 @@ export default {
         this.$alertMessage('日期不能为空!', '温馨提示');
       } else {
         let that = this;
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$get(`${window.url}/api/hisRechargeForwardList?currentPage=`+cur+`&pageSize=10&createDateStart=`+this.histDate[0]+`&createDateEnd=`+this.histDate[1]+`&type=`+this.historyType).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   this.historyDataList = result.page;
                   that.$success('提交成功！');
@@ -412,10 +416,14 @@ export default {
         }
 
         let that = this;
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/api/forwardInfoSub`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   that.$success('提交成功！');
                   this.forwardList('0',1,10);
@@ -555,10 +563,14 @@ export default {
           console.log('dataobj',dataobj);
 
           let that = this;
-          NProgress.start();
+          const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
           await that.$post(`${window.url}/api/bankInfoSub`,dataobj).then((res) => {
             that.$handelResponse(res, (result) => {
-              NProgress.done();
+          loading.close();
               if(result.code===200){
                 //更新用户信息
                 // bus.$emit('getcUserInfo', ''); 

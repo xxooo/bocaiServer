@@ -249,10 +249,14 @@ export default {
       //this.cuserBocaiOrder.createDate = 1544952155000;
 
 
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/betting/bettingSub`,this.cuserBocaiOrder).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+              loading.close();
                 if(result.code===200){
                   that.$success('改单成功，系统将重新计算该订单结果!');
                   that.query();

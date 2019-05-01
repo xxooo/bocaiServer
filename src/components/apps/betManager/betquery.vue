@@ -199,10 +199,14 @@ export default {
     },
     async orderHisTotalMoneyQuery() {
       let that = this;
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/order/orderHisTotalMoney`,this.q).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   that.betsMoneyAllTotal = result.betsMoneyTotal;
                   that.jiangliMoneyAllTotal = result.jiangliMoneyTotal;
@@ -215,10 +219,14 @@ export default {
       console.log('JSON',JSON.stringify(this.q));
 
       let that = this;
-            NProgress.start();
+            const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/order/hisOrderList`,this.q).then((res) => {
               that.$handelResponse(res, (result) => {
-                NProgress.done();
+          loading.close();
                 if(result.code===200){
                   that.orderHisList = result.page;
                   that.calTotal();

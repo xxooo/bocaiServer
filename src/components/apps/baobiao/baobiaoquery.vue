@@ -31,7 +31,7 @@
           <td class="tl">
             <el-date-picker
               size="mini"
-              v-model="timesvalue"
+              v-model="q.timesvalue"
               type="daterange"
               range-separator="至"
               value-format="yyyy-MM-dd"
@@ -85,8 +85,9 @@ export default {
       q: {//查询条件
             reportType: 1,
             cuserOrderStatus: 1,
-            startTime:"",
-            endTime:"",
+            timesvalue:[],
+            // startTime:"",
+            // endTime:"",
             userId:"",
             bocai: {
               id: '',
@@ -118,14 +119,38 @@ export default {
       console.log('timesvalue',this.timesvalue);
       console.log('q',this.q);
 
-      if(this.timesvalue == '' || this.timesvalue == null) {
+      if(this.q.timesvalue.length == 0) {
         this.$alertMessage('请选择时间!', '温馨提示');
       } else if(this.q.reportType == 2 && this.q.bocai.id == '') {
         this.$alertMessage('请选择游戏类型!', '温馨提示');
       } else {
-        this.q.startTime = this.timesvalue[0];
-        this.q.endTime = this.timesvalue[1];
+
+        
+
+        // let arr = [];
+
+        // for(let n in this.timesvalue) {
+        //   arr.push(this.timesvalue[n]);
+        // }
+
+        // this.q.startTime = arr[0];
+        // this.q.endTime = arr[1];
         this.q.userId = this.userInfo.id;
+
+        // let obj={}; 
+        // obj=JSON.parse(JSON.stringify(this.q)); //this.templateData是父组件传递的对象 
+
+        // let tem = '';
+
+        // tem = this.timesvalue[0];
+
+        // this.q.startTime = tem;
+        // this.q.startTime = this.timesvalue[0];
+        // this.q.endTime = this.timesvalue[1];
+
+        
+
+        console.log('this.q',this.q);
 
         store.commit('updatebaobiaoQinfo',this.q);
 
