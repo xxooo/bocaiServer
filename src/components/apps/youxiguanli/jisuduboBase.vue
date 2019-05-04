@@ -591,6 +591,7 @@ export default {
 
         obj.bocaiId = this.updateList[n].oddsId;
         obj.odds = this.updateList[n].odds;
+obj.id = this.updateList[n].id;
 
         arr.push(obj);
       }

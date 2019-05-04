@@ -523,6 +523,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/messageInfo')), 'messageInfo'), meta: { requiresAuth: true }
         },
+        { path: '/adminPage/mainUserMessage', name: 'mainUserMessage',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/mainUserMessage')), 'mainUserMessage'), meta: { requiresAuth: true }
+        },
       ]
     }
   ]

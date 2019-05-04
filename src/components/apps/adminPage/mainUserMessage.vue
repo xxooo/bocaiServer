@@ -5,39 +5,16 @@
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>在线管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'mainUserOnline' }">会员在线</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'mainUserMessage' }">会员消息</el-breadcrumb-item>
         <el-breadcrumb-item>会员消息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
     <div class="portlet portlet-add">
-      <div class="nav">
-          <div class="btn-ground">
-            发送会员消息　　 
-          </div>
-        </div>
-      <div class="tab">
-        <table>
-          <tr>
-            <td width="20%">新增会员消息 : </td> 
-            <td>
-              <textarea placeholder="请输入会员消息内容" cols="150" rows="8" v-model="message.content"></textarea>
-            </td>
-          </tr>
-        </table> 
-        <p class="tac" style="margin-top: 8px;">
-          <button class="tabBtn btn btn-blue" @click="sendMessage()">确认</button> 
-          <button class="tabBtn btn btn-red" @click="message.content= ''">重填</button>
-        </p>
-      </div>
-
-
 
       <div class="tab">
         <div class="nav">
           <div class="btn-ground">
-            会员消息查询　　 
+            会员消息　 
           </div>
         </div>
         <table>
@@ -63,6 +40,9 @@
                 <td>
                   <span>
                     <a class="tabBtn btnPurple green" @click="deleteMessageId(message.id)">删除</a> 
+                  </span>
+                  <span>
+                    <a class="tabBtn btnPurple green" @click="messageInfo(message.cuserId)">消息</a> 
                   </span>
                   <span>
                     <a class="tabBtn btnPurple green" @click="messageStatus(message.id,message.status)">{{message.status == 1 ?'隐藏':'显示'}}</a> 
@@ -131,6 +111,14 @@ export default {
   mounted(){
   },
   methods: {
+    messageInfo(id) {
+      this.$router.push({
+        name: 'messageInfo',
+        params: {
+          id: id
+        }
+      })
+    },
     async messageStatus(id,status) {
 
       let tems = status == 1? 0 : 1;
@@ -178,7 +166,7 @@ export default {
     },
     async getmessageList() {
 
-      let res = await this.$get(`${window.url}/admin/system/messageList?cuserId=`+ this.cUserId);
+      let res = await this.$get(`${window.url}/admin/system/messageList?cuserId=`);
 
       if(res.code===200) {
         this.messageList = res.page.list;

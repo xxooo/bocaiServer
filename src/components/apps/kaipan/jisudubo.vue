@@ -260,7 +260,7 @@
           <div class="tool" v-if="isEdit">
             <table>
               <tr>
-                <td><button class="btn btn-blue" @click="bocaiCategoryId(bocaiCategory)">还原赔率</button></td> 
+                <td><button class="btn btn-blue" @click="reductionOdds(bocaiCategory)">还原赔率</button></td> 
                 <td>设置调动幅度 :<input v-model="betfudu" width="80px" placeholder="请输入数字"></td>
                 <td><button class="btn btn-blue" @click="savebet">保存赔率</button></td> 
               </tr>
@@ -464,7 +464,7 @@ export default {
       for(let n in this.updateList) {
         let obj = {};
 
-        obj.bocaiId = this.updateList[n].oddsId;
+        obj.id = this.updateList[n].id;
         obj.odds = this.updateList[n].odds;
 
         arr.push(obj);
@@ -612,6 +612,33 @@ export default {
       this.shuaiXuanDatas(data);
 
       this.qingkong();
+    },
+    async reductionOdds(item) {
+      console.log('item',item);
+
+
+      let that = this;
+
+          const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
+
+          // /admin/bocai/reductionOdds?bocaiTypeId=1&bocaiCategory2Id=4491&bocaiCategory1Id=2 目前没有 bocaiCategory2Id 先传null
+
+          await that.$get(`${window.url}/admin/bocai/reductionOdds?bocaiTypeId=`+this.curBocaiTypeId+`&bocaiCategory1Id=`+item.id+`&bocaiCategory2Id=`).then((res) => {
+            that.$handelResponse(res, (result) => {
+              loading.close();
+
+              if(result.code===200){
+
+                that.bocaiCategoryId(item);
+
+              }
+              
+            })
+          });
     },
     async bocaiCategoryId(item) {
       console.log('item',item);

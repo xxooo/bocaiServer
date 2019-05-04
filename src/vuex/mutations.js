@@ -31,6 +31,9 @@ const mutations = {
   },
   updatebaobiaoQinfo(state,v) {
     state.baobiaoQinfo = v;
+  },
+  updatebetcUserid(state,v) {
+    state.betcUserid = v;
   }
 }
 

@@ -103,6 +103,7 @@
             <template slot="title">在线管理</template>
             <el-menu-item index="17-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
             <el-menu-item index="17-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
+            <el-menu-item index="17-2" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
           </el-submenu>
 
         </template>
@@ -317,13 +318,15 @@ export default {
     async menuAction(menu) {
 
       if(menu == '退出') {
+
+        this.$router.push({name:"login"});
+
         let res = await this.$get(`${window.url}/admin/exitLogin`);
 
         if(res.code===200){
           //this.$router.push({name:"login"});
         }
-
-        this.$router.push({name:"login"});
+        
       }
 
     },

@@ -80,8 +80,8 @@
                 <td>
                     <button v-if="betting.status != 0" class="btn" type="button" @click="reOrder(betting.id,betting.orderNum)">改单</button>
                     <button class="btn" @click="deleteBetting(betting.id)" type="button">删除</button>
-                    <button class="btn" type="button" @click="isShow(betting.id,0)" v-if="betting.isShow == 1">已隐藏</button>
-                    <button class="btn" type="button" @click="isShow(betting.id,1)" v-else>已显示</button>
+                    <button class="btn" type="button" @click="isShow(betting.id,0)" v-if="betting.isShow == 1">隐藏</button>
+                    <button class="btn" type="button" @click="isShow(betting.id,1)" v-else>显示</button>
                 </td>
             </tr>
           </tbody>
@@ -214,18 +214,35 @@ export default {
         checked: false, //全选框
         bocaiOddsList: {},//菠菜类型列表
         bettingFlag: true,//投注下拉框开关，true为下拉框可用，false为不可用
+
+        cUserId: ''
     }
   },
   computed: {
     ...mapGetters({
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
-      bocaiMenu: 'getbocaiMenu'
+      bocaiMenu: 'getbocaiMenu',
+      betcUserid: 'getbetcUserid'
     })
   },
   created() {
+    if(this.betcUserid != '') {
+      this.query();
+    }
   },
   mounted(){
+    // bus.$on('getBetcUserid', (data) => {
+    //     console.log('getBetcUserid',data);
+    //     this.cUserId = data;
+
+    //     this.nextTick(function(){
+    //         console.log(nextTick) //可以得到'changed'
+
+    //         this.query();
+    //     })
+        
+    //   });
   },
   methods: {
     async reOrderSub() {
@@ -378,6 +395,10 @@ export default {
             }
             if (null != this.q && null != this.q.username && '' != this.q.username) {
                 url = url + "&username=" + this.q.username
+            }
+
+            if (null != this.cUserId && '' != this.cUserId) {
+                url = url + "&cUserId=" + this.cUserId
             }
 
 

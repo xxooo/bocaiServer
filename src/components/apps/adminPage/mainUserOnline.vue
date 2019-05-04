@@ -51,7 +51,7 @@
                   <a class="tabBtn btnPurple green" @click="messageInfo(item.id)">消息</a> 
                 </span>
                 <span>
-                  <a class="tabBtn btnPurple green" @click="">投注</a> 
+                  <a class="tabBtn btnPurple green" @click="gotoOrder(item.id)">投注</a> 
                 </span>
               </td>
             </tr>
@@ -103,6 +103,12 @@ export default {
   mounted(){
   },
   methods: {
+    gotoOrder(id) {
+      this.$router.push({
+        name: 'bettingManage'
+      })
+      store.commit('updatebetcUserid',id);
+    },
     messageInfo(id) {
       this.$router.push({
         name: 'messageInfo',
