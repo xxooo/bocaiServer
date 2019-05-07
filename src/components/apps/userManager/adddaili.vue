@@ -413,7 +413,7 @@ export default {
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
       } else if((+this.pzhancheng+this.mzhancheng) > +this.yzhancheng) {
-        this.$alertMessage('总占成不能超过上级占成!', '温馨提示');
+        this.$alertMessage('总占成不能超过上级占成!上级占成:'+this.yzhancheng+'%', '温馨提示');
       } else if(this.ifxinyong && (this.quota > + this.pquota)) {
         this.$alertMessage('充值额度不能超过父级!', '温馨提示');
       } else if(this.functionIdList.length == 0) {
@@ -474,7 +474,11 @@ export default {
           console.log('dataobj',dataobj);
 
           let that = this;
-          loading.close();
+          const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
             await that.$post(`${window.url}/admin/auser/addUser`,dataobj).then((res) => {
               that.$handelResponse(res, (result) => {
           loading.close();
