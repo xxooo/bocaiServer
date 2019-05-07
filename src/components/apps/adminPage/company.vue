@@ -255,7 +255,7 @@
                 <td class="tl">
                     {{auser.viewquota}}<input type="text" v-model="auser.quota" placeholder="请输入金额">
                 </td>
-                <td class="tl"></td>
+                <td class="tl">单次充值不能超过1千万</td>
             </tr>
             </tbody>
 
@@ -675,6 +675,11 @@ export default {
                     return;
                 }
 
+                if (+this.auser.quota > 10000000) {
+                    that.$alertMessage("单次充值不能超过1千万");
+                    return;
+                }
+
                 if (that.auser.password == '') {
                       that.$alertMessage('密码不能为空!', '温馨提示');
                         return;
@@ -763,7 +768,7 @@ export default {
                 this.auser.isFrozen = this.auser.isFrozen*1;
                 this.auser.isReplenishment = this.auser.isReplenishment*1;
                 this.auser.tingyaShouya = this.auser.tingyaShouya*1;
-
+                this.auser.aUserOccupied.cChangeAllotOccupied = this.auser.aUserOccupied.cChangeAllotOccupied*1;
 
                 let url = this.auser.id == "" ? "admin/auser/addCompany" : "admin/auser/editCompany";
 
