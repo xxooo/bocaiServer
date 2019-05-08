@@ -409,9 +409,9 @@ export default {
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
       } else if(+this.czhancheng > +this.fzhancheng) {
-        this.$alertMessage('当前占成不能超过上级占成!', '温馨提示');
+        this.$alertMessage('当前占成不能超过上级占成:'+this.fzhancheng+'%', '温馨提示');
       } else if(this.ifxinyong && (this.quota > + this.pquota)) {
-        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+        this.$alertMessage('充值额度不能超过父级:'+this.pquota, '温馨提示');
       } else if(this.functionIdList.length == 0) {
         this.$alertMessage('盘口设置必须选择!', '温馨提示');
       } else {
@@ -473,22 +473,22 @@ export default {
           let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ this.username + "&id=");
 
                   if(res.code===200){
-                    that.sureAddUser(dataobj);
+                    this.sureAddUser(dataobj);
                   } else {
-                    that.$alertMessage('用户名存在!', '温馨提示');
+                    this.$alertMessage('用户名存在!', '温馨提示');
                   }
 
           
       }
     },
-    async sureAddUser(data) {
+    async sureAddUser(dataobj) {
       let that = this;
       const loading = this.$loading({
         lock: true,
         text: 'Loading',
         background: 'rgba(0, 0, 0, 0.7)'
       });
-      await that.$post(`${window.url}/admin/auser/addUser`,data).then((res) => {
+      await that.$post(`${window.url}/admin/auser/addUser`,dataobj).then((res) => {
         that.$handelResponse(res, (result) => {
           loading.close();
           if(result.code===200){

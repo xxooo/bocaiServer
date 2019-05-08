@@ -441,9 +441,9 @@ export default {
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
       } else if((+this.pzhancheng+this.mzhancheng) > +this.yzhancheng) {
-        this.$alertMessage('总占成不能超过上级占成!', '温馨提示');
+        this.$alertMessage('总占成不能超过上级占成:'+this.yzhancheng+'%', '温馨提示');
       } else if(this.ifxinyong && (this.quota > + this.pquota)) {
-        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+        this.$alertMessage('充值额度不能超过父级:'+this.pquota, '温馨提示');
       } else if(this.functionIdList.length == 0) {
         this.$alertMessage('盘口设置必须选择!', '温馨提示');
       } else {
@@ -501,7 +501,20 @@ export default {
 
           console.log('dataobj',dataobj);
 
-          let that = this;
+          let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ this.username + "&id=");
+
+                  if(res.code===200){
+                    this.sureAddUser(dataobj);
+                  } else {
+                    this.$alertMessage('用户名存在!', '温馨提示');
+                  }
+
+
+          
+      }
+    },
+    async sureAddUser(dataobj) {
+      let that = this;
             const loading = this.$loading({
                 lock: true,
                 text: 'Loading',
@@ -517,7 +530,7 @@ export default {
                 }
               })
             });
-      }
+      
     }
 
 

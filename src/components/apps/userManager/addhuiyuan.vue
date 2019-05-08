@@ -511,7 +511,9 @@ export default {
       } else {
         this.id = '';
 
-        let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
+        let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+this.username+`&id=`+this.id);
+
+        //let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
 
         if(+res.code===500){
           this.$alertMessage(res.msg, '温馨提示');
@@ -545,7 +547,7 @@ export default {
       } else if(this.password != this.repassword) {
         this.$alertMessage('两次密码输入不一致!', '温馨提示');
       } else if(this.quotaInfo.quotaAmount > fujizhi) {
-        this.$alertMessage('充值额度不能超过父级!', '温馨提示');
+        this.$alertMessage('充值额度不能超过父级:'+fujizhi, '温馨提示');
       } else if(this.pid == '') {
         this.$alertMessage('上级不能为空!', '温馨提示');
       } else if(this.handicap == '') {
@@ -582,7 +584,20 @@ export default {
 
           console.log('dataobj',dataobj);
 
-          let that = this;
+          let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ dataobj.username + "&id=");
+
+                  if(res.code===200){
+                    this.sureAddUser(dataobj);
+                  } else {
+                    this.$alertMessage('用户名存在!', '温馨提示');
+                  }
+
+
+          
+      }
+    },
+    async sureAddUser(dataobj) {
+      let that = this;
             const loading = this.$loading({
                 lock: true,
                 text: 'Loading',
@@ -598,7 +613,7 @@ export default {
                 }
               })
             });
-      }
+      
     }
 
 
