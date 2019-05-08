@@ -30,7 +30,7 @@ export default {
             if (res.data.code == 200) {
                 //this.$success(res.data.msg);
             } else {
-                console.log('判断是否失效',res.data.msg);
+                //console.log('判断是否失效',res.data.msg);
                 this.$error(res.data.msg);
                 if(res.data.msg == 'token失效，请重新登录') {
                     this.$router.push({name:"login"});

@@ -469,23 +469,36 @@ export default {
 
           console.log('dataobj',dataobj);
 
-          let that = this;
-            const loading = this.$loading({
-                lock: true,
-                text: 'Loading',
-                background: 'rgba(0, 0, 0, 0.7)'
-              });
-            await that.$post(`${window.url}/admin/auser/addUser`,dataobj).then((res) => {
-              that.$handelResponse(res, (result) => {
-          loading.close();
-                if(result.code===200){
-                  that.$success('提交成功!');
-                  that.$router.push({name:'gudong'});
-                  that.qingkong();
-                }
-              })
-            });
+
+          let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ this.username + "&id=");
+
+                  if(res.code===200){
+                    that.sureAddUser(dataobj);
+                  } else {
+                    that.$alertMessage('用户名存在!', '温馨提示');
+                  }
+
+          
       }
+    },
+    async sureAddUser(data) {
+      let that = this;
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
+      await that.$post(`${window.url}/admin/auser/addUser`,data).then((res) => {
+        that.$handelResponse(res, (result) => {
+          loading.close();
+          if(result.code===200){
+            that.$success('提交成功!');
+            that.$router.push({name:'gudong'});
+            that.qingkong();
+          }
+        })
+      });
+      
     }
 
   }

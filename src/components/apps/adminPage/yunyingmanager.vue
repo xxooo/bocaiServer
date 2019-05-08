@@ -99,8 +99,8 @@
             <tr>
                 <th>账号状态</th>
                 <td class="tl">
-                    <label> <input type="radio" name="status" value="1" v-model="auser.status" id="status1"> 启用</label> 　
-                    <label> <input type="radio" name="status" value="0" v-model="auser.status" checked id="status2"> 停用</label> 
+                    <label> <input type="radio" name="status" value="1" v-model="auser.status" checked id="status1"> 启用</label> 　
+                    <label> <input type="radio" name="status" value="0" v-model="auser.status" id="status2"> 停用</label> 
                 </td>
                 <td class="tl">是否选择启用/停用账号</td>
             </tr>
@@ -163,7 +163,7 @@ export default {
             tingyaShouya: 0,
             isReplenishment: 0,
             isFrozen: 0,
-            status: 0,
+            status: 1,
             occupied: 0,
             handicapA: 1,
             handicapB: 1,
@@ -218,7 +218,7 @@ export default {
             this.auser.tingyaShouya= 0;
             this.auser.isReplenishment= 0;
             this.auser.isFrozen= 0;
-            this.auser.status= 0;
+            this.auser.status= 1;
             this.auser.occupied= 0;
             this.auser.handicapA= 1;
             this.auser.handicapB= 1;
@@ -337,7 +337,6 @@ export default {
                         return;
                     }
 
-                //帐户名已存在这个接口，有问题
 
                 let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ this.auser.username + "&id=");
 
