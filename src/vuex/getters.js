@@ -10,7 +10,7 @@ const getters = {
   getbocaiMenu: state => state.bocaiMenu,
   getupUserInfo: state => state.upUserInfo,
   getbaobiaoQinfo: state => state.baobiaoQinfo,
-  getbetcUserid: state => state.betcUserid
+  getbetcUser: state => state.betcUser
 }
 
 export default getters

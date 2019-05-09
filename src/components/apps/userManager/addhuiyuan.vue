@@ -511,7 +511,7 @@ export default {
       } else {
         this.id = '';
 
-        let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+this.username+`&id=`+this.id);
+        let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
 
         //let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+this.username+`&id=`+this.id);
 
@@ -584,7 +584,7 @@ export default {
 
           console.log('dataobj',dataobj);
 
-          let res = await this.$get(`${window.url}/admin/auser/checkUsername?username=`+ dataobj.username + "&id=");
+          let res = await this.$get(`${window.url}/admin/cuser/checkUsername?username=`+ dataobj.username + "&id=");
 
                   if(res.code===200){
                     this.sureAddUser(dataobj);

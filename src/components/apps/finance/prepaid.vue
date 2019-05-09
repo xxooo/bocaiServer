@@ -92,6 +92,35 @@
                         </el-upload>
                     </td>
                 </tr>
+
+                <tr v-for="(item,index) in weixinList">
+                    <td width="20%" class="tar">
+                        微信二维码 1
+                        <br> <span class="red">上传多个二维码时随机显示一个</span> 
+                        <div class="gray">
+                            尺寸: 120 x 120
+                            <br>
+                            大小: 200K
+                        </div>
+                    </td> 
+                    <td>
+                        <div class="imgdiv">
+                            <img  :class="index" :src="item" org="" alt="" width="148" height="148" onerror="">
+                        </div>
+                        <el-upload
+                            class="upload-demo"
+                            :action="uploadUrl"
+                            :headers="customHeader"
+                            :before-upload="beforeUpload"
+                            :on-success="handleAvatarSuccess"
+                            :show-file-list="false">
+                            <el-button class="tabBtn btn btn-blue" size="small" type="primary" @click="shangchuan(item,index)">{{'上传'}}</el-button>
+                            <!-- <span>{{imgname}}</span> -->
+                            <span :class="'img'+index"></span>
+                        </el-upload>
+                    </td>
+                </tr>
+
                 <!-- <tr>
                     <td width="20%" class="tar">
                         支付宝二维码 1
@@ -255,6 +284,12 @@ export default {
                  for(let n in this.zhifubaoList) {
                     if('img'+ n == this.templtStr) {
                         this.zhifubaoList[n] = res.imgUrl;
+                    }
+                 }
+
+                 for(let n in this.weixinList) {
+                    if('img'+ n == this.templtStr) {
+                        this.weixinList[n] = res.imgUrl;
                     }
                  }
 

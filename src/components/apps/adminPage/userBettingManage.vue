@@ -4,7 +4,9 @@
     <div class="nav">
       <div class="curweizhi">当前位置：</div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item>投注管理</el-breadcrumb-item>
+        <el-breadcrumb-item>在线管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ name: 'mainUserOnline' }">会员在线</el-breadcrumb-item>
+        <el-breadcrumb-item>会员投注</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="nav">
@@ -27,7 +29,8 @@
           type="date"
           placeholder="选择日期">
         </el-date-picker>
-        <el-input v-model="q.username" placeholder="请输入会员帐号" size="mini" style="width: 15%;"></el-input>
+        会员：{{betcUser.username}}
+        <!-- <el-input v-model="q.username" placeholder="请输入会员帐号" size="mini" style="width: 15%;"></el-input> -->
 
         <button class="btn btn-blue" @click="query()">查询</button>
       </div>
@@ -222,10 +225,12 @@ export default {
     ...mapGetters({
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
-      bocaiMenu: 'getbocaiMenu'
+      bocaiMenu: 'getbocaiMenu',
+      betcUser: 'getbetcUser'
     })
   },
   created() {
+      this.query();
   },
   mounted(){
     // bus.$on('getBetcUserid', (data) => {
@@ -393,8 +398,8 @@ export default {
                 url = url + "&username=" + this.q.username
             }
 
-            if (null != this.cUserId && '' != this.cUserId) {
-                url = url + "&cUserId=" + this.cUserId
+            if (null != this.betcUser.id && '' != this.betcUser.id) {
+                url = url + "&cUserId=" + this.betcUser.id
             }
 
 

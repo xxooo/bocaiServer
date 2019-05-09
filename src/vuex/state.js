@@ -11,7 +11,7 @@ const state = {
   bocaiMenu: [],
   upUserInfo: {},
   baobiaoQinfo: {},
-  betcUserid: ''
+  betcUser: {}
 }
 
 export default state

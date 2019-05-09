@@ -72,13 +72,14 @@
                 <td>{{$timestampToTime(rechargeAudit.createDate)}}</td>
                 <td v-if="rechargeAudit.status == 0">
                     <button class="btn" @click="audit(rechargeAudit.id,1,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" type="button">通过</button>
-                    <button class="btn" data-toggle="modal" @click="translateAudit(rechargeAudit.id,2,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" data-target="#modifyAudit" type="button">拒绝</button>
+                    <button class="btn" @click="translateAudit(rechargeAudit.id,2,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" data-target="#modifyAudit" type="button">拒绝</button>
                 </td>
                 <td v-else-if="rechargeAudit.status == 1">
                     已通过
                 </td>
                 <td v-else>
-                    已拒绝({{rechargeAudit.refuseReason}})
+                    <!-- 已拒绝({{rechargeAudit.refuseReason}}) -->
+                    已拒绝
                 </td>
             </tr>
 
@@ -103,7 +104,7 @@
             <textarea placeholder="请输入拒绝原因"  rows="3" v-model="rechargeAudit.refuseReason" style="width: 90%;"></textarea>
         </div>
         <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+            <button class="btn" aria-hidden="true">取消</button>
             <button class="btn btn-primary" @click="audit('','','','','','')">保存</button>
         </div>
     </el-dialog>
@@ -192,12 +193,19 @@ export default {
 
             this.$c_msgconfirm("审核操作将立即生效且不可恢复,是否确定继续审核？",async () => {
 
+                const loading = this.$loading({
+                lock: true,
+                text: 'Loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
+
                 await that.$post(`${window.url}/admin/finance/rechargeAudit`,this.rechargeAudit).then((res) => {
                     that.$handelResponse(res, (result) => {
+                        loading.close();
                         if (result.code == 200) {
                                 that.$success('操作成功');
-                                $('#modifyAudit').modal('hide')
                                 that.reload();
+                                that.dialogvisible = false;
                             } else {
                               that.$error(result.msg);
                             }
@@ -214,8 +222,9 @@ export default {
             this.rechargeAudit.money = money;
             this.rechargeAudit.remark = remark;
             this.rechargeAudit.userId = userId;
-        },
 
+            this.dialogvisible = true;
+        },
 
     handleCurrentChange(cpage) {
       this.page.currentPage = cpage;

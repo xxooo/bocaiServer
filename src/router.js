@@ -529,6 +529,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/mainUserMessage')), 'mainUserMessage'), meta: { requiresAuth: true }
         },
+        { path: '/adminPage/userBettingManage', name: 'userBettingManage',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/userBettingManage')), 'userBettingManage'), meta: { requiresAuth: true }
+        },
       ]
     }
   ]
