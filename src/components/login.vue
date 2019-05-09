@@ -131,10 +131,10 @@ export default {
                 // username: 'dxuhuiiyuan1',
                 // password: 'a111111'
 
-                username: '4m30d',
-                password: 'a123'
-                // username: '4m30dgs2',
+                // username: '4m30d',
                 // password: 'a123'
+                username: '4m30dgs2',
+                password: 'a123'
 
 
                 // username: '4m30gd1',

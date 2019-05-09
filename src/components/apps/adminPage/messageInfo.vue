@@ -38,6 +38,7 @@
         <div class="nav">
           <div class="btn-ground">
             会员消息查询　　 
+            <button class="btn btn-blue" @click="getmessageList()">刷新</button>
           </div>
         </div>
         <table>

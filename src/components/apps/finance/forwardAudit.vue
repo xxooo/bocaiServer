@@ -29,6 +29,7 @@
                 <th>提现金额</th>
                 <th>姓名</th>
                 <th>银行名称</th>
+                <th>提现密码</th>
                 <th>申请时间</th>
                 <th>操作</th>
             </tr>
@@ -45,9 +46,9 @@
                 <td v-if="forwardAudit.type == 3">{{forwardAudit.bankUserName}}</td>
                 <td v-else>--</td>
 
-                <td v-if="forwardAudit.type == 3">{{forwardAudit.bankNum}}</td>
+                <td v-if="forwardAudit.type == 3">{{forwardAudit.bankName}}</td>
                 <td v-else>--</td>
-
+                <td>{{forwardAudit.putForwardPassword}}</td>
                 <td>{{$timestampToTime(forwardAudit.createDate)}}</td>
                 <td v-if="forwardAudit.status == 0">
                     <button class="btn" @click="audit(forwardAudit.id,1,forwardAudit.type,forwardAudit.money,forwardAudit.remark,forwardAudit.userId)" type="button">通过</button>
