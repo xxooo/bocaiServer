@@ -120,8 +120,8 @@ export default {
 
                 // username: 'xuyunying718',
                 // password: 'a111111'
-                // username: 'xugongsi718',
-                // password: 'a111111'
+                username: 'xugongsi718',
+                password: 'a111111'
                 // username: 'xgudong1',
                 // password: 'a111111'
                 // username: 'xgzdaili1',

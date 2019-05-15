@@ -85,25 +85,30 @@
         <template v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
           <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
           <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
-          <el-menu-item index="11" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
-          <el-menu-item index="12" @click="$router.push({name:'kaipansetting'})">开盘设置</el-menu-item>
-          <el-menu-item index="13" @click="$router.push({name:'kaijiangsetting'})">开奖设置</el-menu-item>
-          <el-menu-item index="14" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
-          <el-menu-item index="15" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
 
-
-          <el-submenu index="16">
-            <template slot="title">帐号管理</template>
-            <el-menu-item index="16-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
-            <el-menu-item index="16-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
-            <el-menu-item index="16-3" @click="$router.push({name:'yunyingmanager'})" v-if="[1,7].findIndex((n) => n==ruleId)>-1">运营管理</el-menu-item>
+          <el-submenu index="11">
+            <template slot="title">游戏设置</template>
+            <el-menu-item index="11-1" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
+            <el-menu-item index="11-2" @click="$router.push({name:'kaipansetting'})">开盘设置</el-menu-item>
+            <el-menu-item index="11-3" @click="$router.push({name:'kaijiangsetting'})">开奖设置</el-menu-item>
+            <el-menu-item index="11-4" @click="$router.push({name:'kaijiangsetting'})">赔率设置</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="17">
+          <el-menu-item index="12" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
+          <el-menu-item index="13" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
+
+          <el-submenu index="14">
+            <template slot="title">帐号管理</template>
+            <el-menu-item index="14-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
+            <el-menu-item index="14-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
+            <el-menu-item index="14-3" @click="$router.push({name:'yunyingmanager'})" v-if="[1,7].findIndex((n) => n==ruleId)>-1">运营管理</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="15">
             <template slot="title">在线管理</template>
-            <el-menu-item index="17-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
-            <el-menu-item index="17-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
-            <el-menu-item index="17-2" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
+            <el-menu-item index="15-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
+            <el-menu-item index="15-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
+            <el-menu-item index="15-2" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
           </el-submenu>
 
         </template>
