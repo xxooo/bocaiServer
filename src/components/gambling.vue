@@ -91,24 +91,28 @@
             <el-menu-item index="11-1" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>
             <el-menu-item index="11-2" @click="$router.push({name:'kaipansetting'})">开盘设置</el-menu-item>
             <el-menu-item index="11-3" @click="$router.push({name:'kaijiangsetting'})">开奖设置</el-menu-item>
-            <el-menu-item index="11-4" @click="$router.push({name:'kaijiangsetting'})">赔率设置</el-menu-item>
           </el-submenu>
 
-          <el-menu-item index="12" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
-          <el-menu-item index="13" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
-
-          <el-submenu index="14">
-            <template slot="title">帐号管理</template>
-            <el-menu-item index="14-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
-            <el-menu-item index="14-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
-            <el-menu-item index="14-3" @click="$router.push({name:'yunyingmanager'})" v-if="[1,7].findIndex((n) => n==ruleId)>-1">运营管理</el-menu-item>
+          <el-submenu index="12">
+            <template slot="title">赔率设置</template>
+            <el-menu-item v-for="(item,index) in bocaiMenu" :index="'2-'+index" @click="gotoOddSetting(item)" :key="index">{{item.name}}</el-menu-item>
           </el-submenu>
+
+          <el-menu-item index="13" @click="$router.push({name:'orderClean'})">数据清理</el-menu-item>
+          <el-menu-item index="14" @click="$router.push({name:'setip'})">绑定IP</el-menu-item>
 
           <el-submenu index="15">
+            <template slot="title">帐号管理</template>
+            <el-menu-item index="15-1" @click="$router.push({name:'childUserManage'})">子帐号管理</el-menu-item>
+            <el-menu-item index="15-2" @click="$router.push({name:'company'})">公司管理</el-menu-item>
+            <el-menu-item index="15-3" @click="$router.push({name:'yunyingmanager'})" v-if="[1,7].findIndex((n) => n==ruleId)>-1">运营管理</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="16">
             <template slot="title">在线管理</template>
-            <el-menu-item index="15-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
-            <el-menu-item index="15-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
-            <el-menu-item index="15-2" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
+            <el-menu-item index="16-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
+            <el-menu-item index="16-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
+            <el-menu-item index="16-3" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
           </el-submenu>
 
         </template>
@@ -172,7 +176,8 @@ export default {
             "updateDate": null
         }],
       roleName: '',
-      ruleId22: ''
+      ruleId22: '',
+
     }
   },
   async created() {
@@ -214,6 +219,49 @@ export default {
     })
   },
   methods: {
+    gotoOddSetting(item) {
+      let path = '';
+      switch (item.name) {
+          case '重庆时时彩':
+            path = 'chongqinduboBase';
+            break;
+          case '幸运飞艇':
+            path = 'luckyairshipBase';
+            break;
+          case '北京PK拾':
+            path = 'beijingpk10Base';
+            break;
+          case '山东11选5':
+            path = 'shandong11xuan5Base';
+            break;
+          case '广东11选5':
+            path = 'guangdong11xuan5Base';
+            break;
+          case '江西11选5':
+            path = 'jiangxi11xuan5Base';
+            break;
+          case 'PC蛋蛋':
+            path = 'pcdandanBase';
+            break;
+          case '江苏快3':
+            path = 'jiangsukuaisanBase';
+            break;
+          case '北京快乐8':
+            path = 'beijingkuaile8Base';
+            break;
+          case '极速赛车':
+            path = 'jisusaicheBase';
+            break;
+          case '极速时时彩':
+            path = 'jisuduboBase';
+            break;
+      }
+
+      if(path != '') {
+        this.$router.push({name: path});
+      }
+      
+    },
     gotokaipan(item) {
       console.log('item',item);
       let path = '';
@@ -262,6 +310,7 @@ export default {
         this.bocaiMenu = res.list;
 
         store.commit('updatebocaiMenu', res.list);
+
       }
     },
     async getUserInfo() {

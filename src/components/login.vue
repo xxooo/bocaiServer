@@ -104,8 +104,8 @@ export default {
                 // username: 'gsceshi1',  ydwgongsi1
                 // username: 'gsceshi1',
                 // password: 'a111111'
-                // username: 'admin',
-                // password: '123456'
+                username: 'admin',
+                password: '123456'
                 // username: 'testyunying2',
                 // password: 'a111111'
                 // username: 'gschaaa',
@@ -120,8 +120,8 @@ export default {
 
                 // username: 'xuyunying718',
                 // password: 'a111111'
-                username: 'xugongsi718',
-                password: 'a111111'
+                // username: 'xugongsi718',
+                // password: 'a111111'
                 // username: 'xgudong1',
                 // password: 'a111111'
                 // username: 'xgzdaili1',

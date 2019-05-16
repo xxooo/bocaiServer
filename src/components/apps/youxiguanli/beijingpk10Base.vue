@@ -1,6 +1,6 @@
 <template>
   <div id="youxishezhi" class="content-main duboBodyClass">
-    <div class="nav">
+    <div class="nav" v-if="isAdminOdd">
       <span>游戏类型:
         <el-select v-model="curBocaiTypeId" @change="gotobocaiSet" placeholder="请选择" size="mini">
           <el-option
@@ -18,6 +18,10 @@
           <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvfudongset'})">赔率浮动设置</button>
         </div>
       </span>
+    </div>
+
+    <div class="nav" v-else>
+      <span>游戏类型: {{curactiveIndex}}</span>
     </div>
 
     <div>
@@ -316,7 +320,10 @@ export default {
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
       bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    isAdminOdd() {
+      return this.ruleId == '1' ?  false : true;
+    }
   },
   created() {
 

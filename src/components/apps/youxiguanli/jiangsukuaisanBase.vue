@@ -1,6 +1,6 @@
 <template>
   <div id="youxishezhi" class="content-main duboBodyClass shaizibocai">
-    <div class="nav">
+    <div class="nav" v-if="isAdminOdd">
       <span>游戏类型:
         <el-select v-model="curBocaiTypeId" @change="gotobocaiSet" placeholder="请选择" size="mini">
           <el-option
@@ -20,6 +20,10 @@
       </span>
     </div>
 
+    <div class="nav" v-else>
+      <span>游戏类型: {{curactiveIndex}}</span>
+    </div>
+    
     <div>
           <div id="submenu">
             <el-menu
@@ -449,7 +453,10 @@ export default {
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
       bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    isAdminOdd() {
+      return this.ruleId == '1' ?  false : true;
+    }
   },
   created() {
 

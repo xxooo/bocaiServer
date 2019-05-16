@@ -535,6 +535,15 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/adminPage/userBettingManage')), 'userBettingManage'), meta: { requiresAuth: true }
         },
+
+
+        // { path: '/gambling/youxiguanli/chongqinduboOdds', name: 'chongqinduboOdds',
+        //   meta: {
+        //       requireAuth: true,
+        //   },
+        //   component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/chongqinduboBase')), 'chongqinduboOdds'), meta: { requiresAuth: true }
+        // },
+
       ]
     }
   ]
