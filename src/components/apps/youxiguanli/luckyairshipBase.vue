@@ -436,7 +436,7 @@ export default {
               });
           await that.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+this.bocaiCategory.id+`&isBase=`+this.isBase+`&bocaiTypeId=`+this.curBocaiTypeId).then((res) => {
             that.$handelResponse(res, (result) => {
-          loading.close();
+              loading.close();
               that.showOdds = this.bocaiCategory.name;
               that.bocaiCategory = this.bocaiCategory;
               if(result.code===200){
@@ -478,6 +478,11 @@ export default {
     },
     
     shuaiXuanDatas(dataList) {
+
+      console.log('shuaiXuanDatas',dataList);
+
+      console.log('this.showOdds',this.showOdds);
+      
       if(this.showOdds == '两面盘') {
         let qianhousanTemp = [];
         for(let m in dataList) {

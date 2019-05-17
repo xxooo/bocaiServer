@@ -694,6 +694,11 @@ export default {
 
 
     shuaiXuanDatas(dataList) {
+
+      // console.log('shuaiXuanDatas',dataList);
+
+      // console.log('this.showOdds',this.showOdds);
+
       if(this.showOdds == '两面盘') {
         let qianhousanTemp = [];
         for(let m in dataList) {
