@@ -112,7 +112,7 @@
 
             </template>
 
-            <template v-if="showOdds == '1~10名'">
+            <template v-if="showOdds == '1~10'">
               <div>
                 <div class="qiu15_body yidaoshiming">
                   <div class="nball" v-for="(item_yishi,index_yishi) in oddsList">

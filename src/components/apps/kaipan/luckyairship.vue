@@ -126,7 +126,7 @@
 
             </template>
 
-            <template v-if="showOdds == '1~10名'">
+            <template v-if="showOdds == '1~10'">
               <div>
                 <div class="qiu15_body yidaoshiming">
                   <div class="nball" v-for="(item_yishi,index_yishi) in oddsList">
@@ -665,14 +665,17 @@ export default {
               });
           await that.$get(`${window.url}/admin/bocai/odds?bocaiCategoryId=`+item.id+`&isBase=`+this.isBase+`&bocaiTypeId=`+this.curBocaiTypeId).then((res) => {
             that.$handelResponse(res, (result) => {
-          loading.close();
+              loading.close();
               that.showOdds = item.name;
               that.bocaiCategory = item;
               if(result.code===200){
 
-                this.oddsList = res.oddsList;
+                that.oddsList = res.oddsList;
 
-                this.shuaiXuanDatas(res.oddsList);
+
+                console.log('showOdds',this.showOdds);
+
+                that.shuaiXuanDatas(res.oddsList);
                 
 
                 that.qingkong();
