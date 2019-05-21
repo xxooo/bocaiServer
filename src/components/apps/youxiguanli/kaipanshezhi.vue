@@ -40,12 +40,19 @@
               <td>{{item.periods}}</td> 
               <td>{{$timestampToTime(item.opentime)}}</td> 
               <td>{{$timestampToTime(item.openPrizetime)}}</td> 
-              <td class="green">{{item.status==0?'已删除':item.status==1?'封盘中':item.status==2?'开盘中':'过期'}}</td> 
+              <td class="green" v-if="item.status == 2 && index == 0">正在开盘</td> 
+              <td class="red" v-else-if="item.status == 1">已封盘</td>
+              <td class="red" v-else-if="item.status == 0">已删除</td>
+              <td class="red" v-else>等待开盘</td>
+
+              <!-- <td class="green">{{item.status==0?'已删除':item.status==1?'封盘中':item.status==2?'开盘中':'过期'}}</td>  -->
               <td>
-                <a v-if="item.status==2" class="tabBtn btnRed" @click="fengpan(item)">封盘</a>
-                <a v-if="item.status==1" class="tabBtn btnRed" @click="fengpan(item)">开盘</a>
-                <a v-if="item.status!=0" class="tabBtn btnRed" @click="fengpan(item)">删除</a>
+                <a v-if="item.status==2 && index == 0" class="tabBtn btnRed" @click="fengpan(item.id,1)">封盘</a>
+                <a v-if="index != 0 && item.status != 1 && item.status != 0" class="tabBtn btnRed" @click="fengpan(item.id,2)">开盘</a>
+                <a v-if="item.status == 2 && index != 0" class="tabBtn btnRed" @click="fengpan(item.id,0)">删除</a>
+                <a v-else-if="item.status == 0" class="tabBtn btnRed" @click="fengpan(item.id,4)">恢复</a>
               </td>
+
             </tr>
           </tbody>
         </table>
@@ -68,7 +75,12 @@ export default {
     return {
       bocaiId: 1,
       kaipanList: [],
-      isBase: ''
+      isBase: '',
+      bocaiUserPeriodsRelation:{
+        isBase:1,
+        bocaiTypeId:"",
+        status: ''
+      }
     }
   },
   computed: {
@@ -86,30 +98,71 @@ export default {
   mounted(){
   },
   methods: {
-    async fengpan(item) {
+    async fengpan(id,status) {
 
       let that = this;
 
       let obj = {
         isBase: this.isBase,
-        status: item.status,
-        id: item.id
+        status: status,
+        id: id
       }
+
+      let msg = "";
+            if(status == 1){
+                msg = "该游戏正在进行下注，是否立即封盘";
+            }else if(status == 0){
+                msg = "是否确认删除";
+            }else if(status == 4){
+                msg = "是否确认恢复";
+                status = 2;
+            }else {
+                msg = "是否确认开盘";
+            }
+
+
+
+            this.$c_msgconfirm("是否确认删除,删除后无法还原",async () => {
+
+            await that.$get(`${window.url}/admin/auser/deleteChild?userId=`+id).then((res) => {
+                that.$handelResponse(res, (result) => {
+                    if (result.code == 200) {
+                            that.$success('删除成功');
+                            that.reload();
+                        }
+                })
+              });
+            });
+
 
       const loading = this.$loading({
                 lock: true,
                 text: 'Loading',
                 background: 'rgba(0, 0, 0, 0.7)'
               });
-          await that.$post(`${window.url}/admin/gameManage/handicapSet`,obj).then((res) => {
-            that.$handelResponse(res, (result) => {
-          loading.close();
-              if(result.code===200){
-                that.$success(result.msg);
-                that.childUser();
-              }
-            })
-      });
+
+      this.$c_msgconfirm(msg,async () => {
+
+            await that.$post(`${window.url}/admin/gameManage/handicapSet`,obj).then((res) => {
+                that.$handelResponse(res, (result) => {
+                  loading.close();
+                    if (result.code == 200) {
+                            that.$success(result.msg);
+                            that.childUser();
+                        }
+                })
+              });
+            });
+
+      //     await that.$post(`${window.url}/admin/gameManage/handicapSet`,obj).then((res) => {
+      //       that.$handelResponse(res, (result) => {
+      //     loading.close();
+      //         if(result.code===200){
+      //           that.$success(result.msg);
+      //           that.childUser();
+      //         }
+      //       })
+      // });
     },
     async childUser() {
       let res = await this.$get(`${window.url}/admin/gameManage/handicap?bocaiTypeId=`+this.bocaiId);

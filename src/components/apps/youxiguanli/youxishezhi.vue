@@ -13,7 +13,7 @@
 
         <div class="btn-ground">
           <button class="tabBtn btn btn-blue mgr10 router-link-active" @click="$router.push({name:'youxishezhi'})">基本设置</button> 
-          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'chongqinduboBase'})">赔率设置</button> 
+          <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:no1path})">赔率设置</button> 
           <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvchaset'})">赔率差设置</button> 
           <button class="tabBtn btn btn-blue mgr10" @click="$router.push({name:'peilvfudongset'})">赔率浮动设置</button>
         </div>
@@ -106,7 +106,51 @@ export default {
       ruleId:'getruleId',
       userInfo: 'getuserInfo',
       bocaiMenu: 'getbocaiMenu'
-    })
+    }),
+    no1path() {
+      let no1bocaiId = this.bocaiMenu[0].id;
+
+      let path = '';
+
+      switch (no1bocaiId) {
+          case 1:
+            path = 'chongqinduboBase';
+            break;
+          case 8555:
+            path = 'luckyairshipBase';
+            break;
+          case 8806:
+            path = 'beijingpk10Base';
+            break;
+          case 8811:
+            path = 'shandong11xuan5Base';
+            break;
+          case 8374:
+            path = 'guangdong11xuan5Base';
+            break;
+          case 8813:
+            path = 'jiangxi11xuan5Base';
+            break;
+          case 8223:
+            path = 'pcdandanBase';
+            break;
+          case 8498:
+            path = 'jiangsukuaisanBase';
+            break;
+          case 8266:
+            path = 'beijingkuaile8Base';
+            break;
+          case 9057:
+            path = 'jisusaicheBase';
+            break;
+          case 8815:
+            path = 'jisuduboBase';
+            break;
+      }
+
+      return path;
+
+    }
   },
   created() {
 
@@ -129,7 +173,6 @@ export default {
         this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
       }
     },
-
     async saveoddInfo() {
 
       console.log('baseBocaiInfo',this.baseBocaiInfo);
