@@ -65,9 +65,9 @@
                     <td class="tl"><input v-model="qq" type="text"></td>
                 </tr> 
 
-                <tr v-for="(item,index) in zhifubaoList">
+                <tr v-for="(item,index,num) in zhifubaoList">
                     <td width="20%" class="tar">
-                        支付宝二维码 1
+                        支付宝二维码 {{+num+1}}
                         <br> <span class="red">上传多个二维码时随机显示一个</span> 
                         <div class="gray">
                             尺寸: 120 x 120
@@ -93,9 +93,9 @@
                     </td>
                 </tr>
 
-                <tr v-for="(item,index) in weixinList">
+                <tr v-for="(item,index,num) in weixinList">
                     <td width="20%" class="tar">
-                        微信二维码 1
+                        微信二维码 {{+num+1}}
                         <br> <span class="red">上传多个二维码时随机显示一个</span> 
                         <div class="gray">
                             尺寸: 120 x 120
@@ -259,9 +259,6 @@ export default {
 
     this.token = cookieParser.getCookie("accesstoken");
 
-    console.log('token',this.token);
-
-    console.log('userInfo',this.userInfo);
   },
   mounted(){
   },

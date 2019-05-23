@@ -21,7 +21,7 @@ export default {
 
 
         Vue.prototype.$success = function(msg){
-            notify.call(this, '成功1', (msg || '操作成功!') ,'success');
+            notify.call(this, '成功', (msg || '操作成功!') ,'success');
         };
 
         Vue.prototype.$warning = function(msg){
