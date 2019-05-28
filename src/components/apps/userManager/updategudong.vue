@@ -117,7 +117,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">已有额度:</td> 
-            <td class="tl"><input v-model="auser.viewquota" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="auser.viewquota" type="text" placeholder="" disabled="true"></td> 
             <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
@@ -373,6 +373,10 @@ export default {
         this.$alertMessage('密码只能是字母加数字!', '温馨提示');
       } else if(!numMatch.test(this.auser.quota)) {
         this.$alertMessage('密码只能是字母加数字!', '温馨提示');
+      } else if(this.ifxinyong && ((+this.auser.viewquota + this.auser.quota*1) > + this.auser.pquota)) {
+        this.$alertMessage('充值额度不能超过父级:'+this.auser.pquota, '温馨提示');
+      } else if(this.functionIdList.length == 0) {
+        this.$alertMessage('盘口设置必须选择!', '温馨提示');
       } else {
 
         this.auser.quota = +this.auser.quota;

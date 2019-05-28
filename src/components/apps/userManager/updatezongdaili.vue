@@ -19,19 +19,19 @@
             </tr>
           </thead> 
           <tr>
-            <td width="20%" class="tar">公司名称:</td> 
+            <td width="20%" class="tar">股东名称:</td> 
             <td class="tl"><p><span>{{auser.pusername}}</span></p></td> 
             <td class="tl" width="20%"></td>
           </tr> 
           <tr>
-            <td class="tar">股东帐号:</td> 
+            <td class="tar">总代理帐号:</td> 
             <td class="tl">
               <p>{{auser.username}}</p>
             </td> 
             <td class="tl"></td>
           </tr> 
           <tr>
-            <td class="tar">股东名称:</td> 
+            <td class="tar">总代理名称:</td> 
             <td class="tl"><input v-model="auser.nickname" type="text" placeholder="请输入名称"></td> 
             <td class="tl"> 请输入名称。</td>
           </tr>
@@ -117,7 +117,7 @@
           </tr>
           <tr>
             <td class="tar" width="20%">已有额度:</td> 
-            <td class="tl"><input v-model="auser.viewquota" type="text" placeholder=""></td> 
+            <td class="tl"><input v-model="auser.viewquota" type="text" placeholder="" disabled="true"></td> 
             <td class="tl" width="20%"> 设定信用额度</td>
           </tr>
           <tr>
@@ -141,13 +141,29 @@
           <tr>
             <td width="20%" class="tar">股东占成:</td> 
             <td class="tl">
+              <el-select v-model="auser.aUserOccupied.pChangeAllotOccupied" placeholder="请选择" size="mini" @change="getCzhangcheng">
+                <el-option v-for="(item,index) in onlyzhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
+              </el-select>
+            </td> 
+            <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
+          </tr>
+          <tr>
+            <td width="20%" class="tar">总代理占成:</td> 
+            <td class="tl">
               <el-select v-model="auser.aUserOccupied.cChangeAllotOccupied" placeholder="请选择" size="mini" @change="getCzhangcheng">
                 <el-option v-for="(item,index) in onlyzhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
               </el-select>
-
             </td> 
             <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
           </tr> 
+          <tr>
+            <td class="tar">占成回收:</td> 
+            <td class="tl">
+              <label><input v-model="auser.occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
+              <label><input v-model="auser.occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
+            </td> 
+            <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
+          </tr>
         </table> 
 
         <table>
@@ -173,7 +189,7 @@
         </table> 
           <p class="tac" style="margin-top: 8px;">
             <button class="tabBtn btn btn-blue mgr10" @click="updatesubUser()">确定</button> 
-            <button class="tabBtn btn btn-red" @click="$router.push({name:'gudong'})">取消</button>
+            <button class="tabBtn btn btn-red" @click="$router.push({name:'zongdaili'})">取消</button>
           </p>
       </div>
     </div>
@@ -218,17 +234,18 @@ export default {
             isFrozen: 0,
             status: 0,
             occupied: 0,
-            ruleId: 4,
+            ruleId: 5,
             quota: 0,
             viewquota: 0,
             quotaInfo: {//充值/提现明细
                 quotaType: 1,
                 quotaAccount: 1,
                 quotaAmount: "",
-                quotaRemark: ""
+                quotaRemark: "",
             },
             aUserOccupied: {//占成
                 cChangeAllotOccupied: 0,
+                pChangeAllotOccupied: 0,
             },
         },
       companyUser: {},
@@ -301,11 +318,11 @@ export default {
     async getCzhangcheng(data) {
       console.log('zhangc',data);
 
-      if(+data > +this.pzhancheng) {
-        this.$alertMessage('不可超过上级占成:'+this.pzhancheng, '温馨提示');
-      } else {
-        this.auser.aUserOccupied.pChangeAllotOccupied = +this.pzhancheng - (+data);
-      }
+      // if(+data > +this.pzhancheng) {
+      //   this.$alertMessage('不可超过上级占成:'+this.pzhancheng, '温馨提示');
+      // } else {
+      //   this.auser.aUserOccupied.pChangeAllotOccupied = +this.pzhancheng - (+data);
+      // }
 
     },
     async getupdategudong() {
@@ -373,6 +390,12 @@ export default {
         this.$alertMessage('密码只能是字母加数字!', '温馨提示');
       } else if(!numMatch.test(this.auser.quota)) {
         this.$alertMessage('密码只能是字母加数字!', '温馨提示');
+      } else if((+this.auser.aUserOccupied.pChangeAllotOccupied+this.auser.aUserOccupied.cChangeAllotOccupied*1) > +this.pzhancheng) {
+        this.$alertMessage('总占成不能超过上级占成:'+this.pzhancheng+'%', '温馨提示');
+      } else if(this.ifxinyong && ((+this.auser.viewquota + this.auser.quota*1) > + this.auser.pquota)) {
+        this.$alertMessage('充值额度不能超过父级:'+this.auser.pquota, '温馨提示');
+      } else if(this.functionIdList.length == 0) {
+        this.$alertMessage('盘口设置必须选择!', '温馨提示');
       } else {
 
         this.auser.quota = +this.auser.quota;
@@ -409,7 +432,7 @@ export default {
               loading.close();
               if(result.code===200){
                 that.$success('提交成功!');
-                that.$router.push({name:'gudong'});
+                that.$router.push({name:'zongdaili'});
                 that.qingkong();
               }
             })
