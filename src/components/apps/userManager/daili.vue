@@ -74,8 +74,8 @@
                 <span>
                   <a class="tabBtn btnPurple" @click="updateuser(item)">修改资料</a> 
                   <a class="tabBtn btnPurple" @click="tuishuiset(item)">退水设定</a>
-                  <a class="tabBtn btnPurple" @click="">查看密码</a>
-                  <a class="tabBtn btnPurple" @click="">信用记录</a>
+                  <!-- <a class="tabBtn btnPurple" @click="">查看密码</a>
+                  <a class="tabBtn btnPurple" @click="">信用记录</a> -->
                 </span>
               </td>
             </tr>
