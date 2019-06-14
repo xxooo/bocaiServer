@@ -2,7 +2,7 @@
   "name": "bocaiServer",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "xuyao <tim.xu@jwis.cn>",
+  "author": "tianwang <444389322@qq.cn>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.dev.conf.js",
