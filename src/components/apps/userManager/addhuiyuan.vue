@@ -18,9 +18,9 @@
               <th colspan="3">基本资料设定</th>
             </tr>
           </thead> 
-          <tr>
+          <tr v-if="!isshangji">
             <td width="20%" class="tar">会员类型:</td> 
-            <td class="tl" v-if="!isshangji">
+            <td class="tl" >
             <!-- 这里判断直属会员还有问题 -->
               <label v-if="!isshangji"><input v-model="userType" type="radio" :value="1" @click="getSessionAUser()"> 普通会员 </label> 
               <label v-if="!isshangji"><input v-model="userType" type="radio" :value="2" @click="zhishugongsi()"> 直属会员 </label>
