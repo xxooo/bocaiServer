@@ -1,8 +1,8 @@
 conf = {
   logo: '',
   errorPage: 'nomenu',
-  webName: 'BocaiServer',
-  title: 'BocaiServer',
+  webName: 'BeiHaiServer',
+  title: 'BeiHaiServer',
   version: "v1.0.0",
   pwReg: /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/ //密码正则表达式最少6位，包括至少1个大写字母，1个小写字母，1个数字
 }

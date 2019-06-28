@@ -365,6 +365,7 @@ export default {
           this.zhishugudongList.push(res.auser);
           this.fujiUserInfo = res.auser;
           this.pid = res.auser.id;
+          this.pquota = res.auser.quota;
 
           if(this.fujiUserInfo.aUserOccupied) {
             this.yzhancheng = this.fujiUserInfo.aUserOccupied.cChangeAllotOccupied;
