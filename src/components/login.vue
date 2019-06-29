@@ -5,8 +5,8 @@
 
     <div class="section dis_txt_high" name="scroll-section-0">
         <div class="login-main" id="login-content">
-          <div class="fenghuang">凤凰后台管理系统</div>
-          <!-- <div class="fenghuang">北海后台管理系统</div> -->
+          <!-- <div class="fenghuang">凤凰后台管理系统</div> -->
+          <div class="fenghuang">北海后台管理系统</div>
             <div id="login_form" name="section-content" class="dis_txt_high login-form animated animate-bounceInDown">
                 <div class="login-form-bg rel">
                     <div class="input-area dis_txt_high">
@@ -121,8 +121,8 @@ export default {
 
                 // username: 'xuyunying718',
                 // password: 'a111111'
-                username: 'xugongsi718',
-                password: 'a111111'
+                // username: 'xugongsi718',
+                // password: 'a111111'
                 // username: 'xgudong1',
                 // password: 'a111111'
                 // username: 'xgzdaili1',
@@ -157,6 +157,9 @@ export default {
 
                 // username: 'testupdate1',
                 // password: 'a111111'
+
+                username: 'beihaigsxy1',
+                password: 'a123'
 
               };
 

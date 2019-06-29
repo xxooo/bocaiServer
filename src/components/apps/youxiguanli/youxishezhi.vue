@@ -69,12 +69,29 @@
           <tr>                      
             <td width="0%" class="tar">开关游戏:</td> 
             <td class="textleft">
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="true"> 开启 </label> 
-              <label><input v-model="baseBocaiInfo.isOpen" type="radio" value="false"> 关闭</label>
+              <label><input v-model="baseBocaiInfo.isOpen" type="radio" :value="1"> 开启 </label> 
+              <label><input v-model="baseBocaiInfo.isOpen" type="radio" :value="0"> 关闭</label>
             </td> 
             <td width="20%"><i class="icon-exclamation-sign"></i> 请选择开启或关闭
             </td>
           </tr>
+
+          <tr v-if="[9057,8815].findIndex((n) => n == bocaiId)>-1">                      
+            <td width="0%" class="tar">智能开奖:</td> 
+            <td class="textleft">
+              <el-select v-model="baseBocaiInfo.openAwardModel" placeholder="请选择" size="mini">
+                <el-option
+                  v-for="item in openAwardModelList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
+              </el-select>
+            </td> 
+            <td width="20%"><i class="icon-exclamation-sign"></i> 请设置智能开奖
+            </td>
+          </tr>
+
         </table> 
         <div class="inner">
           <button class="btn-submit" @click="saveoddInfo()">保存</button> 
@@ -98,7 +115,18 @@ export default {
     return {
       bocaiId: 1,
       baseBocaiInfo: {},
-      routerName: this.$route.name
+      routerName: this.$route.name,
+      openAwardModel: 1,
+      openAwardModelList: [
+        {id:1,name:'开官方'},
+        {id:2,name:'庄家赢最多'},
+        {id:3,name:'庄家赢最少'},
+        {id:4,name:'庄家赢随机'},
+        {id:5,name:'庄家输最多'},
+        {id:6,name:'庄家输最少'},
+        {id:7,name:'随机开'}
+      ]
+
     }
   },
   computed: {
@@ -156,10 +184,21 @@ export default {
 
     this.baseSet();
 
+    //this.getopenAwardModel();
+
   },
   mounted(){
   },
   methods: {
+    // async getopenAwardModel() {   
+    //   let res = await this.$get(`${window.url}/admin/gameManage/getBocaiBaseSet?bocaiTypeId=`+this.bocaiId+`&userId=`+this.userInfo.id);
+
+    //   if(res.code===200){
+
+    //     this.baseBocaiInfo = res.data;
+    //     this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+    //   }
+    // },
     async baseSet() {
       if(this.routerName != 'youxishezhi') {
         this.$router.push({name:"youxishezhi"});
@@ -170,7 +209,7 @@ export default {
       if(res.code===200){
 
         this.baseBocaiInfo = res.data;
-        this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
+        //this.baseBocaiInfo.isOpen = this.baseBocaiInfo.isOpen == 1 ? true : false;
       }
     },
     async saveoddInfo() {
@@ -187,8 +226,9 @@ export default {
         highestPayout: this.baseBocaiInfo.highestPayout,
         opentime: this.baseBocaiInfo.opentime,
         closetime: this.baseBocaiInfo.closetime,
-        isOpen: this.baseBocaiInfo.isOpen ? 1 : 0,
-        advanceTime: this.baseBocaiInfo.advanceTime
+        isOpen: this.baseBocaiInfo.isOpen,
+        advanceTime: this.baseBocaiInfo.advanceTime,
+        openAwardModel: this.baseBocaiInfo.openAwardModel
       }
 
       const loading = this.$loading({
@@ -196,7 +236,7 @@ export default {
                 text: 'Loading',
                 background: 'rgba(0, 0, 0, 0.7)'
               });
-          await that.$post(`${window.url}/admin/gameManage/bocaiBaseSet`,obj).then((res) => {
+          await that.$post(`${window.url}/admin/gameManage/bocaiBaseSet`,obj).then((res) => {  
             that.$handelResponse(res, (result) => {
           loading.close();
               if(result.code===200){
