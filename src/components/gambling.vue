@@ -184,24 +184,6 @@ export default {
 
     let token = cookieParser.getCookie("accesstoken");
 
-    console.log('ruleId',this.ruleId);
-    console.log('token',token);
-    
-    // else if(this.ruleId == '') {
-    //   this.$router.push({name:"login"});
-    // }
-
-    
-
-    // this.ruleId22 = cookieParser.getCookie("ruleId");
-
-
-    // console.log('token',token);
-
-    // console.log('ruleId22',this.ruleId22);
-
-    // console.log('ruleId',this.ruleId);
-
     if (this.token == '') {
       this.$router.push({name:"login"});
     } else if(this.ruleId == '') {
