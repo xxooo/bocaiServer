@@ -158,8 +158,11 @@ export default {
                 // username: 'testupdate1',
                 // password: 'a111111'
 
-                username: 'beihaigsxy1',
-                password: 'a123'
+                // username: 'beihaigsxy1',
+                // password: 'a123'
+
+                username: 'admin',
+                password: '123456'
 
               };
 

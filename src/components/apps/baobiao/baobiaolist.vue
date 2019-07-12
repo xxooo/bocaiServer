@@ -246,13 +246,13 @@ export default {
       page: {
             totalPage: 1,
             currentPage: 1,
-            pageSize: 10,
+            pageSize: 50,
             totalCount: 0
         },
         page2: {
             totalPage: 1,
             currentPage: 1,
-            pageSize: 10,
+            pageSize: 50,
             totalCount: 0
         },
 

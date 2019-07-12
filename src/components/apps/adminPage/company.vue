@@ -211,7 +211,12 @@
                 </td>
                 <td class="tl" v-else> -->
 
-                <td class="tl">
+                <td class="tl" v-if="ruleId == 1">
+                    <label v-for="functions in functionList">
+                        <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
+                    </label> 
+                </td>
+                <td class="tl" v-else>
                     <label v-for="functions in fujiFunctionList">
                         <input type="checkbox" :value="functions.id" v-model="auser.functionIdList">{{functions.authorityName}}
                     </label> 
