@@ -164,6 +164,9 @@ export default {
                 username: 'admin',
                 password: '123456'
 
+                // username: 'aa88',
+                // password: 'aaa888'
+
               };
 
               let ret = await this.$post(`${window.url}/admin/login`, obj);

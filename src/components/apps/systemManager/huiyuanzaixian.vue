@@ -47,6 +47,14 @@
                 <span>
                   <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
                 </span>
+                <span>
+                  <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
+                </span>
+                <span>
+                  <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
+                </span>
+                
+                <!-- bettingAuthority -->
               </td>
             </tr>
 

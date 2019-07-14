@@ -6,7 +6,6 @@
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>在线管理</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ name: 'mainUserOnline' }">会员在线</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ name: 'mainUserMessage' }">会员消息</el-breadcrumb-item>
         <el-breadcrumb-item>会员消息</el-breadcrumb-item>
       </el-breadcrumb>
     </div>

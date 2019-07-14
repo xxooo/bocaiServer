@@ -56,7 +56,7 @@
           </thead> 
           <tbody>
             <tr v-for="(item,index) in gonggaoInfo.list">
-              <td>{{item.createId}}</td>
+              <td>{{item.id}}</td>
               <td>{{$timestampToTime(item.updateDate)}}</td>
               <td>{{item.createName}}</td>
               <td>{{item.content}}</td>

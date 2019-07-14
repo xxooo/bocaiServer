@@ -112,7 +112,7 @@
             <template slot="title">在线管理</template>
             <el-menu-item index="16-1" @click="$router.push({name:'mainUserOnline'})">会员在线</el-menu-item>
             <el-menu-item index="16-2" @click="$router.push({name:'mainDailiOnline'})">代理在线</el-menu-item>
-            <el-menu-item index="16-3" @click="$router.push({name:'mainUserMessage'})">会员消息</el-menu-item>
+            <el-menu-item index="16-3" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
           </el-submenu>
 
         </template>
