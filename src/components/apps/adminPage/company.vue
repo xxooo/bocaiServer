@@ -55,7 +55,7 @@
             <tr v-for="auser in auserList">
                 <td v-if="auser.isOnline==0">不在线</td><td v-else>在线</td>
                 <td>
-                    <input @click="viewSystem(auser.id,auser.userClass)" type="button" class="btn" :value="'查看'">　
+                    <input @click="viewSystem(auser.id,auser.userClass,auser.ruleId)" type="button" class="btn" :value="'查看'">　
                 </td>
                 <td>{{auser.username}}</td>
                 <td>{{auser.nickname}}</td>
@@ -847,8 +847,8 @@ export default {
                 that.$error('data.msg');
             }
         },
-        async viewSystem(id, userClass) {//查看体系
-            let data = await this.$get(`${window.url}/admin/auser/systemList?id=` + id + "&userClass=" + userClass);
+        async viewSystem(id, userClass,ruleId) {//查看体系
+            let data = await this.$get(`${window.url}/admin/auser/systemList?id=` + id + "&userClass=" + userClass+`&ruleId=`+ruleId);
             if(+data.code===200) {
 
               this.systemList = data.list;

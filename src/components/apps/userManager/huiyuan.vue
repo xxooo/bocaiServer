@@ -211,7 +211,7 @@ export default {
             })
     },
     async getUserzhangc(item) {
-      let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass);
+      let res = await this.$get(`${window.url}/admin/auser/systemList?id=`+item.id+`&userClass=`+item.userClass+`&ruleId=`+item.ruleId);
 
       if(res.code===200){
 

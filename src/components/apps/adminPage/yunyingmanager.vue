@@ -413,19 +413,6 @@ export default {
                 that.$error('data.msg');
             }
         },
-        async viewSystem(id, userClass) {//查看体系
-            let data = await this.$get(`${window.url}/admin/auser/systemList?id=` + id + "&userClass=" + userClass);
-            if(+data.code===200) {
-
-              this.systemList = data.list;
-
-              this.dialogvisibletixi = true;
-
-            } else {
-                that.$error('data.msg');
-            }
-
-        },
         quotaSave() {//重新修改信用额度显示
             this.auser.viewquota = Number(this.auser.viewquota) + Number(this.auser.quota);
 
