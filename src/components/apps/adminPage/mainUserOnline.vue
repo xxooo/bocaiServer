@@ -47,10 +47,10 @@
                 <span>
                   <a class="tabBtn btnPurple red" @click="downline(item)">踢线</a> 
                 </span>
-                <span>
+                <span v-if="messageAuthority == 1">
                   <a class="tabBtn btnPurple green" @click="messageInfo(item.id)">消息</a> 
                 </span>
-                <span>
+                <span v-if="bettingAuthority == 1">
                   <a class="tabBtn btnPurple green" @click="gotoOrder(item)">投注</a> 
                 </span>
               </td>
@@ -90,7 +90,9 @@ export default {
       currentPage: 1,
       huiyuanAccout: '',
       startDate: '3',
-      content: ''
+      content: '',
+      messageAuthority: 0,//单对单信息权限
+      bettingAuthority: 0,//投注权限
     }
   },
   computed: {
@@ -99,10 +101,30 @@ export default {
   },
   created() {
     this.childUser();
+    this.huiyuanOnlineList();
   },
   mounted(){
   },
   methods: {
+    async huiyuanOnlineList() {
+      let that = this;
+      
+      let res = await this.$get(`${window.url}/admin/menu/userMenu`);
+
+        if(res.code===200){
+          res.auser.functionIdList.forEach(function (ele, index) {
+              if (res.auser.functionIdList[index] == 3) {//单对单信息
+                  that.messageAuthority = 1;
+              }
+
+              if (res.auser.functionIdList[index] == 4) {//投注功能
+                  that.bettingAuthority = 1;
+              }
+
+            });
+
+        }
+    },
     gotoOrder(item) {
       this.$router.push({
         name: 'userBettingManage'

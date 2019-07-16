@@ -355,7 +355,7 @@ const router = new Router({
           meta: {
               requireAuth: true,
           },
-          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/huiyuanzaixian')), 'huiyuanzaixian'), meta: { requiresAuth: true }
+          component: r => require.ensure([], () => r(require('@/components/apps/adminPage/mainUserOnline')), 'huiyuanzaixian'), meta: { requiresAuth: true }
         },
         { path: '/gambling/systemManager/webSet', name: 'webSet',
           meta: {

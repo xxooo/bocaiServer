@@ -8,8 +8,8 @@
       </el-breadcrumb>
     </div>
     <div class="nav">
-        <el-select v-model="q.ruleId" placeholder="请选择" size="mini">
-              <el-option key="0" label="请选择级别" value="0"></el-option>
+        <el-select v-model="q.ruleId" placeholder="请选择" size="mini" @change="query">
+              <el-option key="0" label="全部" value=""></el-option>
               <el-option key="2" label="运营" value="2"></el-option>
               <el-option key="3" label="公司" value="3"></el-option>
               <el-option key="4" label="股东" value="4"></el-option>
@@ -18,7 +18,7 @@
         </el-select>
 
       </span>
-      <button class="btn btn-blue" @click="query()">查询</button>
+      <!-- <button class="btn btn-blue" @click="query()">查询</button> -->
     </div>
 
     <div class="portlet portlet-add">
@@ -190,7 +190,7 @@ export default {
     })
   },
   created() {
-    //this.dailiOnline();
+    this.dailiOnline();
   },
   mounted(){
   },
