@@ -230,9 +230,17 @@
             </tr>
             <tr>
                 <th>额度类型</th>
-                <td class="tl">
+                <td class="tl" v-if="auser.id!=''">
                     <div class="btn-group">
-                        <select v-model="auser.creditType">
+                        <select v-model="auser.creditType" disabled="disabled">
+                            <option value="1">第二天还原额度</option>
+                            <option value="0">正常交易</option>
+                        </select>
+                    </div>
+                </td>
+                <td class="tl" v-else>
+                    <div class="btn-group">
+                        <select v-model="auser.creditType" >
                             <option value="1">第二天还原额度</option>
                             <option value="0">正常交易</option>
                         </select>

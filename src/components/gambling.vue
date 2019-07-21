@@ -29,7 +29,7 @@
             <el-menu-item index="4-2" @click="$router.push({name:'replenishBet'})">补货注单</el-menu-item>
             <el-menu-item index="4-3" @click="$router.push({name:'betquery'})">注单查询</el-menu-item>
           </el-submenu>
-          <el-submenu index="5">
+          <el-submenu index="5" v-if="userInfo.cashCredit == 0">
             <template slot="title">财务管理</template>
             <el-menu-item index="5-1" @click="$router.push({name:'prepaid'})">充值方式</el-menu-item>
             <el-menu-item index="5-2" @click="$router.push({name:'rechargeAudit'})">充值审核</el-menu-item>

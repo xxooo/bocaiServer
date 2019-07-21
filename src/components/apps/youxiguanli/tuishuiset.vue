@@ -52,7 +52,7 @@
           </tbody>
         </table> 
 
-        <div class="func" v-if="isEdit">
+        <div class="func">
           <div class="tabs">
             <fieldset>
               <legend>勾选</legend> 
@@ -160,17 +160,17 @@ export default {
       upUserInfo: 'getupUserInfo',
       bocaiMenu: 'getbocaiMenu'
     }),
-    isEdit() {
-      let bo = true;
+    // isEdit() {
+    //   let bo = true;
 
-      if(this.ruleId == 3) {
-        bo = true;
-      } else {
-        bo = false;
-      }
+    //   if(this.ruleId == 3) {
+    //     bo = true;
+    //   } else {
+    //     bo = false;
+    //   }
 
-      return bo;
-    }
+    //   return bo;
+    // }
   },
   created() {
 

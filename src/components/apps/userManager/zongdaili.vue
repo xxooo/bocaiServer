@@ -11,17 +11,19 @@
     <div class="nav">
       <div class="btn-ground">
         筛选 :
-        <el-select v-model="shuaixuanNum" placeholder="请选择" size="mini" style="width: 15%;">
+        <el-select v-model="shuaixuanNum" placeholder="请选择" size="mini" style="width:120px;">
           <el-option value="1" key="1" label="启用"></el-option> 
           <el-option value="0" key="0" label="停用"></el-option> 
           <el-option :value="''" key="null" label="全部"></el-option> 
         </el-select>
-        股东 :
-        <el-select v-model="gudonguclass" @change="changegudong" placeholder="请选择" size="mini" style="width: 15%;">
-          <el-option v-for="(item,index) in gudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
-        </el-select>
+        <template v-if="[3].findIndex((n) => n==ruleId)>-1">
+          股东 :
+          <el-select v-model="gudonguclass" @change="changegudong" placeholder="请选择" size="mini" style="width:120px;">
+            <el-option v-for="(item,index) in gudongList" :value="item.id" :key="item.id" :label="item.username"></el-option> 
+          </el-select>
+        </template>
         总代理帐号 :
-        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width: 15%;"></el-input>
+        <el-input v-model="gudongAccout" placeholder="请输入内容" size="mini" style="width:120px;"></el-input>
         <button class="btn btn-blue" @click="childUser()">查询</button>
         <button class="btn btn-blue" @click="addgudong()">新增</button>
       </div>
@@ -37,7 +39,7 @@
               <th>体系</th> 
               <th>总代理帐号</th> 
               <th>名称</th> 
-              <th>信用额度</th> 
+              <th>余额</th> 
               <th>代理数</th> 
               <th>会员数</th> 
               <th>新增日期</th> 
