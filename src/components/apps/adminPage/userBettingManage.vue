@@ -75,7 +75,7 @@
                 <td v-else>{{betting.bocaiCategory2Name}}&nbsp;#&nbsp;{{betting.bocaiOddName}}&nbsp;@&nbsp;{{betting.bocaiOdds}}</td>
                 <td>{{betting.betsMoney}}</td>
                 <td class="text-error" v-if="betting.winnerStatus == 0">未中奖&nbsp;|&nbsp;-{{betting.betsMoney}}</td>
-                <td class="text-error" v-else>中奖&nbsp;{{betting.winnerMoney}}</td>
+                <td class="text-error" v-else>中奖&nbsp;{{(+betting.winnerMoney*1-betting.betsMoney*1).toFixed(0)}}</td>
                 <td v-if="betting.status == 0">未结算</td>
                 <td v-else>已结算</td>
                 <td v-if="betting.bindingIp != ''">{{betting.bindingIp}}</td>

@@ -154,7 +154,7 @@
                 <el-option v-for="(item,index) in zhanchengList" :value="item.value" :key="item.value" :label="item.label"></el-option> 
               </el-select>
             </td> 
-            <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
+            <td class="tl" width="20%">请选择占成，不可超过上级占成<p class="red">(此项修改明天早上7:00才生效)</p></td>
           </tr> 
           <tr>
             <td class="tar">占成回收:</td> 
@@ -162,7 +162,7 @@
               <label><input v-model="occupiedRecovery" type="radio" value="0"> 多余占成返回公司 </label> 
               <label><input v-model="occupiedRecovery" type="radio" value="1"> 多余占成返回直接上级 </label> 
             </td> 
-            <td class="tl" width="20%"> 请选择现金占成回收方式 </td>
+            <td class="tl" width="20%"> 请选择现金占成回收方式<p class="red">(此项修改明天早上7:00才生效)</p> </td>
           </tr>
         </table>
 

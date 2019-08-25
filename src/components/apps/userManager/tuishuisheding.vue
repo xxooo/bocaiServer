@@ -93,9 +93,9 @@
             </fieldset> 
             <fieldset>
               <legend>下层上修</legend> 
-              <label><input type="radio" v-model="xiashangxiu" value="1">保持不变</label> 
-              <label><input type="radio" v-model="xiashangxiu" value="2">等量修改</label> 
-              <label><input type="radio" v-model="xiashangxiu" value="3">套用本层</label>
+              <label><input type="radio" v-model="xiashangxiu" value="1" @click="shangxiaChange(1)">保持不变</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="2" @click="shangxiaChange(2)">等量修改</label> 
+              <label><input type="radio" v-model="xiashangxiu" value="3" @click="shangxiaChange(3)">套用本层</label>
 
             </fieldset> 
             <div>
@@ -138,7 +138,7 @@ export default {
       pDeWaterList: [],
       deWaterList: [],
       selectList: [],
-      xiashangxiu: 1,
+      xiashangxiu: 0,
 
       panOptions1: taoOptions,
       checkedPan1: [],
@@ -204,6 +204,16 @@ export default {
   mounted(){
   },
   methods: {
+    shangxiaChange(num) {
+      console.log(num);
+      if(num ==1) {
+        this.$alertMessage('如果设定值比下层低，则下层该设定值将一起改变，是否继续？');
+      } else if(num ==2) {
+        this.$alertMessage('下层将按照设定的差值等量修改（即设定值加1，下层对应的该设定值也加1），是否继续？');
+      } else if(num ==3) {
+        this.$alertMessage('下层将直接套用本层设定，是否继续？');
+      }
+    },
     async baocun() {
       let that = this;
 

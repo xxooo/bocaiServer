@@ -214,7 +214,7 @@
               </el-select>
 
             </td> 
-            <td class="tl" width="20%">请选择占成，不可超过上级占成</td>
+            <td class="tl" width="20%">请选择占成，不可超过上级占成<p class="red">(此项修改明天早上7:00才生效)</p></td>
           </tr> 
         </table> 
         <table>
