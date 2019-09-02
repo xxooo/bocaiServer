@@ -248,7 +248,6 @@ export default {
           list: arr
         }
 
-
         const loading = this.$loading({
                 lock: true,
                 text: 'Loading',
@@ -256,7 +255,7 @@ export default {
               });
             await that.$post(`${window.url}/admin/bocai/dewaterSub`,objdata).then((res) => {
               that.$handelResponse(res, (result) => {
-          loading.close();
+              loading.close();
                 if(result.code===200){
 
                   that.childUser();
