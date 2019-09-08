@@ -85,7 +85,8 @@
           </thead> 
           <tr v-for="aUserReport in aUserPage">
                 <td>{{aUserReport.userName}}</td>
-                <td v-if="ruleId == 6"><a style="cursor:pointer;color: #f56c6c;" v-on:click="cUserOrderList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
+                <td v-if="ruleId == 6"><a style="cursor:pointer;color: #f56c6c;" v-on:click="getreportCensus(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
+                <!-- <td v-if="ruleId == 6"><a style="cursor:pointer;color: #f56c6c;" v-on:click="cUserOrderList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td> -->
                 <td v-else><a style="cursor:pointer;color: #03A9F4;" v-on:click="reportList(aUserReport.userId,aUserReport.userName)">{{aUserReport.betMoney}}</a></td>
                 <td>{{aUserReport.effectiveMoney}}</td>
                 <td>{{aUserReport.orderNo}}</td>
@@ -179,6 +180,44 @@
                   </el-pagination>
         </div>
       </div>
+
+      <!-- <div class="tab" v-if="ruleId == 6">
+        <table>
+          <caption style="text-align: left;"></caption> 
+          <thead>
+           <tr>
+                <th>注单号/投注日期</th>
+                <th>游戏类型</th>
+                <th>用户名称</th>
+                <th>内容</th>
+                <th>下注金额</th>
+                <th>可赢金额</th>
+                <th>退水</th>
+                <th>退水金额</th>
+                <th>会员结果</th>
+                <th>结果</th>
+                <th>应交上级</th>
+                <th>下注IP</th>
+            </tr>
+          </thead> 
+          <tr v-for="cUserOrderReport in cUserOrderReportList">
+                <td>{{cUserOrderReport.orderNum}}&nbsp;/&nbsp;{{$timestampToTime(cUserOrderReport.orderCreateDate)}}</td>
+                <td>{{cUserOrderReport.bocaiTypeName}}&nbsp;({{cUserOrderReport.handicap}}盘)&nbsp;{{cUserOrderReport.periods}}</td>
+                <td>{{cUserOrderReport.userName}}&nbsp;普通会员</td>
+                <td>{{cUserOrderReport.bocaiCategory2Name}}&nbsp;{{cUserOrderReport.bocaiOddName}}&nbsp;@&nbsp;{{cUserOrderReport.bocaiOdds}}&nbsp;{{cUserOrderReport.bocaiValue}}</td>
+                <td>{{cUserOrderReport.betsMoney}}</td>
+                <td>{{cUserOrderReport.cuserWinnerMoney}}</td>
+                <td>{{cUserOrderReport.dewater | hundredPercentage}}</td>
+                <td>{{cUserOrderReport.dewaterMoney}}</td>
+                <td>{{cUserOrderReport.cuserResult}}</td>
+                <td>{{(cUserOrderReport.moneyResult)| price}}</td>
+                <td>{{(0 - cUserOrderReport.moneyResult)| price}}</td>
+                <td v-if="cUserOrderReport.bindingIp != ''">{{cUserOrderReport.bindingIp}}</td>
+                <td v-else>{{cUserOrderReport.loginIp}}</td>
+            </tr>
+        </table>
+      </div> -->
+
 
       <div class="tab" v-if="!showList">
         <table>
@@ -326,6 +365,69 @@ export default {
         }
     },
   methods: {
+    async getreportCensus(userId,name) {
+      let url = 'admin/report/reportCensus?';
+
+
+      if (null != this.baobiaoQinfo && null != this.baobiaoQinfo.reportType && '' != this.baobiaoQinfo.reportType) {
+        url = url + "&reportType=" + this.baobiaoQinfo.reportType
+      }
+      if (null != this.baobiaoQinfo && null != this.baobiaoQinfo.cuserOrderStatus && '' != this.baobiaoQinfo.cuserOrderStatus) {
+          url = url + "&cuserOrderStatus=" + this.baobiaoQinfo.cuserOrderStatus
+      }
+
+      console.log('this.baobiaoQinfo.timesvalue',this.baobiaoQinfo.timesvalue);
+
+      var startTime = '';
+      if(this.baobiaoQinfo.timesvalue && this.baobiaoQinfo.timesvalue.length != 0) {
+        startTime = this.baobiaoQinfo.timesvalue[0];
+      }
+      if (null != startTime && '' != startTime) {
+          url = url + "&startTime=" + startTime
+      }
+
+      var endTime = '';
+      if(this.baobiaoQinfo.timesvalue && this.baobiaoQinfo.timesvalue.length != 0) {
+        endTime = this.baobiaoQinfo.timesvalue[1];
+      }
+      this.baobiaoQinfo.endTime = endTime;
+      if (null != endTime && '' != endTime) {
+          url = url + "&endTime=" + endTime
+      }
+      if (null != userId && '' != userId) {
+          url = url + "&userId=" + userId
+      }
+      if (null != this.baobiaoQinfo.bocaiTypeId && '' != this.baobiaoQinfo.bocaiTypeId) {
+          url = url + "&bocaiTypeId=" + this.baobiaoQinfo.bocaiTypeId
+      }
+
+      let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);
+            if(+data.code===200) {
+
+                if (null != data.aUserPage) {
+                    this.aUserPage = data.aUserPage.list;
+                }
+                if (null != data.cUserPage) {
+                    this.cUserPage = data.cUserPage.list;
+                }
+                this.baobiaoQinfo.choiseUserName = data.userName;
+                this.baobiaoQinfo.userId = data.userId;
+                this.ruleId = data.ruleId;
+                if (data.aUserPage.totalPage == 0) {
+                    this.page.totalPage = 1;
+                } else {
+                    this.page.currentPage = data.aUserPage.currPage;
+                    this.page.totalPage = data.aUserPage.totalPage;
+                    this.page.pageSize = data.aUserPage.pageSize;
+                    this.page.totalCount = data.aUserPage.totalCount;
+                }
+
+                if(this.ruleId == 3) {
+                  this.baobiaoQinfo.choiseUserName = this.userInfo.username;
+                }
+
+            }
+    },
     handleCurrentChange(cpage) {
       this.page.currentPage = cpage;
       this.getbaobiaoList(this.cuserid,this.coption);
@@ -414,7 +516,6 @@ export default {
 
       let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);
             if(+data.code===200) {
-
 
                 if (null != data.aUserPage) {
                     this.aUserPage = data.aUserPage.list;
