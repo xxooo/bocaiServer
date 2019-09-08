@@ -86,7 +86,7 @@ export default {
     if (window.ENV == 'dev') {
       //console.log('研发自动登录');
 
-      this.logindev();
+      //this.logindev();
 
     } else {
       //普通用户登录
@@ -167,6 +167,9 @@ export default {
                 // password: 'a123'
 
                 // username: 'aa88',
+                // password: 'aaa888'
+
+                // username: 'kk2a',
                 // password: 'aaa888'
 
                 username: 'aa99',
@@ -334,6 +337,7 @@ export default {
   top: 8px;
   position: absolute;
   cursor: pointer;
+  left: 120px;
 }
 /*#login_box {
     z-index: 3;

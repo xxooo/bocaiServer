@@ -14,7 +14,7 @@ module.exports = {
         '/': {
           // 测试环境  http://47.106.13.12:8014/admin/captcha.jpg
           //target: 'http://47.106.13.12:8014',  // 接口域名
-          target: 'http://192.169.1.109:8890',  // 接口域名
+          target: 'http://192.169.1.108:8080',  // 接口域名
           changeOrigin: true,  //是否跨域
           pathRewrite: {
               '^/': ''   //需要rewrite重写的,

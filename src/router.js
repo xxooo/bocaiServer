@@ -375,6 +375,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/systemManager/userActive')), 'userActive2'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/systemManager/promotion', name: 'promotion',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/systemManager/promotion')), 'promotion'), meta: { requiresAuth: true }
+        },
 
         // -----------------报表  绑定IP 
         { path: '/gambling/baobiao/baobiaoquery', name: 'baobiaoquery',
