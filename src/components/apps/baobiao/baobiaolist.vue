@@ -23,7 +23,7 @@
         class="mgr10"
         v-if="baobiaoQinfo.timesvalue.length != 0"
       >日期：{{baobiaoQinfo.timesvalue[0]}} 至 {{baobiaoQinfo.timesvalue[1]}}</span>
-      <span class="mgr10">游戏类型：{{baobiaoQinfo.bocai.name == '' ? '全部' : baobiaoQinfo.bocai.name}}</span>
+      <span class="mgr10">游戏类型：{{bocaiName}}</span>
       <!-- <span class="mgr10">
         结算方式：信用额度
       </span>-->
@@ -290,6 +290,8 @@ export default {
       aUserReportUserId: '',
       aUserReportUserName: '',
 
+      bocaiName: '全部',
+
       aUserReportList: {}, //代理LIST
       cUserReportList: {}, //直属会员LIST
       ruleId: "", //用户角色ID
@@ -439,7 +441,7 @@ export default {
     cUserOrderList(item) {
       console.log("cUserOrderList");
 
-      this.baobiaoQinfo.bocai.name = item.bocaiTypeName;
+      this.bocaiName = item.bocaiTypeName;
 
       this.baobiaoQinfo.choiseUserName = this.aUserReportUserName;
       this.baobiaoQinfo.userId = this.aUserReportUserId;
@@ -454,7 +456,7 @@ export default {
       this.showBocaiList = false;
       // this.option = 2;
       // this.getbaobiaoList();
-
+      this.bocaiName = '全部';
       this.cuserid = this.baobiaoQinfo.userId;
       this.coption = 2;
 
