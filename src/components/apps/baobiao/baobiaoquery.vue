@@ -15,7 +15,7 @@
           <th>报表类型</th> 
           <td class="tl">
             <label><input type="radio" v-model="q.reportType" name="reportType" value="1"> 总账</label> 
-            <label><input type="radio" v-model="q.reportType" name="reportType" value="2"> 分类账</label>
+            <!-- <label><input type="radio" v-model="q.reportType" name="reportType" value="2"> 分类账</label> -->
           </td>
         </tr>
         <tr v-if="!bocaiType">
@@ -33,11 +33,15 @@
               size="mini"
               v-model="q.timesvalue"
               type="daterange"
+              unlink-panels
               range-separator="至"
               value-format="yyyy-MM-dd"
               start-placeholder="开始日期"
-              end-placeholder="结束日期">
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions"
+              >
             </el-date-picker>
+
           </td>
         </tr> 
         <tr>
@@ -73,6 +77,39 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              const end = new Date();
+              picker.$emit('pick', [end, end]);
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', [start, start]);
+            }
+          },{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+
       bocaiId: 1,
       gonggaoInfo: {},
       isBase: '',
