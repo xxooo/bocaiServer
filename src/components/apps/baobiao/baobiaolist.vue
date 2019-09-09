@@ -195,7 +195,7 @@
               <th>输赢结果</th>
             </tr>
           </thead>
-          <tr v-for="item in censusList" class="po hoverTr" @click="cUserOrderList()">
+          <tr v-for="item in censusList" class="po hoverTr" @click="cUserOrderList(item)">
             <td>{{item.bocaiTypeName}}</td>
             <td>{{item.orderNum}}</td>
             <td>{{item.betsMoneySum}}</td>
@@ -436,8 +436,10 @@ export default {
       this.coption = 1;
       this.getbaobiaoList(userId, 1);
     },
-    cUserOrderList(userId, userName) {
+    cUserOrderList(item) {
       console.log("cUserOrderList");
+
+      this.baobiaoQinfo.bocai.name = item.bocaiTypeName;
 
       this.baobiaoQinfo.choiseUserName = this.aUserReportUserName;
       this.baobiaoQinfo.userId = this.aUserReportUserId;
@@ -445,7 +447,7 @@ export default {
       this.showBocaiList = false;
       this.cuserid = this.aUserReportUserId;
 
-      this.reportCUserOrder(this.aUserReportUserId);
+      this.reportCUserOrder(this.aUserReportUserId,item.bocaiTypeId);
     },
     returnPage() {
       this.showList = true;
@@ -543,7 +545,7 @@ export default {
       }
     },
 
-    async reportCUserOrder(userId) {
+    async reportCUserOrder(userId,bocaiId) {
       let url = "admin/report/reportCUserOrder?userId=" + userId;
 
       if (
@@ -571,8 +573,8 @@ export default {
       if (null != userId && "" != userId) {
         url = url + "&userId=" + userId;
       }
-      if (null != this.bocaiTypeIds && "" != this.bocaiTypeIds) {
-        url = url + "&bocaiTypeIds=" + this.bocaiTypeIds;
+      if (null != bocaiId && "" != bocaiId) {
+        url = url + "&bocaiTypeId=" + bocaiId;
       }
 
       let data = await this.$get(
