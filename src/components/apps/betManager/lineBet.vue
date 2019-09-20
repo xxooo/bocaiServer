@@ -124,6 +124,7 @@ export default {
     })
   },
   created() {
+    console.log('cre-ruleid',this.ruleId);
   },
   mounted(){
   },
