@@ -84,8 +84,14 @@
 
         <template v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
           <el-menu-item index="1" @click="$router.push({name:'home'})">首页</el-menu-item>
-          <el-menu-item index="10" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
-
+          <el-submenu index="4">
+            <template slot="title">注单管理</template>
+            <el-menu-item index="4-1" @click="$router.push({name:'bettingManage'})">投注管理</el-menu-item>
+            <el-menu-item index="4-2" @click="$router.push({name:'lineBet'})">流水注单</el-menu-item>
+            <el-menu-item index="4-3" @click="$router.push({name:'replenishBet'})">补货注单</el-menu-item>
+            <el-menu-item index="4-4" @click="$router.push({name:'betquery'})">注单查询</el-menu-item>
+          </el-submenu>
+          
           <el-submenu index="11">
             <template slot="title">游戏设置</template>
             <el-menu-item index="11-1" @click="$router.push({name:'caizhongsetting'})">彩种设置</el-menu-item>

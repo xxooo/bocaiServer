@@ -160,8 +160,8 @@ export default {
                 // username: 'beihaigsxy1',
                 // password: 'a123'
 
-                username: 'admin',
-                password: '123456'
+                // username: 'admin',
+                // password: '123456'
                 
                 // username: 'testGSXJ001',
                 // password: 'a123'
