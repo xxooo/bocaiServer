@@ -76,7 +76,7 @@
             </td>
           </tr>
 
-          <tr v-if="[9057,8815].findIndex((n) => n == bocaiId)>-1">                      
+          <!-- <tr v-if="[9057,8815].findIndex((n) => n == bocaiId)>-1">                      
             <td width="0%" class="tar">智能开奖:</td> 
             <td class="textleft">
               <el-select v-model="baseBocaiInfo.openAwardModel" placeholder="请选择" size="mini">
@@ -90,7 +90,7 @@
             </td> 
             <td width="20%"><i class="icon-exclamation-sign"></i> 请设置智能开奖
             </td>
-          </tr>
+          </tr> -->
 
         </table> 
         <div class="inner">
