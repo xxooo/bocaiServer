@@ -378,8 +378,8 @@ export default {
   },
   data () {
     return {
-      curBocaiTypeId: 8498,
-      curactiveIndex: '江苏快3',
+      curBocaiTypeId: 8810,
+      curactiveIndex: '安徽快3',
       bocaiCategoryList: [],
       oddsList: [],
       activeIndex: '',

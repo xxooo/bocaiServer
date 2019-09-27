@@ -243,6 +243,9 @@ export default {
           case '极速时时彩':
             path = 'jisuduboBase';
             break;
+          case '安徽快3':
+            path = 'anhuikuaisanBase';
+            break;
       }
 
       if(path != '') {
@@ -286,6 +289,9 @@ export default {
             break;
           case '极速时时彩':
             path = 'jisudubo';
+            break;
+          case '安徽快3':
+            path = 'anhuikuaisan';
             break;
       }
 
