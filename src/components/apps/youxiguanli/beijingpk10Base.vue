@@ -448,20 +448,6 @@ export default {
 
     },
 
-    shishiZiGet(item,index) {
-      this.qingkong();
-      $('.yiziThAct').removeClass('active');
-      $('.shishiZi'+index).addClass('active');
-      this.shishiZiDatas = item;
-
-      if(['二字','一字','三字','二定位','三定位','组选三','组选六','跨度'].findIndex((n) => n == this.showOdds)>-1) {
-        this.shishiZiDatasList = [];
-        for(var i=0;i<item.list.length;i=i+5){
-          this.shishiZiDatasList.push(item.list.slice(i,i+5));
-        }
-      }
-
-    },
     
     shuaiXuanDatas(dataList) {
       if(this.showOdds == '两面盘') {

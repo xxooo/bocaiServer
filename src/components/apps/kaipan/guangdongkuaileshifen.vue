@@ -99,6 +99,7 @@
                                   <li><span class="odds-font black" @click="getoddInfo(item.oddsId)">{{xushihuo == '1' ? item.shBetMoneySum : item.betMoneySum}}</span></li>
                                   <li><span class="odds-font red">{{xushihuo == '1' ? item.shWinnerMoneySum : item.winnerMoneySum}}</span></li>
                                 </ul>
+                                
                           </td>
                         </tr>
 
@@ -586,11 +587,6 @@ export default {
     this.getadminBocaiInfo();
   },
   mounted(){
-      bus.$on('setNewOddsList', (data) => {
-        this.normalPay = false;
-        this.oddsList = data;
-        this.shuaiXuanDatas(data);
-      });
   },
   methods: {
     handleCurrentChange(cpage) {

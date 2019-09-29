@@ -246,6 +246,9 @@ export default {
           case '安徽快3':
             path = 'anhuikuaisanBase';
             break;
+          case '广东快乐十分':
+            path = 'guangdongkuaileshifenBase';
+            break;
       }
 
       if(path != '') {
@@ -293,6 +296,10 @@ export default {
           case '安徽快3':
             path = 'anhuikuaisan';
             break;
+          case '广东快乐十分':
+            path = 'guangdongkuaileshifen';
+            break;
+
       }
 
       this.$router.push({name: path});

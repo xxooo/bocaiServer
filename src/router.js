@@ -107,6 +107,12 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/kaipan/anhuikuaisan')), 'anhuikuaisan'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/kaipan/guangdongkuaileshifen', name: 'guangdongkuaileshifen',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/kaipan/guangdongkuaileshifen')), 'guangdongkuaileshifen'), meta: { requiresAuth: true }
+        },
         
 
         // -----------------游戏管理
@@ -195,6 +201,13 @@ const router = new Router({
           },
           component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/beijingkuaile8Base')), 'beijingkuaile8Base'), meta: { requiresAuth: true }
         },
+        { path: '/gambling/youxiguanli/guangdongkuaileshifenBase', name: 'guangdongkuaileshifenBase',
+          meta: {
+              requireAuth: true,
+          },
+          component: r => require.ensure([], () => r(require('@/components/apps/youxiguanli/guangdongkuaileshifenBase')), 'guangdongkuaileshifenBase'), meta: { requiresAuth: true }
+        },
+
         { path: '/gambling/youxiguanli/jisusaicheBase', name: 'jisusaicheBase',
           meta: {
               requireAuth: true,

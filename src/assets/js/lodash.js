@@ -4,5 +4,6 @@ export default {
   remove: _.remove,
   includes: _.includes,
   slice: _.slice,
-  intersection: _.intersection
+  intersection: _.intersection,
+  chunk: _.chunk
 }

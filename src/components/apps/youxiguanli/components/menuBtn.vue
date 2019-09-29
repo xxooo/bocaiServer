@@ -93,6 +93,9 @@ export default {
         case 8810:
           path = "anhuikuaisanBase";
           break;
+        case 8809:
+            path = 'guangdongkuaileshifenBase';
+            break;
       }
 
       this.$router.push({ name: path });
