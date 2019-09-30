@@ -8,6 +8,14 @@
       </el-breadcrumb>
     </div>
     <div class="nav">
+      <div class="btn-ground" style="text-align: left;" v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
+        公司 :
+          <el-select v-model="companyId" placeholder="请选择公司" size="mini">
+            <el-option :value="''" key="null" :label="'默认'"></el-option> 
+            <el-option v-for="company in companyList" :value="company.id" :key="company.id" :label="company.username"></el-option> 
+          </el-select>
+      </div>
+
       <span>状态:
         <el-select v-model="q.status" @change="changeStatus" placeholder="请选择" size="mini">
           <el-option :key="0" :label="'未处理'" :value="0"></el-option>
@@ -34,7 +42,7 @@
                 <th>银行账号</th>
                 <th>卡主</th>
                 <th>申请时间</th>
-                <th>操作</th>
+                <th v-if="!([1,2,7,8].findIndex((n) => n==ruleId)>-1)">操作</th>
             </tr>
             <tr v-for="rechargeAudit in rechargeAuditList">
                 <td>{{rechargeAudit.username}}</td>
@@ -70,17 +78,20 @@
                 <td>{{rechargeAudit.bankNum}}</td>
                 <td>{{rechargeAudit.bankUserName}}</td>
                 <td>{{$timestampToTime(rechargeAudit.createDate)}}</td>
-                <td v-if="rechargeAudit.status == 0">
+                <template v-if="!([1,2,7,8].findIndex((n) => n==ruleId)>-1)">
+                  <td v-if="rechargeAudit.status == 0">
                     <button class="btn" @click="audit(rechargeAudit.id,1,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" type="button">通过</button>
                     <button class="btn" @click="translateAudit(rechargeAudit.id,2,rechargeAudit.type,rechargeAudit.money,rechargeAudit.remark,rechargeAudit.userId)" data-target="#modifyAudit" type="button">拒绝</button>
-                </td>
-                <td v-else-if="rechargeAudit.status == 1">
-                    已通过
-                </td>
-                <td v-else>
-                    <!-- 已拒绝({{rechargeAudit.refuseReason}}) -->
-                    已拒绝
-                </td>
+                  </td>
+                  <td v-else-if="rechargeAudit.status == 1">
+                      已通过
+                  </td>
+                  <td v-else>
+                      <!-- 已拒绝({{rechargeAudit.refuseReason}}) -->
+                      已拒绝
+                  </td>
+                </template>
+                
             </tr>
 
         </table>
@@ -142,6 +153,10 @@ export default {
             refuseReason:""//拒绝原因
         },
         rechargeAuditList:{},//注单清理列表
+
+        companyId: '',
+
+        companyList: {},//公司List
     }
   },
   computed: {
@@ -153,11 +168,21 @@ export default {
   },
   created() {
     this.getrecharge();
+
+    if([1,2,7,8].findIndex((n) => n==this.ruleId)>-1) {
+      this.bocaiSetList();
+    }
   },
   mounted(){
   },
   methods: {
+    async bocaiSetList() {
+      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiSortSet`);
 
+      if(res.code===200){
+        this.companyList = res.data.companyList;
+      }
+    },
     reload() {
             this.showList = true;
             this.getrecharge();
@@ -237,6 +262,10 @@ export default {
         let url = 'admin/finance/rechargeAuditList?status='+this.q.status;
         if (null != this.q.username && '' != this.q.username) {
             url = url + "&username=" + this.q.username
+        }
+
+        if(null != this.companyId && '' != this.companyId) {
+          url = url + "&companyid=" + this.companyId
         }
 
         let data = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);

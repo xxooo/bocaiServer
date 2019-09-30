@@ -9,6 +9,14 @@
       </el-breadcrumb>
     </div>
     <div class="nav">
+      <div class="btn-ground" style="text-align: left;" v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
+        公司 :
+          <el-select v-model="companyId" placeholder="请选择公司" size="mini">
+            <el-option :value="''" key="null" :label="'默认'"></el-option> 
+            <el-option v-for="company in companyList" :value="company.id" :key="company.id" :label="company.username"></el-option> 
+          </el-select>
+      </div>
+
       <div class="btn-ground">
         游戏类型 :
         <el-select v-model="q.bocaiTypeId" placeholder="请选择博彩类型" size="mini" style="width: 60%;">
@@ -112,6 +120,10 @@ export default {
         betsMoneyTotal: 0,
         jiangliMoneyTotal: 0,
 
+        companyId: '',
+
+        companyList: {},//公司List
+
         betsMoneyAllTotal: 0,
         jiangliMoneyAllTotal: 0,
     }
@@ -125,10 +137,21 @@ export default {
   },
   created() {
     console.log('cre-ruleid',this.ruleId);
+    if([1,2,7,8].findIndex((n) => n==this.ruleId)>-1) {
+      this.bocaiSetList();
+    }
+    
   },
   mounted(){
   },
   methods: {
+    async bocaiSetList() {
+      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiSortSet`);
+
+      if(res.code===200){
+        this.companyList = res.data.companyList;
+      }
+    },
     reload() {
       this.getorderList();
       //获取订单合计
@@ -138,8 +161,15 @@ export default {
       this.reload();
     },
     async orderTotalMoney() {
+      let that = this;
 
-      let res = await this.$get(`${window.url}/admin/order/orderTotalMoney?bocaiTypeId=`+this.q.bocaiTypeId);
+      let url ='admin/order/orderTotalMoney?bocaiTypeId=' + this.q.bocaiTypeId;
+
+      if(null != this.companyId && '' != this.companyId) {
+          url = url + "&companyid=" + this.companyId
+        }
+
+      let res = await this.$get(`${window.url}/`+ url);
       if(+res.code===200) {
 
         this.betsMoneyAllTotal = res.betsMoneyTotal;
@@ -147,7 +177,6 @@ export default {
 
       }
     },
-    //可赢这里有点问题，周末问
     calTotal(){
         var totalJLPrice = 0;
         this.orderList.forEach(function (data) {
@@ -162,7 +191,13 @@ export default {
         this.betsMoneyTotal = totalPrice.toFixed(2);;
     },
     async getorderList() {
-        let url ='admin/order/nowOrder?bocaiTypeId=' + this.q.bocaiTypeId;
+      let that = this;
+
+      let url ='admin/order/nowOrder?bocaiTypeId=' + this.q.bocaiTypeId;
+
+        if(null != this.companyId && '' != this.companyId) {
+          url = url + "&companyid=" + this.companyId
+        }
 
 
         let res = await this.$get(`${window.url}/`+ url +`&currentPage=`+this.page.currentPage+`&pageSize=`+this.page.pageSize);

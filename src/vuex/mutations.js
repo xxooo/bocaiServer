@@ -34,6 +34,9 @@ const mutations = {
   },
   updatebetcUser(state,v) {
     state.betcUser = v;
+  },
+  updatecompanyList(state,v) {
+    state.companyList = v;
   }
 }
 

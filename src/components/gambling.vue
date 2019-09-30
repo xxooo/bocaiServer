@@ -121,6 +121,12 @@
             <el-menu-item index="16-3" @click="$router.push({name:'huiyuangonggao'})">会员公告</el-menu-item>
           </el-submenu>
 
+          <el-submenu index="17">
+            <template slot="title">公司数据</template>
+            <el-menu-item index="17-1" @click="$router.push({name:'rechargeAudit'})">充值审核</el-menu-item>
+            <el-menu-item index="17-2" @click="$router.push({name:'baobiaoquery'})">报表</el-menu-item>
+          </el-submenu>
+
         </template>
         
       </el-menu>

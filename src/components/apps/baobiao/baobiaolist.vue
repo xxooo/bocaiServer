@@ -305,6 +305,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      curRuleId:'getruleId',
       userInfo: "getuserInfo",
       baobiaoQinfo: "getbaobiaoQinfo"
     })
@@ -422,7 +423,7 @@ export default {
       this.showBocaiList = false;
       this.cuserid = "";
       this.coption = 1;
-      this.getbaobiaoList("", 1);
+      this.getbaobiaoList(this.baobiaoQinfo.userId, 1);
     },
 
     reportList(userId, userName) {
@@ -505,6 +506,7 @@ export default {
         url = url + "&endTime=" + endTime;
       }
       if (null != userId && "" != userId) {
+        console.log('userId',userId);
         url = url + "&userId=" + userId;
       }
       if (
@@ -541,9 +543,16 @@ export default {
           this.page.totalCount = data.aUserPage.totalCount;
         }
 
-        if (this.ruleId == 3) {
-          this.baobiaoQinfo.choiseUserName = this.userInfo.username;
+        if([1,2,7,8].findIndex((n) => n==this.curRuleId)>-1) {
+          
+        } else {
+          if (this.ruleId == 3) {
+            this.baobiaoQinfo.choiseUserName = this.userInfo.username;
+          }
         }
+        
+        console.log('this.baobiaoQinfo',this.baobiaoQinfo);
+        console.log('this.baobiaoQinfo',this.baobiaoQinfo);
       }
     },
 

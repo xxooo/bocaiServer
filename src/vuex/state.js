@@ -11,7 +11,8 @@ const state = {
   bocaiMenu: [],
   upUserInfo: {},
   baobiaoQinfo: {},
-  betcUser: {}
+  betcUser: {},
+  companyList: []
 }
 
 export default state

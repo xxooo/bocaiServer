@@ -160,14 +160,21 @@ export default {
                 // username: 'ww13',
                 // password: 'aaa888'
 
-                // username: 'admin',
-                // password: '123456'
+
+                username: 'admin',
+                password: '123456'
+
+                // username: 'testyy001',
+                // password: 'a123'
+
+                // username: 'ff88',
+                // password: 'aaa888'
                 
                 // username: 'testGSXJ001',
                 // password: 'a123'
 
-                username: 'aa88',
-                password: 'aaa888'
+                // username: 'aa88', ff88
+                // password: 'aaa888'
 
                 // username: 'kk2a',   aa99
                 // password: 'aaa888'  ay00

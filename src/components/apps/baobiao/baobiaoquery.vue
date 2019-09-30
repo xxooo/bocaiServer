@@ -10,6 +10,14 @@
     </div>
 
     <div class="report-content">
+      <div class="btn-ground" style="text-align: left;" v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
+        公司 :
+          <el-select v-model="q.userId" placeholder="请选择公司" size="mini">
+            <el-option :value="''" key="null" :label="'默认'"></el-option> 
+            <el-option v-for="company in companyList" :value="company.id" :key="company.id" :label="company.username"></el-option> 
+          </el-select>
+      </div>
+
       <table class="report-search">
         <tr>
           <th>报表类型</th> 
@@ -133,11 +141,16 @@ export default {
             
         },
       timesvalue: '',
-      dealType: '1'
+      dealType: '1',
+
+      companyId: '',
+
+      companyList: {},//公司List
     }
   },
   computed: {
     ...mapGetters({
+      ruleId:'getruleId',
       bocaiMenu: 'getbocaiMenu',
       userInfo: 'getuserInfo'
     }),
@@ -147,10 +160,20 @@ export default {
   },
   created() {
     //this.childUser();
+    if([1,2,7,8].findIndex((n) => n==this.ruleId)>-1) {
+      this.bocaiSetList();
+    }
   },
   mounted(){
   },
   methods: {
+    async bocaiSetList() {
+      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiSortSet`);
+
+      if(res.code===200){
+        this.companyList = res.data.companyList;
+      }
+    },
     async query() {
 
       console.log('timesvalue',this.timesvalue);
@@ -172,7 +195,13 @@ export default {
 
         // this.q.startTime = arr[0];
         // this.q.endTime = arr[1];
-        this.q.userId = this.userInfo.id;
+
+        if([1,2,7,8].findIndex((n) => n==this.ruleId)>-1) {
+          
+        } else {
+          this.q.userId = this.userInfo.id;
+        }
+        
 
         // let obj={}; 
         // obj=JSON.parse(JSON.stringify(this.q)); //this.templateData是父组件传递的对象 

@@ -9,6 +9,14 @@
       </el-breadcrumb>
     </div>
     <div class="nav">
+      <div class="btn-ground" style="text-align: left;" v-if="[1,2,7,8].findIndex((n) => n==ruleId)>-1">
+        公司 :
+          <el-select v-model="q.companyid" placeholder="请选择公司" size="mini">
+            <el-option :value="''" key="null" :label="'默认'"></el-option> 
+            <el-option v-for="company in companyList" :value="company.id" :key="company.id" :label="company.username"></el-option> 
+          </el-select>
+      </div>
+
       <div class="btn-ground">
         游戏类型 :
         <el-select v-model="q.bocaiTypeId" @change="selectBocaiType" placeholder="请选择博彩类型" size="mini" style="width: 15%;">
@@ -153,7 +161,8 @@ export default {
             searchType: "",
             totalPage: 1,
             currentPage:1,
-            pageSize:10
+            pageSize:10,
+            companyid: ''
         },
         orderHisList: [],//历史订单列表
         dewaterList: [],//退水玩法列表
@@ -163,6 +172,10 @@ export default {
         dayList: {},//日期
         betsMoneyAllTotal: 0,
         jiangliMoneyAllTotal: 0,
+
+        companyId: '',
+
+        companyList: {},//公司List
     }
   },
   computed: {
@@ -173,10 +186,20 @@ export default {
     })
   },
   created() {
+    if([1,2,7,8].findIndex((n) => n==this.ruleId)>-1) {
+      this.bocaiSetList();
+    }
   },
   mounted(){
   },
   methods: {
+    async bocaiSetList() {
+      let res = await this.$get(`${window.url}/admin/gameManage/getBocaiSortSet`);
+
+      if(res.code===200){
+        this.companyList = res.data.companyList;
+      }
+    },
     calTotal(){
       console.log('orderHisList',this.orderHisList);
 
